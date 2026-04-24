@@ -11,12 +11,19 @@ package Model;
 public class Habitacion {
     private int numero;
     private TipoHabitacion tipo;
+    private int capacidad;
     private String estado;
+    private int piso;
 
-    public Habitacion(int numero, TipoHabitacion tipo, String estado) {
+    public Habitacion(int numero, TipoHabitacion tipo, int capacidad, String estado, int piso) {
         this.numero = numero;
         this.tipo = tipo;
+        this.capacidad = capacidad;
         this.estado = estado;
+        this.piso = piso;
+    }
+
+    public Habitacion() {
     }
 
     public int getNumero() {
@@ -35,6 +42,14 @@ public class Habitacion {
         this.tipo = tipo;
     }
 
+    public int getCapacidad() {
+        return capacidad;
+    }
+
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
+    }
+
     public String getEstado() {
         return estado;
     }
@@ -43,6 +58,11 @@ public class Habitacion {
         this.estado = estado;
     }
 
-   
-    
+    public int getPiso() {
+        return piso;
+    }
+
+    public void setPiso(int piso) {
+        this.piso = piso;
+    }
 }

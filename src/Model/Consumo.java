@@ -4,27 +4,65 @@
  */
 package Model;
 
+import java.util.Date;
+
 /**
  *
  * @author ISABELLA
  */
 public class Consumo {
-    private String descripcion;
-    private double precio;
+    private int id_consumo;
     private Cliente cliente;
+    private int cantidad;
+    private String producto;
+    private double precio;
+    private double total;
+    private Date fecha;
 
-    public Consumo(String descripcion, double precio, Cliente cliente) {
-        this.descripcion = descripcion;
+    public Consumo(int id_consumo, Cliente cliente, int cantidad, String producto, double precio, double total, Date fecha) {
+        this.id_consumo = id_consumo;
+        this.cliente = cliente;
+        this.cantidad = cantidad;
+        this.producto = producto;
         this.precio = precio;
+        this.total = total;
+        this.fecha = fecha;
+    }
+
+    public Consumo() {
+    }
+    
+
+    public int getId_consumo() {
+        return id_consumo;
+    }
+
+    public void setId_consumo(int id_consumo) {
+        this.id_consumo = id_consumo;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public int getCantidad() {
+        return cantidad;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public String getProducto() {
+        return producto;
+    }
+
+    public void setProducto(String producto) {
+        this.producto = producto;
     }
 
     public double getPrecio() {
@@ -35,13 +73,19 @@ public class Consumo {
         this.precio = precio;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public double getTotal() {
+        return total;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setTotal(double total) {
+        this.total = total;
     }
-    
-    
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 }

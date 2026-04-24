@@ -4,6 +4,8 @@
  */
 package View;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ISABELLA
@@ -11,12 +13,14 @@ package View;
 public class Recepcionista extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Recepcionista.class.getName());
-
+      DefaultTableModel modeloCliente = new DefaultTableModel();
     /**
      * Creates new form Recepcionista
      */
     public Recepcionista() {
         initComponents();
+        //cliente
+       
     }
 
     /**
@@ -63,9 +67,9 @@ public class Recepcionista extends javax.swing.JFrame {
         bt_modificar_r = new javax.swing.JToggleButton();
         bt_buscar_r = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtable_reserva = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jtable_cliente_reserva = new javax.swing.JTable();
         jPanel19 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         id_cliente_cli = new javax.swing.JTextField();
@@ -80,11 +84,13 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jtable_cliente = new javax.swing.JTable();
         boton_agreegar_cli = new javax.swing.JButton();
         Eliminar_clie = new javax.swing.JButton();
         bt_buscar_cli = new javax.swing.JButton();
         bt_modificar_cli = new javax.swing.JButton();
+        jLabel34 = new javax.swing.JLabel();
+        nombre_cli = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         id_habitacion_h = new javax.swing.JTextField();
@@ -99,7 +105,7 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         piso_h = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        jtable_habitac = new javax.swing.JTable();
         bt_aagregar_h = new javax.swing.JButton();
         bt_eliminar_h = new javax.swing.JButton();
         bt_buscar_h = new javax.swing.JButton();
@@ -122,7 +128,7 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel33 = new javax.swing.JLabel();
         total_con = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        jtable_consumo = new javax.swing.JTable();
         bt_agregar_con = new javax.swing.JButton();
         bt_eliminar_con = new javax.swing.JButton();
         bt_buscar_con = new javax.swing.JButton();
@@ -291,6 +297,8 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
+        jTabbedPane8.setForeground(new java.awt.Color(204, 204, 255));
+
         jPanel17.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel25.setFont(new java.awt.Font("Segoe Script", 0, 36)); // NOI18N
@@ -315,6 +323,8 @@ public class Recepcionista extends javax.swing.JFrame {
         );
 
         jTabbedPane8.addTab("tap1", jPanel17);
+
+        jPanel18.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel26.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         jLabel26.setText("ID Cliente");
@@ -362,31 +372,26 @@ public class Recepcionista extends javax.swing.JFrame {
         bt_buscar_r.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_buscar_r.setText("Buscar");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_reserva.setForeground(new java.awt.Color(255, 255, 255));
+        jtable_reserva.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane1.setViewportView(jtable_reserva);
+
+        jtable_cliente_reserva.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jtable_cliente_reserva);
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -475,7 +480,7 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jTabbedPane8.addTab("tab2", jPanel18);
+        jTabbedPane8.addTab("Res", jPanel18);
 
         jLabel7.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         jLabel7.setText("Id Cliente");
@@ -497,6 +502,12 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         jLabel10.setText("Numero");
 
+        numero_cli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                numero_cliActionPerformed(evt);
+            }
+        });
+
         jLabel11.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         jLabel11.setText("Correo");
 
@@ -510,18 +521,15 @@ public class Recepcionista extends javax.swing.JFrame {
             }
         });
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_cliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(jtable_cliente);
 
         boton_agreegar_cli.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         boton_agreegar_cli.setText("Agregar");
@@ -535,61 +543,67 @@ public class Recepcionista extends javax.swing.JFrame {
         bt_modificar_cli.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_modificar_cli.setText("Modificar");
 
+        jLabel34.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel34.setText("Nombre Completo");
+
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
         jPanel19Layout.setHorizontalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 659, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel19Layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel19Layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(tipo_doc_cli, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel19Layout.createSequentialGroup()
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(id_cliente_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(correo_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel8)
+                                .addGap(18, 18, 18)
+                                .addComponent(tipo_doc_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel19Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(boton_agreegar_cli)
-                                .addGap(88, 88, 88)
-                                .addComponent(Eliminar_clie)))
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(id_cliente_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(documento_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel19Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
                                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel34)
                                     .addGroup(jPanel19Layout.createSequentialGroup()
-                                        .addComponent(bt_buscar_cli)
+                                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(bt_buscar_cli)
+                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(10, 10, 10)))
-                                .addGap(31, 31, 31))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(18, 18, 18)))
-                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(documento_cli)
-                                .addComponent(numero_cli, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(numero_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nombre_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel19Layout.createSequentialGroup()
-                                .addGap(46, 46, 46)
-                                .addComponent(bt_modificar_cli)))))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(104, 104, 104))))
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(correo_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 659, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(boton_agreegar_cli)
+                .addGap(92, 92, 92)
+                .addComponent(Eliminar_clie)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_modificar_cli)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -598,33 +612,36 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(id_cliente_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(numero_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel34)
+                    .addComponent(nombre_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(tipo_doc_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(numero_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(documento_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(correo_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel12)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                    .addComponent(documento_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(correo_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(boton_agreegar_cli)
                     .addComponent(Eliminar_clie)
                     .addComponent(bt_buscar_cli)
                     .addComponent(bt_modificar_cli))
-                .addGap(42, 42, 42)
+                .addGap(35, 35, 35)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
+                .addGap(18, 18, 18))
         );
 
-        jTabbedPane8.addTab("tab3", jPanel19);
+        jTabbedPane8.addTab("Cliente", jPanel19);
 
         jLabel13.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         jLabel13.setText("ID Habitacion");
@@ -648,18 +665,15 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         jLabel18.setText("Piso");
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_habitac.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(jtable_habitac);
 
         bt_aagregar_h.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_aagregar_h.setText("Agregar");
@@ -764,7 +778,7 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        jTabbedPane8.addTab("tab4", jPanel8);
+        jTabbedPane8.addTab("Habit", jPanel8);
 
         jLabel19.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         jLabel19.setText("ID Consumo");
@@ -804,18 +818,15 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel33.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         jLabel33.setText("Total");
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_consumo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane5.setViewportView(jTable5);
+        jScrollPane5.setViewportView(jtable_consumo);
 
         bt_agregar_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_agregar_con.setText("Agregar");
@@ -913,7 +924,6 @@ public class Recepcionista extends javax.swing.JFrame {
                             .addComponent(jLabel24)
                             .addComponent(precio_con, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
                     .addComponent(jLabel32)
@@ -926,12 +936,12 @@ public class Recepcionista extends javax.swing.JFrame {
                         .addComponent(bt_eliminar_con)
                         .addComponent(bt_buscar_con)
                         .addComponent(bt_modificar_con)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jTabbedPane8.addTab("tab5", jPanel9);
+        jTabbedPane8.addTab("Cons", jPanel9);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -1009,6 +1019,10 @@ public class Recepcionista extends javax.swing.JFrame {
     private void bt_eliminar_hActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminar_hActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bt_eliminar_hActionPerformed
+
+    private void numero_cliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numero_cliActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_numero_cliActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1097,6 +1111,7 @@ public class Recepcionista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1122,12 +1137,13 @@ public class Recepcionista extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane8;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable jtable_cliente;
+    private javax.swing.JTable jtable_cliente_reserva;
+    private javax.swing.JTable jtable_consumo;
+    private javax.swing.JTable jtable_habitac;
+    private javax.swing.JTable jtable_reserva;
+    private javax.swing.JTextField nombre_cli;
     private javax.swing.JTextField nombre_cliente2_re;
     private javax.swing.JTextField numero_cli;
     private javax.swing.JTextField piso_h;

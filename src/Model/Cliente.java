@@ -12,12 +12,24 @@ public class Cliente {
     private int id;
     private String nombre;
     private String documento;
+    private String tipoDocumento;
+    private String estado;
+    private String numero;
+    private String correo;
 
-    public Cliente(int id, String nombre, String documento) {
+    public Cliente(int id, String nombre, String documento, String tipoDocumento, String estado, String numero, String correo) {
         this.id = id;
         this.nombre = nombre;
         this.documento = documento;
+        this.tipoDocumento = tipoDocumento;
+        this.estado = estado;
+        this.numero = numero;
+        this.correo = correo;
     }
+
+    public Cliente() {
+    }
+    
 
     public int getId() {
         return id;
@@ -43,6 +55,35 @@ public class Cliente {
         this.documento = documento;
     }
 
-   
-    
+    public String getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(String tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }  
 }

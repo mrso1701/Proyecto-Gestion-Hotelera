@@ -17,6 +17,9 @@ public class TipoHabitacion {
         this.precioPorNoche = precioPorNoche;
     }
 
+    public TipoHabitacion() {
+    }
+
     public String getNombre() {
         return nombre;
     }
