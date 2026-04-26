@@ -35,6 +35,12 @@ public class TipoHabitacion {
     public void setPrecioPorNoche(double precioPorNoche) {
         this.precioPorNoche = precioPorNoche;
     }
+
+    @Override
+    public String toString() {
+        return  nombre;
+    }
+    
     
     
 }

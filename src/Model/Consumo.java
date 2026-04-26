@@ -74,7 +74,7 @@ public class Consumo {
     }
 
     public double getTotal() {
-        return total;
+        return cantidad*precio;
     }
 
     public void setTotal(double total) {
