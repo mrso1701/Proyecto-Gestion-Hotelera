@@ -403,7 +403,7 @@ public class Recepcionista extends javax.swing.JFrame {
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
