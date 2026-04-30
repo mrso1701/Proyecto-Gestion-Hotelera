@@ -28,21 +28,86 @@ public class Gerencia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txt_client = new javax.swing.JLabel();
+        txt_room = new javax.swing.JLabel();
+        txt_emp = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Bienvenido, Gerente.");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 220, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 80));
+
+        txt_client.setBackground(new java.awt.Color(255, 255, 255));
+        txt_client.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txt_client.setForeground(new java.awt.Color(255, 255, 255));
+        txt_client.setText("> Clientes");
+        txt_client.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_clientMouseClicked(evt);
+            }
+        });
+        jPanel1.add(txt_client, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
+
+        txt_room.setBackground(new java.awt.Color(255, 255, 255));
+        txt_room.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txt_room.setForeground(new java.awt.Color(255, 255, 255));
+        txt_room.setText("> Habitaciones");
+        txt_room.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_roomMouseClicked(evt);
+            }
+        });
+        jPanel1.add(txt_room, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
+
+        txt_emp.setBackground(new java.awt.Color(255, 255, 255));
+        txt_emp.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txt_emp.setForeground(new java.awt.Color(255, 255, 255));
+        txt_emp.setText("> Empleados");
+        txt_emp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_empMouseClicked(evt);
+            }
+        });
+        jPanel1.add(txt_emp, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txt_roomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_roomMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_roomMouseClicked
+
+    private void txt_empMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_empMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_empMouseClicked
+
+    private void txt_clientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_clientMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_clientMouseClicked
 
     /**
      * @param args the command line arguments
@@ -70,5 +135,11 @@ public class Gerencia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel txt_client;
+    private javax.swing.JLabel txt_emp;
+    private javax.swing.JLabel txt_room;
     // End of variables declaration//GEN-END:variables
 }
