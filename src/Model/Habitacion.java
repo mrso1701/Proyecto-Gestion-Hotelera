@@ -8,7 +8,7 @@ package Model;
  *
  * @author ISABELLA
  */
-public class Habitacion {
+public class Habitacion implements Identificacion{
     private int numero;
     private TipoHabitacion tipo;
     private int capacidad;
@@ -29,9 +29,19 @@ public class Habitacion {
     public int getNumero() {
         return numero;
     }
+    
+    @Override
+    public int getId(){
+        return numero;
+    }
 
     public void setNumero(int numero) {
         this.numero = numero;
+    }
+    
+    @Override
+    public String getNombre(){
+        return numero +" - "+ tipo.getNombre();
     }
 
     public TipoHabitacion getTipo() {

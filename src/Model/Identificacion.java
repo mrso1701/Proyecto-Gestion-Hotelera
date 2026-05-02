@@ -9,5 +9,6 @@ package Model;
  * @author ISABELLA
  */
 public interface Identificacion {
-    
+    int getId();
+    String getNombre();
 }

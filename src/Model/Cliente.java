@@ -8,7 +8,7 @@ package Model;
  *
  * @author ISABELLA
  */
-public class Cliente {
+public class Cliente implements Identificacion{
     private int id;
     private String nombre;
     private String documento;
@@ -31,6 +31,7 @@ public class Cliente {
     }
     
 
+    @Override
     public int getId() {
         return id;
     }
@@ -38,7 +39,8 @@ public class Cliente {
     public void setId(int id) {
         this.id = id;
     }
-
+    
+    @Override
     public String getNombre() {
         return nombre;
     }

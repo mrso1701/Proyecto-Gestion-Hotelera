@@ -9,7 +9,13 @@ import Model.Consumo;
 import Model.DatosRecepcionista;
 import Model.Habitacion;
 import Model.Reserva;
+import java.awt.Color;
+import java.awt.Component;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -27,6 +33,17 @@ public class Recepcionista extends javax.swing.JFrame {
      */
     public Recepcionista() {
         initComponents();
+        estilizarTabla(jtable_habitac);
+        estilizarTabla(jtable_consumo);
+        estilizarTabla(jtable_cliente);
+        estilizarTabla(jtable_reserva);
+        estilizarTabla(jtable_cliente_reserva);
+        
+        estilizarTextField(piso_h);
+        estilizarTextField(cantidad_con); estilizarTextField(fecha_con);
+        estilizarTextField(id_habitacion_h);estilizarTextField(precio_h); estilizarTextField(capaci_h);
+        estilizarTextField(id_cliente_cli); estilizarTextField(numero_cli); estilizarTextField(correo_cli); estilizarTextField(nombre_cli); estilizarTextField(documento_cli);
+        estilizarTextField(id_reserva); estilizarTextField(id_cliente_re); estilizarTextField(nombre_cliente2_re); estilizarTextField(fecha_entrada2); estilizarTextField(fecha_salida2);
         //cliente
         modeloCliente.addColumn("ID");
         modeloCliente.addColumn("Nombre");
@@ -171,6 +188,57 @@ public class Recepcionista extends javax.swing.JFrame {
         jtable_reserva.getColumnModel().getColumn(6).setPreferredWidth(80); // Estado
     }
     
+    private void estilizarTabla(JTable tabla) {
+
+    // 🎯 HEADER (encabezado)
+    JTableHeader header = tabla.getTableHeader();
+    header.setOpaque(false);
+
+    header.setDefaultRenderer(new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable table, Object value, boolean isSelected,
+                boolean hasFocus, int row, int column) {
+
+            Component c = super.getTableCellRendererComponent(
+                    table, value, isSelected, hasFocus, row, column);
+
+            c.setBackground(new Color(70, 0, 20)); // vinotinto oscuro
+            c.setForeground(Color.WHITE);
+
+            return c;
+        }
+    });
+
+    // 🎨 CUERPO DE LA TABLA
+    tabla.setBackground(new Color(30, 30, 30)); // fondo oscuro
+    tabla.setForeground(Color.WHITE);
+
+    // 🟥 LÍNEAS (cuadritos)
+    tabla.setGridColor(new Color(90, 0, 20)); // vinotinto
+    tabla.setShowGrid(true);
+
+    // 🧱 BORDE EXTERNO
+    tabla.setBorder(
+        javax.swing.BorderFactory.createLineBorder(new Color(90, 0, 20))
+    );
+
+    // ✨ SELECCIÓN (cuando haces click)
+    tabla.setSelectionBackground(new Color(90, 0, 20));
+    tabla.setSelectionForeground(Color.WHITE);
+
+    // 💡 opcional: altura de filas (se ve mejor)
+    tabla.setRowHeight(25);
+}
+    
+   private void estilizarTextField(JTextField txt) {
+    txt.setBorder(
+        javax.swing.BorderFactory.createLineBorder(new Color(90, 0, 20), 2)
+    );
+
+   
+}
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -281,14 +349,14 @@ public class Recepcionista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
-        jPanel1.setForeground(new java.awt.Color(153, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(102, 0, 51));
+        jPanel1.setForeground(new java.awt.Color(102, 0, 51));
         jPanel1.setToolTipText("");
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
         jLabel1.setFont(new java.awt.Font("Segoe Script", 0, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("PANEL DE RECEPCIONISTA");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -308,14 +376,14 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.setBackground(new java.awt.Color(51, 51, 255));
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
         jPanel3.setPreferredSize(new java.awt.Dimension(150, 484));
 
-        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel4.setBackground(new java.awt.Color(204, 0, 102));
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel3.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Reservas");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -335,11 +403,11 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel5.setBackground(new java.awt.Color(204, 0, 102));
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel2.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Clientes");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -359,11 +427,11 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
-        jPanel6.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel6.setBackground(new java.awt.Color(204, 0, 102));
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel4.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Consumo");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -383,12 +451,12 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel10.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel10.setBackground(new java.awt.Color(204, 0, 102));
         jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel10.setPreferredSize(new java.awt.Dimension(180, 59));
 
         jLabel5.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Habitaciones");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -444,7 +512,8 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addContainerGap(75, Short.MAX_VALUE))
         );
 
-        jTabbedPane8.setForeground(new java.awt.Color(204, 204, 255));
+        jTabbedPane8.setBackground(new java.awt.Color(102, 0, 0));
+        jTabbedPane8.setForeground(new java.awt.Color(153, 0, 0));
 
         jPanel17.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -471,24 +540,33 @@ public class Recepcionista extends javax.swing.JFrame {
 
         jTabbedPane8.addTab("tap1", jPanel17);
 
+        jPanel18.setBackground(new java.awt.Color(255, 255, 255));
         jPanel18.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel26.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(0, 0, 0));
         jLabel26.setText("ID Cliente");
 
-        jLabel27.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel27.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel27.setForeground(new java.awt.Color(0, 0, 0));
         jLabel27.setText("Nombre");
 
         nombre_cliente2_re.setEditable(false);
 
+        jComboBox5.setBackground(new java.awt.Color(51, 0, 0));
+        jComboBox5.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel28.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel28.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(0, 0, 0));
         jLabel28.setText("Habitacion");
 
-        jLabel29.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel29.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(0, 0, 0));
         jLabel29.setText("Estado");
 
+        jComboBox6.setBackground(new java.awt.Color(51, 0, 0));
+        jComboBox6.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -496,10 +574,12 @@ public class Recepcionista extends javax.swing.JFrame {
             }
         });
 
-        jLabel30.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel30.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel30.setForeground(new java.awt.Color(0, 0, 0));
         jLabel30.setText("Fecha Entrada");
 
-        jLabel31.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel31.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(0, 0, 0));
         jLabel31.setText("Fecha Salida");
 
         fecha_salida2.addActionListener(new java.awt.event.ActionListener() {
@@ -508,16 +588,24 @@ public class Recepcionista extends javax.swing.JFrame {
             }
         });
 
+        boton_agregar_r.setBackground(new java.awt.Color(0, 0, 0));
         boton_agregar_r.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        boton_agregar_r.setForeground(new java.awt.Color(255, 255, 255));
         boton_agregar_r.setText("Agregar");
 
+        bt_eliminar_r.setBackground(new java.awt.Color(0, 0, 0));
         bt_eliminar_r.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_eliminar_r.setForeground(new java.awt.Color(255, 255, 255));
         bt_eliminar_r.setText("Eliminar");
 
+        bt_modificar_r.setBackground(new java.awt.Color(0, 0, 0));
         bt_modificar_r.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_modificar_r.setForeground(new java.awt.Color(255, 255, 255));
         bt_modificar_r.setText("Modificar");
 
+        bt_buscar_r.setBackground(new java.awt.Color(0, 0, 0));
         bt_buscar_r.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_buscar_r.setForeground(new java.awt.Color(255, 255, 255));
         bt_buscar_r.setText("Buscar");
 
         jtable_reserva.setForeground(new java.awt.Color(255, 255, 255));
@@ -541,10 +629,12 @@ public class Recepcionista extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jtable_cliente_reserva);
 
-        jLabel20.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(0, 0, 0));
         jLabel20.setText("Clientes: ");
 
-        jLabel24.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(0, 0, 0));
         jLabel24.setText("ID Reserva");
 
         id_cliente_re.setEditable(false);
@@ -650,20 +740,27 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("Res", jPanel18);
 
-        jLabel7.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jPanel19.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Id Cliente");
 
-        jLabel8.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Tipo Documento");
 
+        tipo_doc_cli.setBackground(new java.awt.Color(51, 0, 0));
+        tipo_doc_cli.setForeground(new java.awt.Color(255, 255, 255));
         tipo_doc_cli.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel9.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Documento");
 
         documento_cli.addActionListener(new java.awt.event.ActionListener() {
@@ -672,7 +769,8 @@ public class Recepcionista extends javax.swing.JFrame {
             }
         });
 
-        jLabel10.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Numero");
 
         numero_cli.addActionListener(new java.awt.event.ActionListener() {
@@ -681,12 +779,16 @@ public class Recepcionista extends javax.swing.JFrame {
             }
         });
 
-        jLabel11.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Correo");
 
-        jLabel12.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Estado");
 
+        jComboBox1.setBackground(new java.awt.Color(51, 0, 0));
+        jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -704,19 +806,28 @@ public class Recepcionista extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jtable_cliente);
 
+        boton_agreegar_cli.setBackground(new java.awt.Color(0, 0, 0));
         boton_agreegar_cli.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        boton_agreegar_cli.setForeground(new java.awt.Color(255, 255, 255));
         boton_agreegar_cli.setText("Agregar");
 
+        Eliminar_clie.setBackground(new java.awt.Color(0, 0, 0));
         Eliminar_clie.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        Eliminar_clie.setForeground(new java.awt.Color(255, 255, 255));
         Eliminar_clie.setText("Eliminar");
 
+        bt_buscar_cli.setBackground(new java.awt.Color(0, 0, 0));
         bt_buscar_cli.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_buscar_cli.setForeground(new java.awt.Color(255, 255, 255));
         bt_buscar_cli.setText("Buscar");
 
+        bt_modificar_cli.setBackground(new java.awt.Color(0, 0, 0));
         bt_modificar_cli.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_modificar_cli.setForeground(new java.awt.Color(255, 255, 255));
         bt_modificar_cli.setText("Modificar");
 
-        jLabel34.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel34.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(0, 0, 0));
         jLabel34.setText("Nombre Completo");
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
@@ -809,31 +920,41 @@ public class Recepcionista extends javax.swing.JFrame {
                     .addComponent(bt_modificar_cli))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("Cliente", jPanel19);
 
-        jLabel13.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("ID Habitacion");
 
-        jLabel14.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
         jLabel14.setText("Tipo");
 
+        combo_habi.setBackground(new java.awt.Color(51, 0, 0));
         combo_habi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel15.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setText("Precio");
 
-        jLabel16.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
         jLabel16.setText("Capacidad");
 
-        jLabel17.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
         jLabel17.setText("Estado");
 
+        combo_estado_h.setBackground(new java.awt.Color(51, 0, 0));
         combo_estado_h.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel18.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
         jLabel18.setText("Piso");
 
         jtable_habitac.setModel(new javax.swing.table.DefaultTableModel(
@@ -846,10 +967,14 @@ public class Recepcionista extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(jtable_habitac);
 
+        bt_aagregar_h.setBackground(new java.awt.Color(0, 0, 0));
         bt_aagregar_h.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_aagregar_h.setForeground(new java.awt.Color(255, 255, 255));
         bt_aagregar_h.setText("Agregar");
 
+        bt_eliminar_h.setBackground(new java.awt.Color(0, 0, 0));
         bt_eliminar_h.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_eliminar_h.setForeground(new java.awt.Color(255, 255, 255));
         bt_eliminar_h.setText("Eliminar");
         bt_eliminar_h.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -857,10 +982,14 @@ public class Recepcionista extends javax.swing.JFrame {
             }
         });
 
+        bt_buscar_h.setBackground(new java.awt.Color(0, 0, 0));
         bt_buscar_h.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_buscar_h.setForeground(new java.awt.Color(255, 255, 255));
         bt_buscar_h.setText("Buscar");
 
+        bt_modificar_h.setBackground(new java.awt.Color(0, 0, 0));
         bt_modificar_h.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_modificar_h.setForeground(new java.awt.Color(255, 255, 255));
         bt_modificar_h.setText("Modificar");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -882,36 +1011,40 @@ public class Recepcionista extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(combo_estado_h, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(148, 148, 148)
+                                .addComponent(combo_estado_h, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(132, 132, 132)
                                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(precio_h, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                                    .addComponent(id_habitacion_h))
+                                .addComponent(id_habitacion_h, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(81, 81, 81)
                                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addGap(71, 71, 71)
-                                .addComponent(bt_eliminar_h)
-                                .addGap(53, 53, 53)
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(bt_buscar_h)
-                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(jPanel8Layout.createSequentialGroup()
+                                        .addGap(71, 71, 71)
+                                        .addComponent(bt_eliminar_h))
+                                    .addComponent(precio_h, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(53, 53, 53)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bt_buscar_h)))))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(61, 61, 61)
                         .addComponent(bt_aagregar_h)))
+                .addGap(22, 22, 22)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(combo_habi, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(capaci_h)
-                            .addComponent(piso_h, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(piso_h, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(combo_habi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(capaci_h, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bt_modificar_h)
-                        .addGap(92, 92, 92))))
+                        .addGap(82, 82, 82))))
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -920,40 +1053,48 @@ public class Recepcionista extends javax.swing.JFrame {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(id_habitacion_h, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(combo_habi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(precio_h, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16)
-                    .addComponent(capaci_h, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                    .addComponent(combo_habi, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel15)
+                        .addComponent(jLabel16)
+                        .addComponent(precio_h, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(capaci_h, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(combo_estado_h, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
-                    .addComponent(piso_h, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                    .addComponent(piso_h, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(combo_estado_h, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_aagregar_h)
                     .addComponent(bt_eliminar_h)
                     .addComponent(bt_buscar_h)
                     .addComponent(bt_modificar_h))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64))
         );
 
         jTabbedPane8.addTab("Habit", jPanel8);
 
-        jLabel22.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(60, 63, 65));
         jLabel22.setText("Producto");
 
+        combo_producto_con.setBackground(new java.awt.Color(51, 0, 0));
+        combo_producto_con.setForeground(new java.awt.Color(255, 255, 255));
         combo_producto_con.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         combo_producto_con.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -961,12 +1102,14 @@ public class Recepcionista extends javax.swing.JFrame {
             }
         });
 
-        jLabel23.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(60, 63, 65));
         jLabel23.setText("Cantidad");
 
         cantidad_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
 
-        jLabel32.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(60, 63, 65));
         jLabel32.setText("Fecha");
 
         fecha_con.addActionListener(new java.awt.event.ActionListener() {
@@ -975,6 +1118,8 @@ public class Recepcionista extends javax.swing.JFrame {
             }
         });
 
+        jtable_consumo.setBackground(new java.awt.Color(102, 102, 102));
+        jtable_consumo.setForeground(new java.awt.Color(255, 255, 255));
         jtable_consumo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -985,16 +1130,24 @@ public class Recepcionista extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(jtable_consumo);
 
+        bt_agregar_con.setBackground(new java.awt.Color(0, 0, 0));
         bt_agregar_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_agregar_con.setForeground(new java.awt.Color(255, 255, 255));
         bt_agregar_con.setText("Agregar");
 
+        bt_eliminar_con.setBackground(new java.awt.Color(0, 0, 0));
         bt_eliminar_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_eliminar_con.setForeground(new java.awt.Color(255, 255, 255));
         bt_eliminar_con.setText("Eliminar");
 
+        bt_buscar_con.setBackground(new java.awt.Color(0, 0, 0));
         bt_buscar_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_buscar_con.setForeground(new java.awt.Color(255, 255, 255));
         bt_buscar_con.setText("Buscar");
 
+        bt_modificar_con.setBackground(new java.awt.Color(0, 0, 0));
         bt_modificar_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        bt_modificar_con.setForeground(new java.awt.Color(255, 255, 255));
         bt_modificar_con.setText("Modificar");
         bt_modificar_con.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1002,9 +1155,12 @@ public class Recepcionista extends javax.swing.JFrame {
             }
         });
 
-        jLabel19.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(60, 63, 65));
         jLabel19.setText("Cliente");
 
+        combo_cliente.setBackground(new java.awt.Color(51, 0, 0));
+        combo_cliente.setForeground(new java.awt.Color(255, 255, 255));
         combo_cliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -1012,16 +1168,14 @@ public class Recepcionista extends javax.swing.JFrame {
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(136, 136, 136)
-                        .addComponent(combo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addComponent(combo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)))
@@ -1054,18 +1208,18 @@ public class Recepcionista extends javax.swing.JFrame {
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(21, 21, 21)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(combo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22)
-                    .addComponent(combo_producto_con, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                    .addComponent(combo_producto_con, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(combo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(cantidad_con, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel32)
-                    .addComponent(fecha_con, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fecha_con, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(63, 63, 63)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_agregar_con)
@@ -1074,7 +1228,7 @@ public class Recepcionista extends javax.swing.JFrame {
                     .addComponent(bt_modificar_con))
                 .addGap(42, 42, 42)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("Cons", jPanel9);
