@@ -4,13 +4,18 @@
  */
 package View;
 
+import Controller.RecepcionistaC;
 import Model.Cliente;
 import Model.Consumo;
 import Model.DatosRecepcionista;
 import Model.Habitacion;
 import Model.Reserva;
+import Model.TipoHabitacion;
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -28,11 +33,17 @@ public class Recepcionista extends javax.swing.JFrame {
       DefaultTableModel modeloHabitacion = new DefaultTableModel();
       DefaultTableModel modeloConsumo = new DefaultTableModel();
       DefaultTableModel modeloReserva = new DefaultTableModel();
+      private DatosRecepcionista datos = new DatosRecepcionista();
+      private RecepcionistaC controlador = new RecepcionistaC(datos);
     /**
      * Creates new form Recepcionista
      */
     public Recepcionista() {
         initComponents();
+      cargarTiposHabitacion();
+        
+         
+         cargarTiposHabitacion();
         estilizarTabla(jtable_habitac);
         estilizarTabla(jtable_consumo);
         estilizarTabla(jtable_cliente);
@@ -210,15 +221,15 @@ public class Recepcionista extends javax.swing.JFrame {
         }
     });
 
-    // 🎨 CUERPO DE LA TABLA
+    // CUERPO DE LA TABLA
     tabla.setBackground(new Color(30, 30, 30)); // fondo oscuro
     tabla.setForeground(Color.WHITE);
 
-    // 🟥 LÍNEAS (cuadritos)
+    //  LÍNEAS (cuadritos)
     tabla.setGridColor(new Color(90, 0, 20)); // vinotinto
     tabla.setShowGrid(true);
 
-    // 🧱 BORDE EXTERNO
+    //  BORDE EXTERNO
     tabla.setBorder(
         javax.swing.BorderFactory.createLineBorder(new Color(90, 0, 20))
     );
@@ -238,7 +249,22 @@ public class Recepcionista extends javax.swing.JFrame {
 
    
 }
-    
+   private void cargarTiposHabitacion() {
+    combo_habi.removeAllItems();
+    combo_habi.addItem("Seleccione...");
+    combo_habi.addItem("Suite");
+    combo_habi.addItem("Doble");
+    combo_habi.addItem("Sencilla");
+}
+   
+   private TipoHabitacion obtenerTipo(String nombre) {
+    switch (nombre) {
+        case "Suite": return new TipoHabitacion("Suite", 200000);
+        case "Doble": return new TipoHabitacion("Doble", 120000);
+        case "Sencilla": return new TipoHabitacion("Sencilla", 80000);
+        default: return null;
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -518,7 +544,7 @@ public class Recepcionista extends javax.swing.JFrame {
         jPanel17.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel25.setFont(new java.awt.Font("Segoe Script", 0, 36)); // NOI18N
-        jLabel25.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel25.setForeground(new java.awt.Color(102, 0, 0));
         jLabel25.setText("Bienvenido Recepcionista");
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
@@ -936,11 +962,18 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel14.setText("Tipo");
 
         combo_habi.setBackground(new java.awt.Color(51, 0, 0));
-        combo_habi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        combo_habi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        combo_habi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combo_habiActionPerformed(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setText("Precio");
+
+        precio_h.setEditable(false);
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(0, 0, 0));
@@ -951,7 +984,7 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel17.setText("Estado");
 
         combo_estado_h.setBackground(new java.awt.Color(51, 0, 0));
-        combo_estado_h.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        combo_estado_h.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar-", "Activo", "Inactivo", "Mantenimiento" }));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(0, 0, 0));
@@ -971,6 +1004,11 @@ public class Recepcionista extends javax.swing.JFrame {
         bt_aagregar_h.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_aagregar_h.setForeground(new java.awt.Color(255, 255, 255));
         bt_aagregar_h.setText("Agregar");
+        bt_aagregar_h.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_aagregar_hActionPerformed(evt);
+            }
+        });
 
         bt_eliminar_h.setBackground(new java.awt.Color(0, 0, 0));
         bt_eliminar_h.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
@@ -1034,7 +1072,6 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(piso_h, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1042,7 +1079,6 @@ public class Recepcionista extends javax.swing.JFrame {
                                 .addComponent(capaci_h, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bt_modificar_h)
                         .addGap(82, 82, 82))))
             .addGroup(jPanel8Layout.createSequentialGroup()
@@ -1334,6 +1370,60 @@ public class Recepcionista extends javax.swing.JFrame {
     private void fecha_salida2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fecha_salida2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fecha_salida2ActionPerformed
+
+    private void bt_aagregar_hActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_aagregar_hActionPerformed
+      
+            String numero = id_habitacion_h.getText();
+            String capacidad = capaci_h.getText();
+            String piso =piso_h.getText();
+            String estado = combo_estado_h.getSelectedItem().toString();
+           TipoHabitacion tipo = obtenerTipo(combo_habi.getSelectedItem().toString());
+            
+
+    ///vacios 
+         if (numero.isEmpty() || capacidad.isEmpty() || piso.isEmpty() || estado.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "NO SE PUEDEN REGISTRAR CAMPOS VACIOS ");
+        return;
+         }
+         if (tipo == null) {
+        JOptionPane.showMessageDialog(this, "Selecciona un tipo de habitación");
+        return;
+    }
+         int numeroInt, capacidadInt, pisoInt;
+         try {
+             numeroInt = Integer.parseInt(numero);
+            capacidadInt = Integer.parseInt(capacidad);
+             pisoInt= Integer.parseInt(piso);
+        } catch (Exception e) {
+              JOptionPane.showMessageDialog(this, "Número, capacidad y piso deben ser números");
+               return;
+        }
+         
+         controlador.agregarHabitacion(numeroInt, tipo, capacidadInt, estado, pisoInt);
+         refrescarTablaHabitacion();
+    }//GEN-LAST:event_bt_aagregar_hActionPerformed
+
+    private void combo_habiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_habiActionPerformed
+       if (combo_habi.getSelectedItem() == null) {
+        return; 
+    }
+     
+    String tipoSeleccionado = combo_habi.getSelectedItem().toString();
+    
+    if (tipoSeleccionado.equals("Seleccione...")) {
+        precio_h.setText(""); // vacío
+        return;
+    }
+    int precio = 0;
+
+    switch (tipoSeleccionado) {
+        case "Suite": precio = 200000; break;
+        case "Doble": precio = 120000; break;
+        case "Sencilla": precio = 80000; break;
+    }
+
+    precio_h.setText(String.valueOf(precio));
+    }//GEN-LAST:event_combo_habiActionPerformed
 
     /**
      * @param args the command line arguments

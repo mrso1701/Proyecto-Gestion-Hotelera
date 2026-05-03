@@ -13,5 +13,27 @@ public class DatosRecepcionista {
     public static List<Reserva> listaReservas = new ArrayList<>();
     public static List<Consumo> listaConsumos = new ArrayList<>();
     public static List<TipoHabitacion> listaTipoHabitaciones = new ArrayList<>();
+
+    public static List<Cliente> getListaClientes() {
+        return listaClientes;
+    }
+
+    public static List<Habitacion> getListaHabitaciones() {
+        return listaHabitaciones;
+    }
+
+    public static List<Reserva> getListaReservas() {
+        return listaReservas;
+    }
+
+    public static List<Consumo> getListaConsumos() {
+        return listaConsumos;
+    }
+
+    public static List<TipoHabitacion> getListaTipoHabitaciones() {
+        return listaTipoHabitaciones;
+    }
+    
+    
     
 }
