@@ -35,6 +35,7 @@ public class Recepcionista extends javax.swing.JFrame {
       DefaultTableModel modeloReserva = new DefaultTableModel();
       private DatosRecepcionista datos = new DatosRecepcionista();
       private RecepcionistaC controlador = new RecepcionistaC(datos);
+      private Habitacion habitacionSeleccionada = null;
     /**
      * Creates new form Recepcionista
      */
@@ -984,7 +985,7 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel17.setText("Estado");
 
         combo_estado_h.setBackground(new java.awt.Color(51, 0, 0));
-        combo_estado_h.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar-", "Activo", "Inactivo", "Mantenimiento" }));
+        combo_estado_h.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Activo", "Inactivo", "Mantenimiento" }));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(0, 0, 0));
@@ -1024,11 +1025,21 @@ public class Recepcionista extends javax.swing.JFrame {
         bt_buscar_h.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_buscar_h.setForeground(new java.awt.Color(255, 255, 255));
         bt_buscar_h.setText("Buscar");
+        bt_buscar_h.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_buscar_hActionPerformed(evt);
+            }
+        });
 
         bt_modificar_h.setBackground(new java.awt.Color(0, 0, 0));
         bt_modificar_h.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_modificar_h.setForeground(new java.awt.Color(255, 255, 255));
         bt_modificar_h.setText("Modificar");
+        bt_modificar_h.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_modificar_hActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -1352,7 +1363,8 @@ public class Recepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_fecha_conActionPerformed
 
     private void bt_eliminar_hActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminar_hActionPerformed
-        // TODO add your handling code here:
+        controlador.aliminarGabitacion(jtable_habitac);
+        refrescarTablaHabitacion();
     }//GEN-LAST:event_bt_eliminar_hActionPerformed
 
     private void numero_cliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numero_cliActionPerformed
@@ -1389,6 +1401,10 @@ public class Recepcionista extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Selecciona un tipo de habitación");
         return;
     }
+         if (estado.equalsIgnoreCase("Seleccionar...")) {
+             JOptionPane.showMessageDialog(this, "Selecciona un tipo de estado");
+             return;
+        }
          int numeroInt, capacidadInt, pisoInt;
          try {
              numeroInt = Integer.parseInt(numero);
@@ -1424,6 +1440,49 @@ public class Recepcionista extends javax.swing.JFrame {
 
     precio_h.setText(String.valueOf(precio));
     }//GEN-LAST:event_combo_habiActionPerformed
+
+    private void bt_buscar_hActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_hActionPerformed
+        String numeroB = id_habitacion_h.getText().trim();
+        if (numeroB.isEmpty()) {
+              JOptionPane.showMessageDialog(this, "Ingrese el numero de la habitacion para buscar");
+        return;
+        }
+        try {
+            int numero = Integer.parseInt(numeroB);
+            Habitacion h = controlador.buscarHabitacion(numero);
+            if (h!= null) {
+                habitacionSeleccionada=h;
+                capaci_h.setText(String.valueOf(h.getCapacidad()));
+                piso_h.setText(String.valueOf(h.getPiso()));
+                combo_estado_h.setSelectedItem(h.getEstado());
+                combo_habi.setSelectedItem(h.getTipo().getNombre());
+                precio_h.setText(String.valueOf(h.getTipo().getPrecioPorNoche()));
+                
+                JOptionPane.showMessageDialog(this, "Habitación encontrada 😎");
+            }else{
+                 JOptionPane.showMessageDialog(this, "Habitacion no encontrada 😭");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Número inválido");
+        }
+    }//GEN-LAST:event_bt_buscar_hActionPerformed
+
+    private void bt_modificar_hActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_modificar_hActionPerformed
+       if (habitacionSeleccionada == null) {
+        JOptionPane.showMessageDialog(this, "Primero busque una habitación");
+        return;
+}        
+       habitacionSeleccionada.setCapacidad(Integer.parseInt(capaci_h.getText()));
+        habitacionSeleccionada.setPiso(Integer.parseInt(piso_h.getText()));
+        habitacionSeleccionada.setEstado(combo_estado_h.getSelectedItem().toString());
+
+        TipoHabitacion tipo = obtenerTipo(combo_habi.getSelectedItem().toString());
+        habitacionSeleccionada.setTipo(tipo);
+
+        JOptionPane.showMessageDialog(this, "Habitación modificada 😎");
+
+        refrescarTablaHabitacion();
+    }//GEN-LAST:event_bt_modificar_hActionPerformed
 
     /**
      * @param args the command line arguments

@@ -9,6 +9,7 @@ import Model.TipoHabitacion;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import Model.DatosRecepcionista;
+import javax.swing.JTable;
 
 
 /**
@@ -34,4 +35,41 @@ public class RecepcionistaC {
         datos.listaHabitaciones.add(h);
         JOptionPane.showMessageDialog(null, "Habitacion Agregada Correctamente ");
     }
+    
+    public void aliminarGabitacion(JTable tablaHabitacion){
+         int eli=tablaHabitacion.getSelectedRow();
+        if (eli==-1) {
+            JOptionPane.showMessageDialog(null, 
+             "Por favor seleccione un estudiante de la tabla para eliminar", 
+             "Ninguna fila seleccionada", 
+             JOptionPane.WARNING_MESSAGE);
+         return;
+        }
+        
+         int confirmacion = JOptionPane.showConfirmDialog(null,
+         "¿Está seguro que desea eliminar esta Habitacion?\n" +
+         "Nombre: " + tablaHabitacion.getValueAt(eli, 1)+
+         " Numero:"  + tablaHabitacion.getValueAt(eli, 0),
+         "Confirmar eliminación",
+         JOptionPane.YES_NO_OPTION);
+         
+         if (confirmacion == JOptionPane.YES_OPTION) {
+         datos.listaHabitaciones.remove(eli);
+        
+         JOptionPane.showMessageDialog(null, 
+             "Curso eliminado correctamente", 
+             "Éxito", 
+             JOptionPane.INFORMATION_MESSAGE);
+     }
+    }
+    
+    public Habitacion buscarHabitacion(int numero){
+          for (Habitacion h : datos.listaHabitaciones) {
+        if (h.getNumero() == numero) {
+            return h;
+        }
+    }
+
+    return null;
+   }
 }
