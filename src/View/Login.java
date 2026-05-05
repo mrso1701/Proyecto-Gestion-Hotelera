@@ -139,18 +139,28 @@ public class Login extends javax.swing.JFrame {
         Bt_Login.setForeground(new java.awt.Color(255, 255, 255));
         Bt_Login.setText("INICIAR SESION");
         Bt_Login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Bt_Login.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Bt_LoginMouseClicked(evt);
+            }
+        });
         jPanel4.add(Bt_Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 320, 180, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Emoji", 3, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 0, 0));
         jLabel5.setText("¿Nuevo aqui?¡Registrate!");
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 410, 180, -1));
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
+        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 430, 180, 20));
 
         jLabel6.setBackground(new java.awt.Color(102, 0, 0));
         jLabel6.setForeground(new java.awt.Color(102, 0, 0));
-        jLabel6.setText("___________________________________");
-        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 410, -1, -1));
+        jLabel6.setText("______________________________");
+        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 426, 180, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,6 +181,14 @@ public class Login extends javax.swing.JFrame {
     private void Txt_ContraseñalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_ContraseñalogActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Txt_ContraseñalogActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+         new Registro().setVisible(true);
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void Bt_LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bt_LoginMouseClicked
+        new Inicio().setVisible(true);
+    }//GEN-LAST:event_Bt_LoginMouseClicked
 
     /**
      * @param args the command line arguments
