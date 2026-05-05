@@ -36,6 +36,7 @@ public class Recepcionista extends javax.swing.JFrame {
       private DatosRecepcionista datos = new DatosRecepcionista();
       private RecepcionistaC controlador = new RecepcionistaC(datos);
       private Habitacion habitacionSeleccionada = null;
+      private Cliente clienteSeleccionado = null;
     /**
      * Creates new form Recepcionista
      */
@@ -329,7 +330,7 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         correo_cli = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        estado_c = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtable_cliente = new javax.swing.JTable();
         boton_agreegar_cli = new javax.swing.JButton();
@@ -338,6 +339,7 @@ public class Recepcionista extends javax.swing.JFrame {
         bt_modificar_cli = new javax.swing.JButton();
         jLabel34 = new javax.swing.JLabel();
         nombre_cli = new javax.swing.JTextField();
+        Limpiar_C = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         id_habitacion_h = new javax.swing.JTextField();
@@ -357,6 +359,7 @@ public class Recepcionista extends javax.swing.JFrame {
         bt_eliminar_h = new javax.swing.JButton();
         bt_buscar_h = new javax.swing.JButton();
         bt_modificar_h = new javax.swing.JButton();
+        limpiar_h = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         combo_producto_con = new javax.swing.JComboBox<>();
@@ -784,7 +787,7 @@ public class Recepcionista extends javax.swing.JFrame {
 
         tipo_doc_cli.setBackground(new java.awt.Color(51, 0, 0));
         tipo_doc_cli.setForeground(new java.awt.Color(255, 255, 255));
-        tipo_doc_cli.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        tipo_doc_cli.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "C.C", "Pasaporte" }));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
@@ -814,12 +817,12 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Estado");
 
-        jComboBox1.setBackground(new java.awt.Color(51, 0, 0));
-        jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        estado_c.setBackground(new java.awt.Color(51, 0, 0));
+        estado_c.setForeground(new java.awt.Color(255, 255, 255));
+        estado_c.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Activo", "Inactivo", "Mantenimiento", " " }));
+        estado_c.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                estado_cActionPerformed(evt);
             }
         });
 
@@ -837,73 +840,104 @@ public class Recepcionista extends javax.swing.JFrame {
         boton_agreegar_cli.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         boton_agreegar_cli.setForeground(new java.awt.Color(255, 255, 255));
         boton_agreegar_cli.setText("Agregar");
+        boton_agreegar_cli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton_agreegar_cliActionPerformed(evt);
+            }
+        });
 
         Eliminar_clie.setBackground(new java.awt.Color(0, 0, 0));
         Eliminar_clie.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         Eliminar_clie.setForeground(new java.awt.Color(255, 255, 255));
         Eliminar_clie.setText("Eliminar");
+        Eliminar_clie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Eliminar_clieActionPerformed(evt);
+            }
+        });
 
         bt_buscar_cli.setBackground(new java.awt.Color(0, 0, 0));
         bt_buscar_cli.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_buscar_cli.setForeground(new java.awt.Color(255, 255, 255));
         bt_buscar_cli.setText("Buscar");
+        bt_buscar_cli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_buscar_cliActionPerformed(evt);
+            }
+        });
 
         bt_modificar_cli.setBackground(new java.awt.Color(0, 0, 0));
         bt_modificar_cli.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_modificar_cli.setForeground(new java.awt.Color(255, 255, 255));
         bt_modificar_cli.setText("Modificar");
+        bt_modificar_cli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_modificar_cliActionPerformed(evt);
+            }
+        });
 
         jLabel34.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel34.setForeground(new java.awt.Color(0, 0, 0));
         jLabel34.setText("Nombre Completo");
+
+        Limpiar_C.setBackground(new java.awt.Color(0, 0, 0));
+        Limpiar_C.setForeground(new java.awt.Color(255, 255, 255));
+        Limpiar_C.setText("L");
+        Limpiar_C.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Limpiar_CActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
         jPanel19Layout.setHorizontalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(26, 26, 26)
-                        .addComponent(tipo_doc_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(numero_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(id_cliente_cli))
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(correo_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel34)
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
-                        .addGap(20, 20, 20))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel19Layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addComponent(bt_buscar_cli)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nombre_cli, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .addComponent(documento_cli)
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bt_modificar_cli))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel19Layout.createSequentialGroup()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tipo_doc_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(17, 17, 17))
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(numero_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(id_cliente_cli))
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(correo_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel34)
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9))
+                                .addGap(20, 20, 20))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel19Layout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addComponent(bt_buscar_cli)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nombre_cli)
+                            .addComponent(documento_cli)
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(estado_c, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel19Layout.createSequentialGroup()
+                                        .addComponent(bt_modificar_cli)
+                                        .addGap(28, 28, 28)
+                                        .addComponent(Limpiar_C, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 659, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -912,7 +946,7 @@ public class Recepcionista extends javax.swing.JFrame {
                         .addComponent(boton_agreegar_cli)
                         .addGap(74, 74, 74)
                         .addComponent(Eliminar_clie)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addGap(39, 39, 39))
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -934,17 +968,18 @@ public class Recepcionista extends javax.swing.JFrame {
                     .addComponent(numero_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(jLabel10)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(estado_c, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11)
                     .addComponent(correo_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
+                .addGap(41, 41, 41)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(boton_agreegar_cli)
                     .addComponent(Eliminar_clie)
                     .addComponent(bt_buscar_cli)
-                    .addComponent(bt_modificar_cli))
+                    .addComponent(bt_modificar_cli)
+                    .addComponent(Limpiar_C))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
@@ -1041,6 +1076,15 @@ public class Recepcionista extends javax.swing.JFrame {
             }
         });
 
+        limpiar_h.setBackground(new java.awt.Color(0, 0, 0));
+        limpiar_h.setForeground(new java.awt.Color(255, 255, 255));
+        limpiar_h.setText("L");
+        limpiar_h.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limpiar_hActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -1091,7 +1135,9 @@ public class Recepcionista extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                         .addComponent(bt_modificar_h)
-                        .addGap(82, 82, 82))))
+                        .addGap(32, 32, 32)
+                        .addComponent(limpiar_h, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))))
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1126,7 +1172,8 @@ public class Recepcionista extends javax.swing.JFrame {
                     .addComponent(bt_aagregar_h)
                     .addComponent(bt_eliminar_h)
                     .addComponent(bt_buscar_h)
-                    .addComponent(bt_modificar_h))
+                    .addComponent(bt_modificar_h)
+                    .addComponent(limpiar_h))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64))
@@ -1350,9 +1397,9 @@ public class Recepcionista extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox6ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void estado_cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estado_cActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_estado_cActionPerformed
 
     private void documento_cliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_documento_cliActionPerformed
         // TODO add your handling code here:
@@ -1481,8 +1528,134 @@ public class Recepcionista extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(this, "Habitación modificada 😎");
 
-        refrescarTablaHabitacion();
+        refrescarTablaHabitacion();   
     }//GEN-LAST:event_bt_modificar_hActionPerformed
+
+    private void boton_agreegar_cliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_agreegar_cliActionPerformed
+        String idc=id_cliente_cli.getText();
+        String nombrec= nombre_cli.getText();
+        String documentoc=documento_cli.getText();
+        String tipoDoc = tipo_doc_cli.getSelectedItem().toString();
+        String estadoc = estado_c.getSelectedItem().toString();
+        String numero = numero_cli.getText();
+        String correoc = correo_cli.getText();
+        
+        if (idc.isEmpty() || nombrec.isEmpty() || documentoc.isEmpty() || tipoDoc.isEmpty() || estadoc.isEmpty() || numero.isEmpty() || correoc.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se pueden registrar Campos vacios 👎👎👎");
+            return;
+        }
+        if (!controlador.validarSoloLetras(nombrec)) {
+            JOptionPane.showMessageDialog(null, "Nombre debe de contener unicamente letras");
+            return;
+        }
+        if (!controlador.validarSoloNumeros(numero)) {
+            JOptionPane.showMessageDialog(null, "El número solo debe contener dígitos");
+            return;
+        }
+        if (!controlador.validarSoloNumeros(documentoc)) {
+            JOptionPane.showMessageDialog(null, "El documento debe contener digitos");
+            return;
+        }
+        if (!controlador.validarCorreo(correoc)) {
+            JOptionPane.showMessageDialog(null, "El correo debe de contener @");
+            return;
+        }
+        
+        if (tipoDoc.equalsIgnoreCase("Seleccionar...")) {
+            JOptionPane.showMessageDialog(null, "Seleccione un tipo de documento");
+            return;
+        }
+        
+        if (estadoc.equalsIgnoreCase("Seleccionar...")) {
+            JOptionPane.showMessageDialog(null, "Seleccione un estado para el Cliente");
+            return;
+        }
+        
+        int id;
+        try {
+            id = Integer.parseInt(idc);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "ID debe de ser numerico");
+            return;
+        }
+        controlador.agregarCliente(id, nombrec, documentoc, tipoDoc, estadoc, numero, correoc);
+        refrescarTablaCientes();
+    }//GEN-LAST:event_boton_agreegar_cliActionPerformed
+
+    private void Eliminar_clieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Eliminar_clieActionPerformed
+        controlador.eliminarCliente(jtable_cliente);
+        refrescarTablaCientes();
+    }//GEN-LAST:event_Eliminar_clieActionPerformed
+
+    private void bt_buscar_cliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_cliActionPerformed
+        String idB = id_cliente_cli.getText().trim();
+
+    if (idB.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese el ID del cliente para buscar");
+        return;
+    }
+
+    try {
+        int id = Integer.parseInt(idB);
+
+        Cliente c = controlador.buscarCliente(id);
+
+        if (c != null) {
+            clienteSeleccionado = c;
+
+            nombre_cli.setText(c.getNombre());
+            documento_cli.setText(c.getDocumento());
+            tipo_doc_cli.setSelectedItem(c.getTipoDocumento());
+            estado_c.setSelectedItem(c.getEstado());
+            numero_cli.setText(c.getNumero());
+            correo_cli.setText(c.getCorreo());
+
+            JOptionPane.showMessageDialog(this, "Cliente encontrado 😎");
+        } else {
+            JOptionPane.showMessageDialog(this, "Cliente no encontrado 😭");
+        }
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "ID inválido");
+    }
+    }//GEN-LAST:event_bt_buscar_cliActionPerformed
+
+    private void bt_modificar_cliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_modificar_cliActionPerformed
+        if (clienteSeleccionado == null) {
+    JOptionPane.showMessageDialog(this, "Primero busque un cliente");
+    return;
+}
+
+// Actualizar datos
+clienteSeleccionado.setNombre(nombre_cli.getText());
+clienteSeleccionado.setDocumento(documento_cli.getText());
+clienteSeleccionado.setTipoDocumento(tipo_doc_cli.getSelectedItem().toString());
+clienteSeleccionado.setEstado(estado_c.getSelectedItem().toString());
+clienteSeleccionado.setNumero(numero_cli.getText());
+clienteSeleccionado.setCorreo(correo_cli.getText());
+
+JOptionPane.showMessageDialog(this, "Cliente modificado 😎");
+
+refrescarTablaCientes();
+    }//GEN-LAST:event_bt_modificar_cliActionPerformed
+
+    private void Limpiar_CActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Limpiar_CActionPerformed
+      id_cliente_cli.setText("");
+      nombre_cli.setText("");
+      numero_cli.setText("");
+      correo_cli.setText("");
+      documento_cli.setText("");
+      tipo_doc_cli.setSelectedIndex(0);
+      estado_c.setSelectedIndex(0);
+    }//GEN-LAST:event_Limpiar_CActionPerformed
+
+    private void limpiar_hActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiar_hActionPerformed
+     id_habitacion_h.setText("");
+     capaci_h.setText("");
+     piso_h.setText("");
+     combo_estado_h.setSelectedIndex(0);
+     combo_habi.setSelectedIndex(0);
+    }//GEN-LAST:event_limpiar_hActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1511,6 +1684,7 @@ public class Recepcionista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Eliminar_clie;
+    private javax.swing.JButton Limpiar_C;
     private javax.swing.JButton boton_agreegar_cli;
     private javax.swing.JToggleButton boton_agregar_r;
     private javax.swing.JButton bt_aagregar_h;
@@ -1534,6 +1708,7 @@ public class Recepcionista extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> combo_producto_con;
     private javax.swing.JTextField correo_cli;
     private javax.swing.JTextField documento_cli;
+    private javax.swing.JComboBox<String> estado_c;
     private javax.swing.JTextField fecha_con;
     private javax.swing.JTextField fecha_entrada2;
     private javax.swing.JTextField fecha_salida2;
@@ -1541,7 +1716,6 @@ public class Recepcionista extends javax.swing.JFrame {
     private javax.swing.JTextField id_cliente_re;
     private javax.swing.JTextField id_habitacion_h;
     private javax.swing.JTextField id_reserva;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JLabel jLabel1;
@@ -1601,6 +1775,7 @@ public class Recepcionista extends javax.swing.JFrame {
     private javax.swing.JTable jtable_consumo;
     private javax.swing.JTable jtable_habitac;
     private javax.swing.JTable jtable_reserva;
+    private javax.swing.JButton limpiar_h;
     private javax.swing.JTextField nombre_cli;
     private javax.swing.JTextField nombre_cliente2_re;
     private javax.swing.JTextField numero_cli;
