@@ -379,7 +379,7 @@ public class Recepcionista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 0, 51));
+        jPanel1.setBackground(new java.awt.Color(102, 0, 0));
         jPanel1.setForeground(new java.awt.Color(102, 0, 51));
         jPanel1.setToolTipText("");
 
@@ -409,7 +409,7 @@ public class Recepcionista extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
         jPanel3.setPreferredSize(new java.awt.Dimension(150, 484));
 
-        jPanel4.setBackground(new java.awt.Color(204, 0, 102));
+        jPanel4.setBackground(new java.awt.Color(153, 0, 0));
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel3.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
@@ -433,7 +433,7 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel5.setBackground(new java.awt.Color(204, 0, 102));
+        jPanel5.setBackground(new java.awt.Color(153, 0, 0));
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel2.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
@@ -457,7 +457,7 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
-        jPanel6.setBackground(new java.awt.Color(204, 0, 102));
+        jPanel6.setBackground(new java.awt.Color(153, 0, 0));
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel4.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
@@ -481,7 +481,7 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel10.setBackground(new java.awt.Color(204, 0, 102));
+        jPanel10.setBackground(new java.awt.Color(153, 0, 0));
         jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel10.setPreferredSize(new java.awt.Dimension(180, 59));
 
