@@ -45,16 +45,16 @@ public class Check_In extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        Jbl_Huesped = new javax.swing.JLabel();
+        Jbl_Fentrada = new javax.swing.JLabel();
         Txt_DniPas = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        Jbl_Fsalida = new javax.swing.JLabel();
+        Jbl_HabSug = new javax.swing.JLabel();
+        Jbl_Adulto = new javax.swing.JLabel();
+        Jbl_Niños = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        Cb_AsigHab = new javax.swing.JComboBox<>();
         jPanel7 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -195,30 +195,32 @@ public class Check_In extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel9.setText("Numero de Habitacion Sugerida:");
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setText("\"\"");
+        Jbl_Huesped.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Jbl_Huesped.setText("\"\"");
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel11.setText("\"\"");
+        Jbl_Fentrada.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        Jbl_Fentrada.setText("\"\"");
 
         Txt_DniPas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel12.setText("\"\"");
+        Jbl_Fsalida.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        Jbl_Fsalida.setText("\"\"");
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel13.setText("\"\"");
+        Jbl_HabSug.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        Jbl_HabSug.setText("\"\"");
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel14.setText("Adultos:");
+        Jbl_Adulto.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        Jbl_Adulto.setText("Adultos:");
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel15.setText("Niños:");
+        Jbl_Niños.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        Jbl_Niños.setText("Niños:");
 
         jPanel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel16.setText("Asignar Habitacion Diferente");
+
+        Cb_AsigHab.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -228,7 +230,7 @@ public class Check_In extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Cb_AsigHab, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
         );
         jPanel6Layout.setVerticalGroup(
@@ -237,7 +239,7 @@ public class Check_In extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Cb_AsigHab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -259,23 +261,23 @@ public class Check_In extends javax.swing.JFrame {
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(18, 18, 18)
                                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addComponent(Jbl_Fentrada, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                        .addComponent(Jbl_Huesped, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addContainerGap()
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Jbl_HabSug, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(Txt_DniPas, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Jbl_Fsalida, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14)))
+                            .addComponent(Jbl_Niños, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Jbl_Adulto)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -288,17 +290,17 @@ public class Check_In extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel10))
+                    .addComponent(Jbl_Huesped))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel14))
+                    .addComponent(Jbl_Fentrada)
+                    .addComponent(Jbl_Adulto))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel15))
+                    .addComponent(Jbl_Fsalida)
+                    .addComponent(Jbl_Niños))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -308,7 +310,7 @@ public class Check_In extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel13))
+                            .addComponent(Jbl_HabSug))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,6 +330,7 @@ public class Check_In extends javax.swing.JFrame {
         jLabel18.setText("PENDIENTE");
 
         jPanel8.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
@@ -362,6 +365,7 @@ public class Check_In extends javax.swing.JFrame {
         );
 
         jPanel9.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
@@ -473,17 +477,17 @@ public class Check_In extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Cb_AsigHab;
+    private javax.swing.JLabel Jbl_Adulto;
+    private javax.swing.JLabel Jbl_Fentrada;
+    private javax.swing.JLabel Jbl_Fsalida;
+    private javax.swing.JLabel Jbl_HabSug;
+    private javax.swing.JLabel Jbl_Huesped;
+    private javax.swing.JLabel Jbl_Niños;
     private javax.swing.JTextField Txt_CodigoReserva;
     private javax.swing.JTextField Txt_DniPas;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
