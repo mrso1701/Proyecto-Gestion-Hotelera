@@ -8,6 +8,6 @@ package model;
  *
  * @author rafaj
  */
-public class empleadosadm {
+public class habitacionlog {
     
 }
