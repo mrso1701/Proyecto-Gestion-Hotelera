@@ -9,10 +9,15 @@ import Model.Cliente;
 import Model.Consumo;
 import Model.DatosRecepcionista;
 import Model.Habitacion;
+import Model.Identificacion;
 import Model.Reserva;
 import Model.TipoHabitacion;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.HeadlessException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -21,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import java.text.ParseException;
 
 /**
  *
@@ -42,6 +48,7 @@ public class Recepcionista extends javax.swing.JFrame {
      */
     public Recepcionista() {
         initComponents();
+     
       cargarTiposHabitacion();
         
          
@@ -267,7 +274,56 @@ public class Recepcionista extends javax.swing.JFrame {
         default: return null;
     }
 }
+   
+public void cargarClientesEnCombo() {
+    DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
 
+    for (Cliente c : DatosRecepcionista.listaClientes) {
+        
+        modelo.addElement(c.getId() + " - " + c.getNombre());
+    }
+
+    combo_cliente.setModel(modelo);
+}
+
+public Cliente obtenerClienteSeleccionado() {
+
+    if (combo_cliente.getSelectedItem() == null) {
+        return null;
+    }
+
+    // combo
+    String seleccionado = combo_cliente.getSelectedItem().toString();
+
+    // id
+    String[] partes = seleccionado.split(" - ");
+    int id = Integer.parseInt(partes[0].trim());
+
+   //busca el objeto ese
+    for (Cliente c : DatosRecepcionista.listaClientes) {
+        if (c.getId() == id) {
+            return c;
+        }
+    }
+
+    return null;
+}
+
+public double obtenerPrecioProducto(String producto) {
+
+    switch (producto) {
+        case "Coca-Cola":
+            return 3000;
+        case "Agua":
+            return 2000;
+        case "Pizza":
+            return 15000;
+        case "Hamburguesa":
+            return 12000;
+        default:
+            return 0;
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -290,6 +346,10 @@ public class Recepcionista extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel33 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel35 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jTabbedPane8 = new javax.swing.JTabbedPane();
         jPanel17 = new javax.swing.JPanel();
@@ -375,6 +435,8 @@ public class Recepcionista extends javax.swing.JFrame {
         bt_modificar_con = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         combo_cliente = new javax.swing.JComboBox<>();
+        jLabel36 = new javax.swing.JLabel();
+        precio_con = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -454,7 +516,7 @@ public class Recepcionista extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel6.setBackground(new java.awt.Color(153, 0, 0));
@@ -510,6 +572,56 @@ public class Recepcionista extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         jLabel6.setText("Salir");
 
+        jPanel11.setBackground(new java.awt.Color(153, 0, 0));
+        jPanel11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel11.setPreferredSize(new java.awt.Dimension(198, 59));
+
+        jLabel33.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel33.setText("Check-in");
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel33)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel33)
+                .addGap(20, 20, 20))
+        );
+
+        jPanel12.setBackground(new java.awt.Color(153, 0, 0));
+        jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel12.setPreferredSize(new java.awt.Dimension(198, 59));
+
+        jLabel35.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel35.setText("Check-out");
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel35)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -518,13 +630,20 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -533,13 +652,17 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(28, 28, 28)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(32, 32, 32)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(219, 219, 219)
+                .addGap(27, 27, 27)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addComponent(jLabel6)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane8.setBackground(new java.awt.Color(102, 0, 0));
@@ -746,7 +869,7 @@ public class Recepcionista extends javax.swing.JFrame {
                     .addComponent(jLabel24)
                     .addComponent(id_reserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(id_cliente_re, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel28)
@@ -770,7 +893,7 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("Res", jPanel18);
@@ -1184,12 +1307,12 @@ public class Recepcionista extends javax.swing.JFrame {
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel22.setForeground(new java.awt.Color(0, 0, 0));
         jLabel22.setText("Producto");
 
         combo_producto_con.setBackground(new java.awt.Color(51, 0, 0));
         combo_producto_con.setForeground(new java.awt.Color(255, 255, 255));
-        combo_producto_con.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        combo_producto_con.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Coca-Cola", "Agua", "Pizza", "Hamburguesa" }));
         combo_producto_con.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 combo_producto_conActionPerformed(evt);
@@ -1197,13 +1320,13 @@ public class Recepcionista extends javax.swing.JFrame {
         });
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel23.setForeground(new java.awt.Color(0, 0, 0));
         jLabel23.setText("Cantidad");
 
         cantidad_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
 
         jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel32.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel32.setForeground(new java.awt.Color(0, 0, 0));
         jLabel32.setText("Fecha");
 
         fecha_con.addActionListener(new java.awt.event.ActionListener() {
@@ -1228,16 +1351,31 @@ public class Recepcionista extends javax.swing.JFrame {
         bt_agregar_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_agregar_con.setForeground(new java.awt.Color(255, 255, 255));
         bt_agregar_con.setText("Agregar");
+        bt_agregar_con.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_agregar_conActionPerformed(evt);
+            }
+        });
 
         bt_eliminar_con.setBackground(new java.awt.Color(0, 0, 0));
         bt_eliminar_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_eliminar_con.setForeground(new java.awt.Color(255, 255, 255));
         bt_eliminar_con.setText("Eliminar");
+        bt_eliminar_con.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_eliminar_conActionPerformed(evt);
+            }
+        });
 
         bt_buscar_con.setBackground(new java.awt.Color(0, 0, 0));
         bt_buscar_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_buscar_con.setForeground(new java.awt.Color(255, 255, 255));
         bt_buscar_con.setText("Buscar");
+        bt_buscar_con.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_buscar_conActionPerformed(evt);
+            }
+        });
 
         bt_modificar_con.setBackground(new java.awt.Color(0, 0, 0));
         bt_modificar_con.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
@@ -1250,44 +1388,25 @@ public class Recepcionista extends javax.swing.JFrame {
         });
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel19.setForeground(new java.awt.Color(0, 0, 0));
         jLabel19.setText("Cliente");
 
         combo_cliente.setBackground(new java.awt.Color(51, 0, 0));
         combo_cliente.setForeground(new java.awt.Color(255, 255, 255));
-        combo_cliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        combo_cliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+
+        jLabel36.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel36.setText("Precio");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addComponent(combo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(fecha_con, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(combo_producto_con, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(97, 97, 97))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addGap(0, 32, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 652, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cantidad_con, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addComponent(bt_agregar_con)
@@ -1298,6 +1417,37 @@ public class Recepcionista extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bt_modificar_con)
                 .addGap(46, 46, 46))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(combo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
+                        .addComponent(combo_producto_con, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cantidad_con, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addComponent(fecha_con, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                                .addGap(53, 53, 53)
+                                .addComponent(precio_con, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(97, 97, 97))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1309,12 +1459,17 @@ public class Recepcionista extends javax.swing.JFrame {
                     .addComponent(combo_producto_con, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(combo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
-                    .addComponent(cantidad_con, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel23)
+                        .addComponent(cantidad_con, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel36))
+                    .addComponent(precio_con))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel32)
                     .addComponent(fecha_con, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(63, 63, 63)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_agregar_con)
                     .addComponent(bt_eliminar_con)
@@ -1322,7 +1477,7 @@ public class Recepcionista extends javax.swing.JFrame {
                     .addComponent(bt_modificar_con))
                 .addGap(42, 42, 42)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("Cons", jPanel9);
@@ -1419,7 +1574,11 @@ public class Recepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_numero_cliActionPerformed
 
     private void combo_producto_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_producto_conActionPerformed
-        // TODO add your handling code here:
+        String producto = combo_producto_con.getSelectedItem().toString();
+
+       double precio = obtenerPrecioProducto(producto);
+
+      precio_con.setText(String.valueOf(precio));
     }//GEN-LAST:event_combo_producto_conActionPerformed
 
     private void bt_modificar_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_modificar_conActionPerformed
@@ -1580,6 +1739,8 @@ public class Recepcionista extends javax.swing.JFrame {
         }
         controlador.agregarCliente(id, nombrec, documentoc, tipoDoc, estadoc, numero, correoc);
         refrescarTablaCientes();
+         cargarClientesEnCombo();
+        obtenerClienteSeleccionado();
     }//GEN-LAST:event_boton_agreegar_cliActionPerformed
 
     private void Eliminar_clieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Eliminar_clieActionPerformed
@@ -1656,6 +1817,53 @@ refrescarTablaCientes();
      combo_estado_h.setSelectedIndex(0);
      combo_habi.setSelectedIndex(0);
     }//GEN-LAST:event_limpiar_hActionPerformed
+
+    private void bt_agregar_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_agregar_conActionPerformed
+        Cliente cliente = obtenerClienteSeleccionado();
+        String cantidadTxt = cantidad_con.getText();
+        String precioTx = precio_con.getText();
+        String producto = combo_producto_con.getSelectedItem().toString();
+        String fechaTx = fecha_con.getText();
+        
+        if (producto.equals("Seleccione...") || cantidadTxt.isEmpty() || precioTx.isEmpty() || fechaTx.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Complete todos los campos");
+    return;
+}
+    if (cliente == null) {
+        JOptionPane.showMessageDialog(this, "Seleccione un cliente válido");
+        return;
+    }
+    int cantidad;
+    double precio;
+    Date fecha;
+    try {
+        cantidad = Integer.parseInt(cantidadTxt);
+        precio = Double.parseDouble(precioTx);
+        if (cantidad <= 0 || precio<=0) {
+            JOptionPane.showMessageDialog(this, "Cantidad y precio debe ser mayor a 0");
+            return;
+        }
+         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+         fecha = formato.parse(fechaTx);
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error en los datos");
+        return;
+    }
+    
+    controlador.agregarConsumo( cliente, cantidad, producto, precio, fecha);
+    refrescarTablaConsumo();
+    }//GEN-LAST:event_bt_agregar_conActionPerformed
+
+    private void bt_eliminar_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminar_conActionPerformed
+        controlador.eliminarConsumo(jtable_consumo);
+        refrescarTablaConsumo();
+    }//GEN-LAST:event_bt_eliminar_conActionPerformed
+
+    private void bt_buscar_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_conActionPerformed
+   
+            
+    }//GEN-LAST:event_bt_buscar_conActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1744,7 +1952,10 @@ refrescarTablaCientes();
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1753,6 +1964,8 @@ refrescarTablaCientes();
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
@@ -1780,6 +1993,7 @@ refrescarTablaCientes();
     private javax.swing.JTextField nombre_cliente2_re;
     private javax.swing.JTextField numero_cli;
     private javax.swing.JTextField piso_h;
+    private javax.swing.JTextField precio_con;
     private javax.swing.JTextField precio_h;
     private javax.swing.JComboBox<String> tipo_doc_cli;
     // End of variables declaration//GEN-END:variables

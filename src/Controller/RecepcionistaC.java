@@ -5,11 +5,14 @@
 package Controller;
 
 import Model.Cliente;
+import Model.Consumo;
 import Model.Habitacion;
 import Model.TipoHabitacion;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import Model.DatosRecepcionista;
+import static Model.DatosRecepcionista.listaConsumos;
+import java.util.Date;
 import javax.swing.JTable;
 
 
@@ -87,7 +90,7 @@ public class RecepcionistaC {
         
         datos.listaClientes.add(c);
         JOptionPane.showMessageDialog(null, "Cliente agregado correctamente 😈");
-    }
+             }
     
    
     public void eliminarCliente(JTable tablaCliente){
@@ -141,5 +144,73 @@ public class RecepcionistaC {
 }
     public boolean validarCorreo(String correo) {
     return correo.contains("@");
+}
+    public void agregarConsumo( Cliente cliente, int cantidad, String producto, double precio, Date fecha){
+     Consumo c = new Consumo();
+    c.setCliente(cliente);
+    c.setCantidad(cantidad);
+    c.setProducto(producto);
+    c.setPrecio(precio);
+
+    
+    c.setTotal(precio * cantidad);
+
+    c.setFecha(fecha);
+
+    datos.listaConsumos.add(c);
+
+    JOptionPane.showMessageDialog(null, "Consumo agregado correctamente 😈");
+    }
+    
+    public void eliminarConsumo(JTable tablaConsumo) {
+    // 1. Obtener la fila seleccionada
+    int eli = tablaConsumo.getSelectedRow();
+
+    // 2. Verificar si hay una fila seleccionada
+    if (eli == -1) {
+        JOptionPane.showMessageDialog(null,
+                "Por favor seleccione un consumo de la tabla para eliminar",
+                "Ninguna fila seleccionada",
+                JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // 3. Obtener datos de la fila para la confirmación (basado en las columnas de tu imagen)
+    // Asumiendo: Columna 0 = Cliente, Columna 2 = Producto, Columna 4 = Fecha
+    String cliente = tablaConsumo.getValueAt(eli, 0).toString();
+    String producto = tablaConsumo.getValueAt(eli, 2).toString();
+    String fecha = tablaConsumo.getValueAt(eli, 4).toString();
+
+    // 4. Ventana de confirmación
+    int confirmacion = JOptionPane.showConfirmDialog(null,
+            "¿Está seguro que desea eliminar este registro de consumo?\n\n"
+            + "Cliente: " + cliente + "\n"
+            + "Producto: " + producto + "\n"
+            + "Fecha: " + fecha,
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION);
+
+    // 5. Ejecutar eliminación si el usuario acepta
+    if (confirmacion == JOptionPane.YES_OPTION) {
+        // Elimina de la lista en el controlador/modelo
+        // Asegúrate de que 'controlador' o 'datos' sea accesible desde donde pegues esto
+        listaConsumos.remove(eli); 
+
+  
+
+        JOptionPane.showMessageDialog(null,
+                "Consumo eliminado correctamente 😈",
+                "Éxito",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+}
+    
+  public Cliente buscarClienteCon(int id) {
+    for (Cliente c : datos.listaClientes) {
+        if (c.getId() == id) {
+            return c;
+        }
+    }
+    return null;
 }
 }
