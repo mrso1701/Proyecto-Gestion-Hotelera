@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/rafaj/Documents/NetBeansProjects/Proyecto-Gestion-Hotelera/src/control/SistemaGestionHotelera.java</file>
+            <file>file:/C:/Users/rafaj/Documents/NetBeansProjects/Proyecto-Gestion-Hotelera/src/model/clienteslog.java</file>
+            <file>file:/C:/Users/rafaj/Documents/NetBeansProjects/Proyecto-Gestion-Hotelera/src/model/habitacionlog.java</file>
+            <file>file:/C:/Users/rafaj/Documents/NetBeansProjects/Proyecto-Gestion-Hotelera/src/model/empleadoslog.java</file>
             <file>file:/C:/Users/rafaj/Documents/NetBeansProjects/Proyecto-Gestion-Hotelera/src/view/Gerencia.java</file>
-            <file>file:/C:/Users/rafaj/Documents/NetBeansProjects/Proyecto-Gestion-Hotelera/src/view/Habitaciones.java</file>
-            <file>file:/C:/Users/rafaj/Documents/NetBeansProjects/Proyecto-Gestion-Hotelera/src/view/Clientes.java</file>
-            <file>file:/C:/Users/rafaj/Documents/NetBeansProjects/Proyecto-Gestion-Hotelera/src/view/Empleados.java</file>
         </group>
     </open-files>
 </project-private>
