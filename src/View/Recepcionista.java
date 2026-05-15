@@ -43,6 +43,7 @@ public class Recepcionista extends javax.swing.JFrame {
       private RecepcionistaC controlador = new RecepcionistaC(datos);
       private Habitacion habitacionSeleccionada = null;
       private Cliente clienteSeleccionado = null;
+      private Consumo consumoSeleccionado = null;
     /**
      * Creates new form Recepcionista
      */
@@ -1582,7 +1583,46 @@ public double obtenerPrecioProducto(String producto) {
     }//GEN-LAST:event_combo_producto_conActionPerformed
 
     private void bt_modificar_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_modificar_conActionPerformed
-        // TODO add your handling code here:
+          if (consumoSeleccionado == null) {
+        JOptionPane.showMessageDialog(this, "Primero busque un consumo");
+        return;
+    }
+
+    try {
+        int cantidad = Integer.parseInt(cantidad_con.getText());
+        double precio = Double.parseDouble(precio_con.getText());
+
+        if (cantidad <= 0 || precio <= 0) {
+            JOptionPane.showMessageDialog(this, "Cantidad y precio deben ser mayores a 0");
+            return;
+        }
+
+        String producto = combo_producto_con.getSelectedItem().toString();
+
+        // 🔥 FECHA
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        Date fecha = formato.parse(fecha_con.getText());
+
+        // 🔥 CLIENTE (del combo)
+        Cliente cliente = obtenerClienteSeleccionado();
+
+        // 💥 MODIFICAR OBJETO
+        consumoSeleccionado.setCantidad(cantidad);
+        consumoSeleccionado.setPrecio(precio);
+        consumoSeleccionado.setProducto(producto);
+        consumoSeleccionado.setFecha(fecha);
+        consumoSeleccionado.setCliente(cliente);
+
+        // 🔥 recalcular total
+        consumoSeleccionado.setTotal(precio * cantidad);
+
+        JOptionPane.showMessageDialog(this, "Consumo modificado 😎");
+
+        refrescarTablaConsumo();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al modificar");
+    }
     }//GEN-LAST:event_bt_modificar_conActionPerformed
 
     private void fecha_salida2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fecha_salida2ActionPerformed
@@ -1861,8 +1901,44 @@ refrescarTablaCientes();
     }//GEN-LAST:event_bt_eliminar_conActionPerformed
 
     private void bt_buscar_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_conActionPerformed
-   
-            
+     String input = JOptionPane.showInputDialog(this, "Ingrese el ID del Cliente:");
+
+    if (input == null || input.trim().isEmpty()) {
+        return;
+    }
+
+    try {
+        int idBuscado = Integer.parseInt(input.trim());
+        boolean encontrado = false;
+
+        for (Consumo con : datos.listaConsumos) {
+
+            // 🔥 AHORA SÍ: comparar por ID DEL CLIENTE
+            if (con.getCliente().getId() == idBuscado) {
+
+                consumoSeleccionado = con;
+
+                // 💣 LLENAR CAMPOS
+                cantidad_con.setText(String.valueOf(con.getCantidad()));
+                precio_con.setText(String.valueOf(con.getPrecio()));
+                fecha_con.setText(new SimpleDateFormat("yyyy-MM-dd").format(con.getFecha()));
+
+                combo_producto_con.setSelectedItem(con.getProducto());
+                combo_cliente.setSelectedItem(con.getCliente().toString());
+
+                encontrado = true;
+                break; // trae el primero que encuentre
+            }
+        }
+
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(this, "No hay consumos para este cliente");
+        }
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Ingrese un ID válido");
+    }
+
     }//GEN-LAST:event_bt_buscar_conActionPerformed
 
     /**
