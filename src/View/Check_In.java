@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package View;
 
 /**
@@ -17,7 +13,37 @@ public class Check_In extends javax.swing.JFrame {
         initComponents();
     }
     
+    private void cargarTabla() {
+    String[] columnas = {"ID Reserva", "Huésped Principal", "Fecha Entrada", "Fecha Salida", "Tipo Habitación", "Estado Check-in"};
+    
+    javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel(null, columnas) {
+        @Override
+        public boolean isCellEditable(int row, int column) { return false; }
+    };
 
+    // Datos simulados simulando que vienen del TXT/ArrayList en formato dd/MM/yyyy
+    String[][] datosDeOrigen = {
+        {"R123", "Juan Pérez", "15/05/2026", "20/05/2026", "Suite Ejecutiva", "PENDIENTE", "2", "1", "305"},
+        {"R122", "María López", "15/05/2026", "22/05/2026", "Suite Estándar", "PENDIENTE", "1", "0", "201"},
+        {"R124", "Carlos Ruiz", "18/05/2026", "23/05/2026", "Suite Ejecutiva", "PENDIENTE", "2", "0", "306"}
+    };
+
+    for (String[] fila : datosDeOrigen) {
+        modelo.addRow(new Object[]{fila[0], fila[1], fila[2], fila[3], fila[4], fila[5]});
+    }
+    jTable1.setModel(modelo);
+}
+
+    private void limpiarFormulario() {
+    Txt_CodigoReserva.setText("");
+    Txt_DniPas.setText("");
+    Jbl_Huesped.setText("\"\"");
+    Jbl_Fentrada.setText("\"\"");
+    Jbl_Fsalida.setText("\"\"");
+    Jbl_Adulto.setText("\"\"");
+    Jbl_Niños.setText("\"\"");
+    Jbl_HabSug.setText("\"\"");
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,7 +84,7 @@ public class Check_In extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
+        JpanelConfirmar = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
@@ -329,8 +355,13 @@ public class Check_In extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(0, 153, 0));
         jLabel18.setText("PENDIENTE");
 
-        jPanel8.setBackground(new java.awt.Color(102, 0, 0));
-        jPanel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        JpanelConfirmar.setBackground(new java.awt.Color(102, 0, 0));
+        JpanelConfirmar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        JpanelConfirmar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JpanelConfirmarMouseClicked(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
@@ -340,23 +371,20 @@ public class Check_In extends javax.swing.JFrame {
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("CHECK-IN");
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addGap(23, 23, 23))))
+        javax.swing.GroupLayout JpanelConfirmarLayout = new javax.swing.GroupLayout(JpanelConfirmar);
+        JpanelConfirmar.setLayout(JpanelConfirmarLayout);
+        JpanelConfirmarLayout.setHorizontalGroup(
+            JpanelConfirmarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpanelConfirmarLayout.createSequentialGroup()
+                .addContainerGap(41, Short.MAX_VALUE)
+                .addGroup(JpanelConfirmarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
+                .addGap(35, 35, 35))
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        JpanelConfirmarLayout.setVerticalGroup(
+            JpanelConfirmarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JpanelConfirmarLayout.createSequentialGroup()
                 .addContainerGap(12, Short.MAX_VALUE)
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -403,7 +431,7 @@ public class Check_In extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JpanelConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addComponent(jLabel17)
                                 .addGap(44, 44, 44)))))
@@ -416,8 +444,8 @@ public class Check_In extends javax.swing.JFrame {
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel18)
-                .addGap(38, 38, 38)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(JpanelConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -440,6 +468,68 @@ public class Check_In extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void JpanelConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JpanelConfirmarMouseClicked
+        String huesped = Jbl_Huesped.getText();
+    String dni = Txt_DniPas.getText().trim();
+    String fechaEntrada = Jbl_Fentrada.getText();
+    String fechaSalida = Jbl_Fsalida.getText();
+
+    // 2. VALIDACIÓN: ¿Se seleccionó una reserva válida?
+    if (huesped.isEmpty() || huesped.equals("\"\"") || huesped.equals("-")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Debe seleccionar una reserva de la lista o buscarla por código primero.", 
+                "Reserva No Seleccionada", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // 3. VALIDACIÓN: ¿El campo de DNI/Pasaporte está vacío?
+    if (dni.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "El campo DNI/Pasaporte es obligatorio para procesar el ingreso.", 
+                "Falta Documentación", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+        Txt_DniPas.requestFocus();
+        return;
+    }
+
+    // 4. VALIDACIÓN: Que el documento tenga un formato numérico válido
+    if (!dni.matches("\\d+")) { 
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "El DNI/Pasaporte debe contener únicamente números.", 
+                "Formato de Documento Incorrecto", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        Txt_DniPas.requestFocus();
+        return;
+    }
+
+    // 5. VALIDACIÓN: Comprobar el formato estricto dd/mm/aaaa de las fechas en los labels
+    java.time.format.DateTimeFormatter formatoFecha = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    try {
+        // Forzamos el parseo para asegurar que la fecha desplegada cumple las reglas del negocio
+        java.time.LocalDate.parse(fechaEntrada, formatoFecha);
+        java.time.LocalDate.parse(fechaSalida, formatoFecha);
+    } catch (java.time.format.DateTimeParseException e) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Error interno: Las fechas de esta reserva no cumplen el formato requerido (dd/mm/aaaa).", 
+                "Error de Formato de Fecha", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // 6. PROCESO EXITOSO: Modificación de estado e integración futura con TXT/ArrayList
+    javax.swing.JOptionPane.showMessageDialog(this, 
+            "¡CHECK-IN CONFIRMADO EXITOSAMENTE!\n\n" +
+            "Huésped: " + huesped + "\n" +
+            "Documento registrado: " + dni + "\n" +
+            "Habitación Asignada: " + Jbl_HabSug.getText(), 
+            "Proceso Completado", 
+            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    
+    // Limpieza total del panel tras el éxito
+    limpiarFormulario();
+    }//GEN-LAST:event_JpanelConfirmarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -484,6 +574,7 @@ public class Check_In extends javax.swing.JFrame {
     private javax.swing.JLabel Jbl_HabSug;
     private javax.swing.JLabel Jbl_Huesped;
     private javax.swing.JLabel Jbl_Niños;
+    private javax.swing.JPanel JpanelConfirmar;
     private javax.swing.JTextField Txt_CodigoReserva;
     private javax.swing.JTextField Txt_DniPas;
     private javax.swing.JButton jButton1;
@@ -509,7 +600,6 @@ public class Check_In extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
