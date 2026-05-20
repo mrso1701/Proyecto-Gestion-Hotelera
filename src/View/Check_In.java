@@ -36,16 +36,6 @@ public class Check_In extends javax.swing.JFrame {
     jTable1.setModel(modelo);
 }
 
-    private void limpiarFormulario() {
-    Txt_CodigoReserva.setText("");
-    Txt_DniPas.setText("");
-    Jbl_Huesped.setText("\"\"");
-    Jbl_Fentrada.setText("\"\"");
-    Jbl_Fsalida.setText("\"\"");
-    Jbl_Adulto.setText("\"\"");
-    Jbl_Niños.setText("\"\"");
-    Jbl_HabSug.setText("\"\"");
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,7 +79,7 @@ public class Check_In extends javax.swing.JFrame {
         JpanelConfirmar = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
+        jPanelCancelar = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -235,6 +225,11 @@ public class Check_In extends javax.swing.JFrame {
         Jbl_Fentrada.setText("\"\"");
 
         Txt_DniPas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Txt_DniPas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DniPasKeyTyped(evt);
+            }
+        });
 
         Jbl_Fsalida.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         Jbl_Fsalida.setText("\"\"");
@@ -404,25 +399,30 @@ public class Check_In extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel9.setBackground(new java.awt.Color(102, 0, 0));
-        jPanel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanelCancelar.setBackground(new java.awt.Color(102, 0, 0));
+        jPanelCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanelCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanelCancelarMouseClicked(evt);
+            }
+        });
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
         jLabel21.setText("CANCELAR");
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelCancelarLayout = new javax.swing.GroupLayout(jPanelCancelar);
+        jPanelCancelar.setLayout(jPanelCancelarLayout);
+        jPanelCancelarLayout.setHorizontalGroup(
+            jPanelCancelarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCancelarLayout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(jLabel21)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+        jPanelCancelarLayout.setVerticalGroup(
+            jPanelCancelarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCancelarLayout.createSequentialGroup()
                 .addContainerGap(24, Short.MAX_VALUE)
                 .addComponent(jLabel21)
                 .addGap(20, 20, 20))
@@ -439,7 +439,7 @@ public class Check_In extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelCancelar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -459,7 +459,7 @@ public class Check_In extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(JpanelConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -482,65 +482,75 @@ public class Check_In extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JpanelConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JpanelConfirmarMouseClicked
-        String huesped = Jbl_Huesped.getText();
-    String dni = Txt_DniPas.getText().trim();
-    String fechaEntrada = Jbl_Fentrada.getText();
-    String fechaSalida = Jbl_Fsalida.getText();
+        String codigoActual = Txt_CodigoReserva.getText().trim();
+        String dni = Txt_DniPas.getText().trim();
 
-    // 2. VALIDACIÓN: ¿Se seleccionó una reserva válida?
-    if (huesped.isEmpty() || huesped.equals("\"\"") || huesped.equals("-")) {
+    // 1. VALIDACIÓN: Que el usuario haya escrito algo en el buscador
+    if (codigoActual.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this, 
-                "Debe seleccionar una reserva de la lista o buscarla por código primero.", 
-                "Reserva No Seleccionada", 
+                "Por favor, ingrese o busque un código de reserva primero.", 
+                "Falta Código", 
                 javax.swing.JOptionPane.WARNING_MESSAGE);
+        Txt_CodigoReserva.requestFocus();
         return;
     }
 
-    // 3. VALIDACIÓN: ¿El campo de DNI/Pasaporte está vacío?
+    // 2. VALIDACIÓN: Obligar a ingresar el DNI/Pasaporte del huésped
     if (dni.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this, 
-                "El campo DNI/Pasaporte es obligatorio para procesar el ingreso.", 
-                "Falta Documentación", 
+                "Por favor, ingrese el DNI o Pasaporte del huésped.", 
+                "Documento Requerido", 
                 javax.swing.JOptionPane.WARNING_MESSAGE);
         Txt_DniPas.requestFocus();
         return;
     }
 
-    // 4. VALIDACIÓN: Que el documento tenga un formato numérico válido
-    if (!dni.matches("\\d+")) { 
-        javax.swing.JOptionPane.showMessageDialog(this, 
-                "El DNI/Pasaporte debe contener únicamente números.", 
-                "Formato de Documento Incorrecto", 
-                javax.swing.JOptionPane.ERROR_MESSAGE);
-        Txt_DniPas.requestFocus();
-        return;
+    // 3. PROCESAR Y ACTUALIZAR EN LA TABLA
+    javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+    boolean filaActualizada = false;
+    boolean yaRealizado = false;
+
+    // Recorremos la tabla buscando el ID
+    for (int i = 0; i < modelo.getRowCount(); i++) {
+        String idReservaTabla = modelo.getValueAt(i, 0).toString(); // Columna 0: ID Reserva
+        String estadoActual = modelo.getValueAt(i, 5).toString();   // Columna 5: Estado Check-in
+        
+        if (idReservaTabla.equalsIgnoreCase(codigoActual)) {
+            // Validamos si ya se le hizo check-in antes
+            if (estadoActual.equalsIgnoreCase("REALIZADO")) {
+                yaRealizado = true;
+                break;
+            }
+            
+            // Si está PENDIENTE, lo cambiamos a REALIZADO
+            modelo.setValueAt("REALIZADO", i, 5); 
+            filaActualizada = true;
+            break;
+        }
     }
 
-    // 5. VALIDACIÓN: Comprobar el formato estricto dd/mm/aaaa de las fechas en los labels
-    java.time.format.DateTimeFormatter formatoFecha = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    try {
-        // Forzamos el parseo para asegurar que la fecha desplegada cumple las reglas del negocio
-        java.time.LocalDate.parse(fechaEntrada, formatoFecha);
-        java.time.LocalDate.parse(fechaSalida, formatoFecha);
-    } catch (java.time.format.DateTimeParseException e) {
+    // 4. CONCLUSIÓN Y FEEDBACK AL USUARIO
+    if (yaRealizado) {
         javax.swing.JOptionPane.showMessageDialog(this, 
-                "Error interno: Las fechas de esta reserva no cumplen el formato requerido (dd/mm/aaaa).", 
-                "Error de Formato de Fecha", 
+                "Esta reserva ya cuenta con un Check-In REALIZADO.", 
+                "Aviso", 
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        limpiarFormulario();
+    } else if (filaActualizada) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "¡Check-in confirmado con éxito para la reserva " + codigoActual + "!", 
+                "Proceso Terminado", 
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        
+        limpiarFormulario();
+    } else {
+        // Si el código no coincide con ninguna fila de la tabla
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "El código '" + codigoActual + "' no corresponde a ninguna reserva activa en la tabla.\n"
+                + "Por favor, busque una reserva válida antes de confirmar.", 
+                "Reserva No Encontrada", 
                 javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    // 6. PROCESO EXITOSO: Modificación de estado e integración futura con TXT/ArrayList
-    javax.swing.JOptionPane.showMessageDialog(this, 
-            "¡CHECK-IN CONFIRMADO EXITOSAMENTE!\n\n" +
-            "Huésped: " + huesped + "\n" +
-            "Documento registrado: " + dni + "\n" +
-            "Habitación Asignada: " + Jbl_HabSug.getText(), 
-            "Proceso Completado", 
-            javax.swing.JOptionPane.INFORMATION_MESSAGE);
-    
-    // Limpieza total del panel tras el éxito
-    limpiarFormulario();
+     }
     }//GEN-LAST:event_JpanelConfirmarMouseClicked
 
     private void Bt_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Bt_BuscarActionPerformed
@@ -611,6 +621,19 @@ public class Check_In extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_Cb_AsigHabActionPerformed
 
+    private void jPanelCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelCancelarMouseClicked
+        limpiarFormulario();
+    }//GEN-LAST:event_jPanelCancelarMouseClicked
+
+    private void Txt_DniPasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DniPasKeyTyped
+        char c = evt.getKeyChar();
+    
+    // Validar que solo sean números Y que no pase de 10 caracteres
+    if (!Character.isDigit(c) || Txt_DniPas.getText().length() >= 10) {
+        evt.consume();
+    }
+    }//GEN-LAST:event_Txt_DniPasKeyTyped
+
     private void cargarHabitacionesDisponibles(String tipoHabitacion, String habitacionSugerida) {
     // Limpiamos los elementos previos que tenga el ComboBox
     Cb_AsigHab.removeAllItems();
@@ -641,6 +664,27 @@ public class Check_In extends javax.swing.JFrame {
         }
     }
 }
+    
+    private void limpiarFormulario() {
+    Txt_CodigoReserva.setText("");
+    Txt_DniPas.setText("");
+    
+    // Restablecer etiquetas a su estado inicial
+    Jbl_Huesped.setText("\"\"");
+    Jbl_Fentrada.setText("\"\"");
+    Jbl_Fsalida.setText("\"\"");
+    Jbl_Adulto.setText("Adultos:");
+    Jbl_Niños.setText("Niños:");
+    Jbl_HabSug.setText("\"\"");
+    
+    // Limpiar el ComboBox
+    Cb_AsigHab.removeAllItems();
+    Cb_AsigHab.addItem("Seleccione otra...");
+    
+    // Regresar el foco al buscador
+    Txt_CodigoReserva.requestFocus();
+}
+    
     /**
      * @param args the command line arguments
      */
@@ -710,7 +754,7 @@ public class Check_In extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel jPanelCancelar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
