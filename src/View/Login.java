@@ -11,6 +11,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -195,6 +196,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
          new Registro().setVisible(true);
+         this.dispose();
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void Bt_LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bt_LoginMouseClicked

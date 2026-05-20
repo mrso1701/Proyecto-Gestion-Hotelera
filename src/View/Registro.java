@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package View;
 
-/**
- *
- * @author LENOVO
- */
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
 public class Registro extends javax.swing.JFrame {
 
     /**
@@ -15,6 +11,7 @@ public class Registro extends javax.swing.JFrame {
      */
     public Registro() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -55,7 +52,7 @@ public class Registro extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel2.setBackground(new java.awt.Color(153, 0, 0));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Segoe Script", 3, 24)); // NOI18N
@@ -76,7 +73,7 @@ public class Registro extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(48, 48, 48)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,7 +85,7 @@ public class Registro extends javax.swing.JFrame {
                 .addContainerGap(133, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 240, 490));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 490));
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
         jPanel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -116,7 +113,7 @@ public class Registro extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 490, 80));
 
-        jPanel4.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel4.setBackground(new java.awt.Color(153, 0, 0));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -169,6 +166,11 @@ public class Registro extends javax.swing.JFrame {
         Bt_Registro.setFont(new java.awt.Font("Segoe Print", 3, 18)); // NOI18N
         Bt_Registro.setForeground(new java.awt.Color(255, 255, 255));
         Bt_Registro.setText("REGISTRAR CUENTA");
+        Bt_Registro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Bt_RegistroActionPerformed(evt);
+            }
+        });
         jPanel1.add(Bt_Registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 380, -1, -1));
 
         jLabel7.setBackground(new java.awt.Color(102, 0, 0));
@@ -207,7 +209,56 @@ public class Registro extends javax.swing.JFrame {
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         new Login().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void Bt_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Bt_RegistroActionPerformed
+        String nombre = Txt_Nombrereg.getText().trim();
+    String correo = Txt_Correoreg.getText().trim();
+    String usuario = Txt_Usuarioreg.getText().trim();
+    // Convertimos el password de JPasswordField de forma segura
+    String contrasena = new String(Txt_Contraseñareg.getPassword());
+
+    // 2. Validamos que el usuario no deje campos vacíos
+    if (nombre.isEmpty() || correo.isEmpty() || usuario.isEmpty() || contrasena.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Todos los campos son obligatorios para crear la cuenta.", 
+                "Campos Incompletos", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+        return; // Detiene la ejecución aquí si falta rellenar algo
+    }
+
+    // 3. Nombre del archivo TXT que actuará como base de datos
+    String nombreArchivo = "usuarios_registrados.txt";
+
+    // 4. Intentamos abrir y escribir en el archivo (.txt)
+    try (java.io.FileWriter fw = new java.io.FileWriter(nombreArchivo, true);
+         java.io.PrintWriter pw = new java.io.PrintWriter(fw)) {
+        
+        // Escribimos los datos en una nueva línea separados por "|"
+        pw.println(nombre + "|" + correo + "|" + usuario + "|" + contrasena);
+        
+        // Mensaje de confirmación al usuario
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "¡Cuenta registrada exitosamente en el sistema!", 
+                "Registro Completado", 
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        
+        // 5. Limpiamos los cuadros de texto para que quede listo para otro registro
+        Txt_Nombrereg.setText("");
+        Txt_Correoreg.setText("");
+        Txt_Usuarioreg.setText("");
+        Txt_Contraseñareg.setText("");
+        Txt_Nombrereg.requestFocus(); // Coloca el cursor de nuevo en el primer campo
+
+    } catch (java.io.IOException e) {
+        // Por si ocurre algún problema con los permisos del archivo
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Error al guardar los datos en el archivo: " + e.getMessage(), 
+                "Error de Archivo", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_Bt_RegistroActionPerformed
 
     /**
      * @param args the command line arguments
