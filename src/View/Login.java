@@ -4,10 +4,6 @@
  */
 package View;
 
-/**
- *
- * @author LENOVO
- */
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -230,12 +226,10 @@ public class Login extends javax.swing.JFrame {
     
     // --- ROL: RECEPCIONISTA ---
     else if (usuario.equals("Recepcionista") && contrasena.equals("Recep123")) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Acceso concedido al Sistema de Check-In.");
+        javax.swing.JOptionPane.showMessageDialog(this, "¡Bienvenido al Menú Principal!");
         
-        // Abrimos la ventana de Check-in que nos mostraste en la imagen
-        // Asegúrate de que el nombre de tu clase coincida (ej: CheckIn o Check_in)
-        Check_In vistaCheckIn = new Check_In(); 
-        vistaCheckIn.setVisible(true);
+        Inicio menuRecep = new Inicio(); 
+        menuRecep.setVisible(true);
         
         this.dispose(); // Cierra la ventana actual de Login
     } 
