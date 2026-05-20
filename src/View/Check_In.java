@@ -11,6 +11,8 @@ public class Check_In extends javax.swing.JFrame {
      */
     public Check_In() {
         initComponents();
+        this.setLocationRelativeTo(null); 
+        cargarTabla();
     }
     
     private void cargarTabla() {
@@ -59,7 +61,7 @@ public class Check_In extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         Txt_CodigoReserva = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        Bt_Buscar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -127,12 +129,17 @@ public class Check_In extends javax.swing.JFrame {
 
         Txt_CodigoReserva.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(102, 0, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("BUSCAR");
-        jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 0, 0), 1, true));
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Bt_Buscar.setBackground(new java.awt.Color(102, 0, 0));
+        Bt_Buscar.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        Bt_Buscar.setForeground(new java.awt.Color(255, 255, 255));
+        Bt_Buscar.setText("BUSCAR");
+        Bt_Buscar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 0, 0), 1, true));
+        Bt_Buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Bt_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Bt_BuscarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabel3.setText("o eleccione una de la lista");
@@ -147,7 +154,7 @@ public class Check_In extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Txt_CodigoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Bt_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(12, 12, 12))
@@ -159,7 +166,7 @@ public class Check_In extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(Txt_CodigoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Bt_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
@@ -247,6 +254,11 @@ public class Check_In extends javax.swing.JFrame {
         jLabel16.setText("Asignar Habitacion Diferente");
 
         Cb_AsigHab.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Cb_AsigHab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Cb_AsigHabActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -531,6 +543,104 @@ public class Check_In extends javax.swing.JFrame {
     limpiarFormulario();
     }//GEN-LAST:event_JpanelConfirmarMouseClicked
 
+    private void Bt_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Bt_BuscarActionPerformed
+        String codigoBuscar = Txt_CodigoReserva.getText().trim();
+    
+    // 1. VALIDACIÓN: Campo vacío
+    if (codigoBuscar.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Por favor, ingrese un código de reserva para buscar.", 
+                "Campo Vacío", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+        Txt_CodigoReserva.requestFocus();
+        return;
+    }
+
+    // 2. MATRIZ DE DATOS: Base de datos simulada (incluye tipo de habitación para el ComboBox)
+    
+    String[][] datosDeOrigen = {
+        {"R123", "Juan Pérez", "15/05/2026", "20/05/2026", "Suite Ejecutiva", "PENDIENTE", "2", "1", "305"},
+        {"R122", "María López", "15/05/2026", "22/05/2026", "Suite Estándar", "PENDIENTE", "1", "0", "201"},
+        {"R124", "Carlos Ruiz", "18/05/2026", "23/05/2026", "Suite Ejecutiva", "PENDIENTE", "2", "0", "306"}
+    };
+
+    boolean encontrado = false;
+
+    // 3. BÚSQUEDA DE LA RESERVA
+    for (String[] fila : datosDeOrigen) {
+        if (fila[0].equalsIgnoreCase(codigoBuscar)) { // Comparación ignorando mayúsculas/minúsculas
+            
+            // Rellenar etiquetas de texto de la reserva activa
+            Jbl_Huesped.setText(fila[1]);
+            Jbl_Fentrada.setText(fila[2]);
+            Jbl_Fsalida.setText(fila[3]);
+            Jbl_Adulto.setText("Adultos: " + fila[6]);
+            Jbl_Niños.setText("Niños: " + fila[7]);
+            Jbl_HabSug.setText(fila[8]);
+            
+            // Limpiar campo DNI para el nuevo ingreso y enfocarlo
+            Txt_DniPas.setText("");
+            Txt_DniPas.requestFocus();
+            
+            // 4. CARGAR EL COMBOBOX DINÁMICAMENTE SEGÚN EL TIPO DE HABITACIÓN
+            String tipoHabitacion = fila[4];
+            cargarHabitacionesDisponibles(tipoHabitacion, fila[8]);
+
+            encontrado = true;
+            break; // Detener el ciclo al encontrar el registro
+        }
+    }
+
+    // 5. MESAJE EN CASO DE NO EXISTIR
+    if (!encontrado) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "La reserva con el código '" + codigoBuscar + "' no fue encontrada.", 
+                "Reserva No Registrada", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        limpiarFormulario();
+    }
+    }//GEN-LAST:event_Bt_BuscarActionPerformed
+
+    private void Cb_AsigHabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Cb_AsigHabActionPerformed
+        if (Cb_AsigHab.getSelectedItem() != null) {
+        String seleccion = Cb_AsigHab.getSelectedItem().toString();
+        // Si selecciona una habitación real (y no el texto por defecto)
+        if (!seleccion.equals("Seleccione otra...")) {
+            Jbl_HabSug.setText(seleccion); // Actualiza visualmente la habitación asignada
+        }
+    }
+    }//GEN-LAST:event_Cb_AsigHabActionPerformed
+
+    private void cargarHabitacionesDisponibles(String tipoHabitacion, String habitacionSugerida) {
+    // Limpiamos los elementos previos que tenga el ComboBox
+    Cb_AsigHab.removeAllItems();
+    
+    // Añadimos una opción por defecto
+    Cb_AsigHab.addItem("Seleccione otra...");
+
+    // Filtramos y llenamos según el tipo de suite de la reserva actual
+    if (tipoHabitacion.equalsIgnoreCase("Suite Ejecutiva")) {
+        String[] ejecutivas = {"301", "302", "303", "305", "306", "307"};
+        for (String hab : ejecutivas) {
+            if (!hab.equals(habitacionSugerida)) { // Evitamos duplicar la sugerida en la lista
+                Cb_AsigHab.addItem(hab);
+            }
+        }
+    } else if (tipoHabitacion.equalsIgnoreCase("Suite Estándar")) {
+        String[] estandares = {"201", "202", "203", "204", "205"};
+        for (String hab : estandares) {
+            if (!hab.equals(habitacionSugerida)) {
+                Cb_AsigHab.addItem(hab);
+            }
+        }
+    } else {
+        // En caso de suites premium u otras categorías (como "Suite Pana")
+        String[] otras = {"401", "402", "501"};
+        for (String hab : otras) {
+            Cb_AsigHab.addItem(hab);
+        }
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -567,6 +677,7 @@ public class Check_In extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Bt_Buscar;
     private javax.swing.JComboBox<String> Cb_AsigHab;
     private javax.swing.JLabel Jbl_Adulto;
     private javax.swing.JLabel Jbl_Fentrada;
@@ -577,7 +688,6 @@ public class Check_In extends javax.swing.JFrame {
     private javax.swing.JPanel JpanelConfirmar;
     private javax.swing.JTextField Txt_CodigoReserva;
     private javax.swing.JTextField Txt_DniPas;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
