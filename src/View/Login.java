@@ -45,7 +45,7 @@ public class Login extends javax.swing.JFrame {
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(153, 0, 0));
 
         jLabel2.setFont(new java.awt.Font("Segoe Print", 3, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -58,23 +58,24 @@ public class Login extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 43, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
+                .addGap(48, 48, 48)
                 .addComponent(jLabel2)
-                .addGap(37, 37, 37)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addGap(45, 45, 45)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
-        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 470));
+        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 470));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -126,7 +127,7 @@ public class Login extends javax.swing.JFrame {
         Txt_Usuariolog.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jPanel4.add(Txt_Usuariolog, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 190, -1));
 
-        jPanel5.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel5.setBackground(new java.awt.Color(153, 0, 0));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -149,6 +150,11 @@ public class Login extends javax.swing.JFrame {
         Bt_Login.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Bt_LoginMouseClicked(evt);
+            }
+        });
+        Bt_Login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Bt_LoginActionPerformed(evt);
             }
         });
         jPanel4.add(Bt_Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 320, 180, -1));
@@ -175,12 +181,13 @@ public class Login extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -197,6 +204,54 @@ public class Login extends javax.swing.JFrame {
     private void Bt_LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bt_LoginMouseClicked
         new Inicio().setVisible(true);
     }//GEN-LAST:event_Bt_LoginMouseClicked
+
+    private void Bt_LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Bt_LoginActionPerformed
+        String usuario = Txt_Usuariolog.getText().trim();
+    String contrasena = new String(Txt_Contraseñalog.getPassword());
+
+    // 2. Validar que el usuario no deje campos vacíos
+    if (usuario.isEmpty() || contrasena.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Por favor, ingrese su usuario y contraseña.", 
+                "Campos Vacíos", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+        return; // Detiene la ejecución aquí
+    }
+
+    // 3. Validación de Roles (Credenciales fijas)
+    
+    // --- ROL: GERENTE / ADMINISTRADOR ---
+    if (usuario.equals("Admin") && contrasena.equals("Admin123")) {
+        javax.swing.JOptionPane.showMessageDialog(this, "¡Bienvenido, Administrador!");
+        
+        
+        this.dispose(); // Cierra la ventana actual de Login
+    } 
+    
+    // --- ROL: RECEPCIONISTA ---
+    else if (usuario.equals("Recepcionista") && contrasena.equals("Recep123")) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Acceso concedido al Sistema de Check-In.");
+        
+        // Abrimos la ventana de Check-in que nos mostraste en la imagen
+        // Asegúrate de que el nombre de tu clase coincida (ej: CheckIn o Check_in)
+        Check_In vistaCheckIn = new Check_In(); 
+        vistaCheckIn.setVisible(true);
+        
+        this.dispose(); // Cierra la ventana actual de Login
+    } 
+    
+    // --- CREDENCIALES INCORRECTAS ---
+    else {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Usuario o contraseña incorrectos. Intente de nuevo.", 
+                "Error de Autenticación", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        
+        // Limpiamos el campo de contraseña para mayor comodidad del usuario
+        Txt_Contraseñalog.setText("");
+        Txt_Contraseñalog.requestFocus();
+     }
+    }//GEN-LAST:event_Bt_LoginActionPerformed
 
     /**
      * @param args the command line arguments
