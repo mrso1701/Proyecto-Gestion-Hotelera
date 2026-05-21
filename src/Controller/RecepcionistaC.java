@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import Model.DatosRecepcionista;
 import static Model.DatosRecepcionista.listaConsumos;
+import Model.Reserva;
+import java.time.LocalDate;
 import java.util.Date;
 import javax.swing.JTable;
 
@@ -212,5 +214,29 @@ public class RecepcionistaC {
         }
     }
     return null;
+}
+  public Cliente buscarClienteRes(int id){
+    for (Cliente c : datos.listaClientes) {
+        if (c.getId() == id) {
+            return c;
+        }
+    }
+    return null;
+}
+  public void agregarReserva(int id, Cliente cliente, Habitacion habitacion,
+                          LocalDate fechaEntrada, LocalDate fechaSalida, String estado) {
+
+    Reserva r = new Reserva();
+
+    r.setId(id);
+    r.setCliente(cliente);
+    r.setHabitacion(habitacion);
+    r.setFechaEntrada(fechaEntrada);
+    r.setFechaSalida(fechaSalida);
+    r.setEstado(estado);
+
+    datos.listaReservas.add(r);
+
+    JOptionPane.showMessageDialog(null, "Reserva agregada correctamente 😎");
 }
 }

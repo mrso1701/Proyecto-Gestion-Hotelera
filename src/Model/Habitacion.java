@@ -41,7 +41,7 @@ public class Habitacion implements Identificacion{
     
     @Override
     public String getNombre(){
-        return numero +" - "+ tipo.getNombre();
+        return numero +" - "+ tipo.getNombre() + " - Piso"+ piso+" -"+ estado;
     }
 
     public TipoHabitacion getTipo() {
