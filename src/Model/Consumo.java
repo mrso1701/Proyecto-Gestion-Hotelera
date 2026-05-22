@@ -4,6 +4,7 @@
  */
 package Model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -17,9 +18,9 @@ public class Consumo {
     private String producto;
     private double precio;
     private double total;
-    private Date fecha;
+    private LocalDate fecha;
 
-    public Consumo(int id_consumo, Cliente cliente, int cantidad, String producto, double precio, double total, Date fecha) {
+    public Consumo(int id_consumo, Cliente cliente, int cantidad, String producto, double precio, double total, LocalDate fecha) {
         this.id_consumo = id_consumo;
         this.cliente = cliente;
         this.cantidad = cantidad;
@@ -28,6 +29,8 @@ public class Consumo {
         this.total = total;
         this.fecha = fecha;
     }
+
+   
 
     public Consumo() {
     }
@@ -81,11 +84,11 @@ public class Consumo {
         this.total = total;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import Model.DatosRecepcionista;
 import static Model.DatosRecepcionista.listaConsumos;
+import static Model.DatosRecepcionista.listaHabitaciones;
 import Model.Reserva;
 import java.time.LocalDate;
 import java.util.Date;
@@ -145,9 +146,9 @@ public class RecepcionistaC {
     return texto.matches("\\d+"); // solo dígitos
 }
     public boolean validarCorreo(String correo) {
-    return correo.contains("@");
+    return correo.contains("@gmail.com");
 }
-    public void agregarConsumo( Cliente cliente, int cantidad, String producto, double precio, Date fecha){
+    public void agregarConsumo( Cliente cliente, int cantidad, String producto, double precio, LocalDate fecha){
      Consumo c = new Consumo();
     c.setCliente(cliente);
     c.setCantidad(cantidad);
@@ -238,5 +239,74 @@ public class RecepcionistaC {
     datos.listaReservas.add(r);
 
     JOptionPane.showMessageDialog(null, "Reserva agregada correctamente 😎");
+}
+  
+  public void eliminarReserva(JTable tablaReserva) {
+
+    int fila = tablaReserva.getSelectedRow();
+
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(null,
+            "Por favor seleccione una reserva de la tabla para eliminar",
+            "Ninguna fila seleccionada",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    int confirmacion = JOptionPane.showConfirmDialog(null,
+        "¿Está seguro que desea eliminar esta reserva?\n" +
+        "ID: " + tablaReserva.getValueAt(fila, 0) +
+        " | Cliente: " + tablaReserva.getValueAt(fila, 1),
+        "Confirmar eliminación",
+        JOptionPane.YES_NO_OPTION);
+
+    if (confirmacion == JOptionPane.YES_OPTION) {
+
+        datos.listaReservas.remove(fila);
+
+        JOptionPane.showMessageDialog(null,
+            "Reserva eliminada correctamente",
+            "Éxito",
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+}
+  public Reserva buscarReserva(int id){
+    for (Reserva r : datos.listaReservas) {
+        if (r.getId() == id) {
+            return r;
+        }
+    }
+    return null;
+}
+  public Habitacion buscarHabitacionPorTexto(String texto) {
+    for (Habitacion h : listaHabitaciones) {
+        String formato = h.getNumero() + " - " 
+                       + h.getTipo().getNombre() 
+                       + " - piso" + h.getPiso();
+
+        if (formato.equals(texto)) {
+            return h;
+        }
+    }
+    return null;
+}
+  public boolean validarDatos(String documento, String numero) {
+
+    // Validar documento (10 dígitos)
+    if (!documento.matches("\\d{10}")) {
+        JOptionPane.showMessageDialog(null, "El documento debe tener exactamente 10 dígitos numéricos");
+        return false;
+    }
+
+    // Validar número (10 dígitos)
+    if (!numero.matches("\\d{10}")) {
+        JOptionPane.showMessageDialog(null, "El número debe tener exactamente 10 dígitos numéricos");
+        return false;
+    }
+
+    return true;
+}
+  private boolean habitacionOcupada(Habitacion h) {
+    return h.getEstado().equalsIgnoreCase("Ocupada");
 }
 }

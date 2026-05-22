@@ -47,6 +47,7 @@ public class Recepcionista extends javax.swing.JFrame {
       private Habitacion habitacionSeleccionada = null;
       private Cliente clienteSeleccionado = null;
       private Consumo consumoSeleccionado = null;
+      private Reserva reservaSeleccionada = null;
     /**
      * Creates new form Recepcionista
      */
@@ -285,7 +286,7 @@ public void cargarClientesEnCombo() {
     DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
 
     for (Habitacion h : DatosRecepcionista.listaHabitaciones) {
-        modelo.addElement(h.getNumero() + " - Piso " + h.getPiso());
+        modelo.addElement(h.getNumero() +  " - "+ h.getTipo().getNombre()+ " - piso"+ h.getPiso());
     }
 
     combo_reserva.setModel((ComboBoxModel) modelo); // 🔥 FIX
@@ -306,6 +307,12 @@ public Habitacion obtenerHabitacionSeleccionada() {
 
     return null;
 }
+
+  private boolean habitacionOcupada(Habitacion h) {
+        return h.getEstado().equalsIgnoreCase("Ocupada");
+    }
+
+
 
 public Cliente obtenerClienteSeleccionado() {
 
@@ -382,7 +389,7 @@ public double obtenerPrecioProducto(String producto) {
         combo_reserva = new javax.swing.JComboBox<>();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        estado_reserva = new javax.swing.JComboBox<>();
         jLabel30 = new javax.swing.JLabel();
         fecha_entrada2 = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
@@ -456,6 +463,23 @@ public double obtenerPrecioProducto(String producto) {
         combo_cliente = new javax.swing.JComboBox<>();
         jLabel36 = new javax.swing.JLabel();
         precio_con = new javax.swing.JTextField();
+        jPanel13 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        nombre_reserva_chekin = new javax.swing.JTextField();
+        jLabel37 = new javax.swing.JLabel();
+        fecha_entrada_resChek = new javax.swing.JTextField();
+        jLabel38 = new javax.swing.JLabel();
+        fecha_salidaCheevk = new javax.swing.JTextField();
+        jLabel39 = new javax.swing.JLabel();
+        dni_checkin = new javax.swing.JTextField();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        id_res_chek = new javax.swing.JTextField();
+        habitacioncheckout = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -736,12 +760,12 @@ public double obtenerPrecioProducto(String producto) {
         jLabel29.setForeground(new java.awt.Color(0, 0, 0));
         jLabel29.setText("Estado");
 
-        jComboBox6.setBackground(new java.awt.Color(51, 0, 0));
-        jComboBox6.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox6.addActionListener(new java.awt.event.ActionListener() {
+        estado_reserva.setBackground(new java.awt.Color(51, 0, 0));
+        estado_reserva.setForeground(new java.awt.Color(255, 255, 255));
+        estado_reserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Activa", "Inactiva" }));
+        estado_reserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox6ActionPerformed(evt);
+                estado_reservaActionPerformed(evt);
             }
         });
 
@@ -773,16 +797,31 @@ public double obtenerPrecioProducto(String producto) {
         bt_eliminar_r.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_eliminar_r.setForeground(new java.awt.Color(255, 255, 255));
         bt_eliminar_r.setText("Eliminar");
+        bt_eliminar_r.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_eliminar_rActionPerformed(evt);
+            }
+        });
 
         bt_modificar_r.setBackground(new java.awt.Color(0, 0, 0));
         bt_modificar_r.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_modificar_r.setForeground(new java.awt.Color(255, 255, 255));
         bt_modificar_r.setText("Modificar");
+        bt_modificar_r.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_modificar_rActionPerformed(evt);
+            }
+        });
 
         bt_buscar_r.setBackground(new java.awt.Color(0, 0, 0));
         bt_buscar_r.setFont(new java.awt.Font("Segoe Script", 0, 14)); // NOI18N
         bt_buscar_r.setForeground(new java.awt.Color(255, 255, 255));
         bt_buscar_r.setText("Buscar");
+        bt_buscar_r.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_buscar_rActionPerformed(evt);
+            }
+        });
 
         jtable_reserva.setForeground(new java.awt.Color(255, 255, 255));
         jtable_reserva.setModel(new javax.swing.table.DefaultTableModel(
@@ -869,7 +908,7 @@ public double obtenerPrecioProducto(String producto) {
                                 .addGap(287, 287, 287)
                                 .addComponent(jLabel29)
                                 .addGap(56, 56, 56)
-                                .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(estado_reserva, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(33, 33, 33)))))
                 .addGap(0, 2, Short.MAX_VALUE))
         );
@@ -889,7 +928,7 @@ public double obtenerPrecioProducto(String producto) {
                     .addComponent(jLabel28)
                     .addComponent(combo_reserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel29)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(estado_reserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel30)
@@ -1156,7 +1195,7 @@ public double obtenerPrecioProducto(String producto) {
         jLabel17.setText("Estado");
 
         combo_estado_h.setBackground(new java.awt.Color(51, 0, 0));
-        combo_estado_h.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Activo", "Inactivo", "Mantenimiento" }));
+        combo_estado_h.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Activo", "Inactivo", "Ocupada", "Mantenimiento" }));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(0, 0, 0));
@@ -1495,6 +1534,180 @@ public double obtenerPrecioProducto(String producto) {
 
         jTabbedPane8.addTab("Cons", jPanel9);
 
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel15.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel15.setBorder(new javax.swing.border.MatteBorder(null));
+
+        jButton2.setBackground(new java.awt.Color(204, 0, 0));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton2.setText("Buscar reserva");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel20.setText("Huesped");
+
+        nombre_reserva_chekin.setEditable(false);
+
+        jLabel37.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel37.setText("Fecha entrada");
+
+        fecha_entrada_resChek.setEditable(false);
+
+        jLabel38.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel38.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel38.setText("Fecha Salida");
+
+        fecha_salidaCheevk.setEditable(false);
+
+        jLabel39.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel39.setText("DNI/Pasaporte");
+
+        dni_checkin.setEditable(false);
+
+        jLabel40.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel40.setText("Habitacion Asignada");
+
+        jLabel41.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel41.setText("ID Reserva");
+
+        id_res_chek.setEditable(false);
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGap(233, 233, 233)
+                        .addComponent(jButton2))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabel20))
+                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel15Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel40)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(habitacioncheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel15Layout.createSequentialGroup()
+                            .addGap(26, 26, 26)
+                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel39))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(fecha_salidaCheevk)
+                                .addComponent(dni_checkin, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                .addGap(0, 25, Short.MAX_VALUE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(jLabel37)
+                        .addGap(18, 18, 18)
+                        .addComponent(fecha_entrada_resChek, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nombre_reserva_chekin, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(id_res_chek, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(259, 259, 259))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jButton2)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel41)
+                    .addComponent(id_res_chek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(nombre_reserva_chekin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel37)
+                    .addComponent(fecha_entrada_resChek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel38)
+                    .addComponent(fecha_salidaCheevk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel39)
+                    .addComponent(dni_checkin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel40)
+                    .addComponent(habitacioncheckout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(55, Short.MAX_VALUE))
+        );
+
+        jButton1.setBackground(new java.awt.Color(204, 0, 0));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("CHECK-IN");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(270, 270, 270)
+                        .addComponent(jButton1)))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53)
+                .addComponent(jButton1)
+                .addContainerGap(76, Short.MAX_VALUE))
+        );
+
+        jTabbedPane8.addTab("checkin", jPanel13);
+
+        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 690, Short.MAX_VALUE)
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 634, Short.MAX_VALUE)
+        );
+
+        jTabbedPane8.addTab("checkout", jPanel14);
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -1561,9 +1774,9 @@ public double obtenerPrecioProducto(String producto) {
     }// </editor-fold>//GEN-END:initComponents
      
     
-    private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
+    private void estado_reservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estado_reservaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox6ActionPerformed
+    }//GEN-LAST:event_estado_reservaActionPerformed
 
     private void estado_cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estado_cActionPerformed
         // TODO add your handling code here:
@@ -1612,9 +1825,11 @@ public double obtenerPrecioProducto(String producto) {
         String producto = combo_producto_con.getSelectedItem().toString();
 
         // 🔥 FECHA
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        Date fecha = formato.parse(fecha_con.getText());
+       DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+        LocalDate fecha = LocalDate.parse(fecha_con.getText(), formato);
+
+        consumoSeleccionado.setFecha(fecha);
         // 🔥 CLIENTE (del combo)
         Cliente cliente = obtenerClienteSeleccionado();
 
@@ -1888,7 +2103,7 @@ refrescarTablaCientes();
     }
     int cantidad;
     double precio;
-    Date fecha;
+    LocalDate fecha;
     try {
         cantidad = Integer.parseInt(cantidadTxt);
         precio = Double.parseDouble(precioTx);
@@ -1896,8 +2111,8 @@ refrescarTablaCientes();
             JOptionPane.showMessageDialog(this, "Cantidad y precio debe ser mayor a 0");
             return;
         }
-         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-         fecha = formato.parse(fechaTx);
+         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+      fecha = LocalDate.parse(fechaTx, formato);
         
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error en los datos");
@@ -1914,43 +2129,45 @@ refrescarTablaCientes();
     }//GEN-LAST:event_bt_eliminar_conActionPerformed
 
     private void bt_buscar_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_conActionPerformed
-     String input = JOptionPane.showInputDialog(this, "Ingrese el ID del Cliente:");
+  String input = JOptionPane.showInputDialog(this, "Ingrese el ID del Cliente:");
 
-    if (input == null || input.trim().isEmpty()) {
-        return;
+if (input == null || input.trim().isEmpty()) {
+    return;
+}
+
+try {
+    int idBuscado = Integer.parseInt(input.trim());
+    boolean encontrado = false;
+
+   DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+for (Consumo con : datos.listaConsumos) {
+
+    if (con.getCliente().getId() == idBuscado) {
+
+        consumoSeleccionado = con;
+
+        cantidad_con.setText(String.valueOf(con.getCantidad()));
+        precio_con.setText(String.valueOf(con.getPrecio()));
+
+        // 🔥 ahora directo (sin conversiones raras)
+        fecha_con.setText(con.getFecha().format(formato));
+
+        combo_producto_con.setSelectedItem(con.getProducto());
+        combo_cliente.setSelectedItem(con.getCliente());
+
+        encontrado = true;
+        break;
+    }
+}
+
+    if (!encontrado) {
+        JOptionPane.showMessageDialog(this, "No hay consumos para este cliente");
     }
 
-    try {
-        int idBuscado = Integer.parseInt(input.trim());
-        boolean encontrado = false;
-
-        for (Consumo con : datos.listaConsumos) {
-
-            // 🔥 AHORA SÍ: comparar por ID DEL CLIENTE
-            if (con.getCliente().getId() == idBuscado) {
-
-                consumoSeleccionado = con;
-
-                // 💣 LLENAR CAMPOS
-                cantidad_con.setText(String.valueOf(con.getCantidad()));
-                precio_con.setText(String.valueOf(con.getPrecio()));
-                fecha_con.setText(new SimpleDateFormat("yyyy-MM-dd").format(con.getFecha()));
-
-                combo_producto_con.setSelectedItem(con.getProducto());
-                combo_cliente.setSelectedItem(con.getCliente().toString());
-
-                encontrado = true;
-                break; // trae el primero que encuentre
-            }
-        }
-
-        if (!encontrado) {
-            JOptionPane.showMessageDialog(this, "No hay consumos para este cliente");
-        }
-
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Ingrese un ID válido");
-    }
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "Ingrese un ID válido");
+}
 
     }//GEN-LAST:event_bt_buscar_conActionPerformed
 
@@ -1989,7 +2206,7 @@ try {
     String idr = id_reserva.getText();
     String fechaE = fecha_entrada2.getText();
     String fechaS = fecha_salida2.getText();
-    String estado = jComboBox6.getSelectedItem().toString();
+    String estado = estado_reserva.getSelectedItem().toString();
 
     // 🔥 VALIDAR CLIENTE (OBJETO)
     if (clienteSeleccionado == null) {
@@ -2004,12 +2221,19 @@ try {
         JOptionPane.showMessageDialog(this, "Seleccione una habitación válida");
         return;
     }
+    
+    if (habitacionOcupada(habitacionSeleccionada)) {
+    JOptionPane.showMessageDialog(this, "La habitación ya está ocupada ❌");
+    return;
+}
 
     // 🔥 VALIDAR HABITACIÓN (OBJETO)
     if (habitacionSeleccionada == null) {
         JOptionPane.showMessageDialog(this, "Seleccione una habitación");
         return;
     }
+    // 🔥 VALIDAR SI ESTÁ OCUPADA
+
 
     // 🔥 CAMPOS VACÍOS
     if (idr.isEmpty() || fechaE.isEmpty() || fechaS.isEmpty()) {
@@ -2065,6 +2289,163 @@ try {
 
     }//GEN-LAST:event_boton_agregar_rActionPerformed
 
+    private void bt_eliminar_rActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminar_rActionPerformed
+        controlador.eliminarReserva(jtable_reserva);
+        refrescarTablaReserva();
+    }//GEN-LAST:event_bt_eliminar_rActionPerformed
+
+    private void bt_modificar_rActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_modificar_rActionPerformed
+     if (reservaSeleccionada == null) {
+    JOptionPane.showMessageDialog(this, "Primero busque una reserva");
+    return;
+}
+
+try {
+    // Actualizar fechas (ajusta el parseo según cómo las manejes)
+    reservaSeleccionada.setFechaEntrada(LocalDate.parse(fecha_entrada2.getText()));
+    reservaSeleccionada.setFechaSalida(LocalDate.parse(fecha_salida2.getText()));
+
+    // Estado
+    reservaSeleccionada.setEstado(estado_reserva.getSelectedItem().toString());
+
+    // Cliente (solo si estás usando el ID para reasignar)
+    int idCliente = Integer.parseInt(id_cliente_re.getText());
+    Cliente cliente = controlador.buscarCliente(idCliente);
+    if (cliente != null) {
+        reservaSeleccionada.setCliente(cliente);
+    }
+
+    // Habitacion (según el texto del combo)
+    String seleccionado = combo_reserva.getSelectedItem().toString();
+    Habitacion h = controlador.buscarHabitacionPorTexto(seleccionado);
+    if (h != null) {
+        reservaSeleccionada.setHabitacion(h);
+    }
+
+    JOptionPane.showMessageDialog(this, "Reserva modificada 😎");
+
+    refrescarTablaReserva();
+
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error al modificar reserva: " + e.getMessage());
+}
+    }//GEN-LAST:event_bt_modificar_rActionPerformed
+
+    private void bt_buscar_rActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_rActionPerformed
+           String idB = id_reserva.getText().trim();
+
+if (idB.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Ingrese el ID de la reserva para buscar");
+    return;
+}
+
+try {
+    int id = Integer.parseInt(idB);
+
+    Reserva r = controlador.buscarReserva(id);
+
+    if (r != null) {
+        reservaSeleccionada = r;
+
+        // 👇 FECHAS (BIEN USADAS)
+       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        fecha_entrada2.setText(r.getFechaEntrada().format(formatter));
+        fecha_salida2.setText(r.getFechaSalida().format(formatter));
+
+        estado_reserva.setSelectedItem(r.getEstado());
+
+        // 👇 OBJETOS
+        id_cliente_re.setText(String.valueOf(r.getCliente().getId()));
+        nombre_cliente2_re.setText(String.valueOf(r.getCliente().getNombre()));
+      String texto = r.getHabitacion().getNumero() + " - "  + r.getHabitacion().getTipo().getNombre() + " - piso" + r.getHabitacion().getPiso();
+
+      combo_reserva.setSelectedItem(texto);
+
+        JOptionPane.showMessageDialog(this, "Reserva encontrada 😎");
+    } else {
+        JOptionPane.showMessageDialog(this, "Reserva no encontrada 😭");
+    }
+
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "ID inválido");
+}
+    }//GEN-LAST:event_bt_buscar_rActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+   if (reservaSeleccionada == null) {
+    JOptionPane.showMessageDialog(this, "Primero busque una reserva");
+    return;
+}
+
+Habitacion h = reservaSeleccionada.getHabitacion();
+
+// Mostrar
+habitacioncheckout.setText(h.toString());
+
+// Cambiar estados
+h.setEstado("Ocupada");
+reservaSeleccionada.setEstado("Check-in");
+
+// Refrescar tablas
+refrescarTablaHabitacion();
+refrescarTablaReserva();
+
+JOptionPane.showMessageDialog(this, "Check-in realizado 😎");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+          String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la reserva:");
+
+    if (input == null || input.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Debe ingresar un ID");
+        return;
+    }
+
+    try {
+        int idBuscado = Integer.parseInt(input.trim());
+        boolean encontrado = false;
+
+        for (Reserva r : datos.listaReservas) {
+
+            if (r.getId() == idBuscado) {
+
+                reservaSeleccionada = r;
+
+                // 🔥 LLENAR CAMPOS
+                id_res_chek.setText(String.valueOf(r.getId()));
+                fecha_entrada_resChek.setText(r.getFechaEntrada().toString()); // LocalDate
+                fecha_salidaCheevk.setText(r.getFechaSalida().toString());
+
+                // Cliente
+                nombre_reserva_chekin.setText(r.getCliente().getNombre());
+                dni_checkin.setText(r.getCliente().getDocumento());
+
+                // Habitación
+           habitacioncheckout.setText(
+    r.getHabitacion().getNumero() + " - " +
+    r.getHabitacion().getTipo().getNombre() + " - piso " +
+    r.getHabitacion().getPiso()
+);
+
+   habitacioncheckout.setEditable(false);
+
+                encontrado = true;
+                break;
+            }
+        }
+
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(this, "Reserva no encontrada");
+        }
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "ID inválido");
+    }
+    refrescarTablaHabitacion();
+    refrescarTablaReserva();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2117,16 +2498,23 @@ try {
     private javax.swing.JComboBox<String> combo_producto_con;
     private javax.swing.JComboBox<String> combo_reserva;
     private javax.swing.JTextField correo_cli;
+    private javax.swing.JTextField dni_checkin;
     private javax.swing.JTextField documento_cli;
     private javax.swing.JComboBox<String> estado_c;
+    private javax.swing.JComboBox<String> estado_reserva;
     private javax.swing.JTextField fecha_con;
     private javax.swing.JTextField fecha_entrada2;
+    private javax.swing.JTextField fecha_entrada_resChek;
     private javax.swing.JTextField fecha_salida2;
+    private javax.swing.JTextField fecha_salidaCheevk;
+    private javax.swing.JTextField habitacioncheckout;
     private javax.swing.JTextField id_cliente_cli;
     private javax.swing.JTextField id_cliente_re;
     private javax.swing.JTextField id_habitacion_h;
+    private javax.swing.JTextField id_res_chek;
     private javax.swing.JTextField id_reserva;
-    private javax.swing.JComboBox<String> jComboBox6;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2139,6 +2527,7 @@ try {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -2156,7 +2545,12 @@ try {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2166,6 +2560,9 @@ try {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
@@ -2189,6 +2586,7 @@ try {
     private javax.swing.JButton limpiar_h;
     private javax.swing.JTextField nombre_cli;
     private javax.swing.JTextField nombre_cliente2_re;
+    private javax.swing.JTextField nombre_reserva_chekin;
     private javax.swing.JTextField numero_cli;
     private javax.swing.JTextField piso_h;
     private javax.swing.JTextField precio_con;
