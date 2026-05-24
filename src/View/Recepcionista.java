@@ -366,19 +366,26 @@ public double obtenerPrecioProducto(String producto) {
 
 public void refrescarTablaCheckOut(Reserva reserva){
    
-modeloCheckOut.setRowCount(0);
-
-for (Consumo c : datos.listaConsumos) {
-    if (c.getReserva().getId() == reserva.getId()) {
-       Object[] fila = new Object[4];
-       fila[0] = c.getProducto();
-       fila[1] = c.getCantidad();
-       fila[2] = c.getPrecio();
-       fila[3] = c.getTotal();
-       
-       modeloCheckOut.addRow(fila);
+  if (reserva == null) {
+        modeloCheckOut.setRowCount(0); // opcional: limpia tabla
+        return;
     }
-}
+
+    modeloCheckOut.setRowCount(0);
+
+    for (Consumo c : datos.listaConsumos) {
+        if (c.getReserva().getId() == reserva.getId()) {
+
+            Object[] fila = new Object[4];
+            fila[0] = c.getProducto();
+            fila[1] = c.getCantidad();
+            fila[2] = c.getPrecio();
+            fila[3] = c.getTotal();
+
+            modeloCheckOut.addRow(fila);
+        }
+    }
+
     tabla_checkout.setModel(modeloCheckOut);
 }
 private Reserva obtenerReservaPorId() {
@@ -2903,7 +2910,7 @@ double totalFinal = totalConsumos + totalHabitacion;
     habitacion_checkout.setText("");
     fengtrada_checkout.setText("");
     fsalidacheckout.setText("");
-    refrescarTablaCheckOut(reservaActual);
+    refrescarTablaCheckOut(null);
 
     }//GEN-LAST:event_jButton5ActionPerformed
 

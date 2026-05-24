@@ -1844,10 +1844,7 @@
                                                       <EmptySpace pref="75" max="32767" attributes="0"/>
                                                       <Component id="jLabel36" min="-2" pref="43" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <Group type="102" attributes="0">
-                                                      <Component id="reserva_con" min="-2" pref="112" max="-2" attributes="0"/>
-                                                      <EmptySpace max="32767" attributes="0"/>
-                                                  </Group>
+                                                  <Component id="reserva_con" min="-2" pref="112" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
