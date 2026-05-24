@@ -13,22 +13,24 @@ import java.util.Date;
  */
 public class Consumo {
     private int id_consumo;
-    private Cliente cliente;
+    private Reserva reserva;
     private int cantidad;
     private String producto;
     private double precio;
     private double total;
     private LocalDate fecha;
 
-    public Consumo(int id_consumo, Cliente cliente, int cantidad, String producto, double precio, double total, LocalDate fecha) {
+    public Consumo(int id_consumo, Reserva reserva, int cantidad, String producto, double precio, double total, LocalDate fecha) {
         this.id_consumo = id_consumo;
-        this.cliente = cliente;
+        this.reserva = reserva;
         this.cantidad = cantidad;
         this.producto = producto;
         this.precio = precio;
         this.total = total;
         this.fecha = fecha;
     }
+
+   
 
    
 
@@ -44,13 +46,15 @@ public class Consumo {
         this.id_consumo = id_consumo;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Reserva getReserva() {
+        return reserva;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
     }
+
+   
 
     public int getCantidad() {
         return cantidad;

@@ -148,9 +148,9 @@ public class RecepcionistaC {
     public boolean validarCorreo(String correo) {
     return correo.contains("@gmail.com");
 }
-    public void agregarConsumo( Cliente cliente, int cantidad, String producto, double precio, LocalDate fecha){
+    public void agregarConsumo( Reserva reserva, int cantidad, String producto, double precio, LocalDate fecha){
      Consumo c = new Consumo();
-    c.setCliente(cliente);
+    c.setReserva(reserva);
     c.setCantidad(cantidad);
     c.setProducto(producto);
     c.setPrecio(precio);
@@ -309,4 +309,69 @@ public class RecepcionistaC {
   private boolean habitacionOcupada(Habitacion h) {
     return h.getEstado().equalsIgnoreCase("Ocupada");
 }
+  public boolean estaFinalizada(Reserva r) {
+    return r.getEstado().equalsIgnoreCase("Finalizada");
+}
+  
+  public void datosPre(){
+      
+      datos.listaClientes.clear();
+    datos.listaHabitaciones.clear();
+    datos.listaReservas.clear();
+    datos.listaConsumos.clear();
+    datos.listaTipoHabitaciones.clear();
+
+    TipoHabitacion sencilla = new TipoHabitacion("Sencilla", 80000);
+    TipoHabitacion doble = new TipoHabitacion("Doble", 120000);
+    TipoHabitacion suite = new TipoHabitacion("Suite", 200000);
+
+    datos.listaTipoHabitaciones.add(sencilla);
+    datos.listaTipoHabitaciones.add(doble);
+    datos.listaTipoHabitaciones.add(suite);
+    
+    Habitacion h1 = new Habitacion(101, sencilla, 2, "Libre", 1);
+    Habitacion h2 = new Habitacion(102, doble, 4, "Ocupada", 1);
+    Habitacion h3 = new Habitacion(201, suite, 2, "Libre", 2);
+    Habitacion h4 = new Habitacion(202, doble, 3, "Inactivo", 2);
+
+    datos.listaHabitaciones.add(h1);
+    datos.listaHabitaciones.add(h2);
+    datos.listaHabitaciones.add(h3);
+    datos.listaHabitaciones.add(h4);
+    
+     Cliente c1 = new Cliente(1, "Juan Perez", "1234567890", "CC", "Activo", "3001234567", "juan@gmail.com");
+    Cliente c2 = new Cliente(2, "Maria Lopez", "0987654321", "CC", "Activo", "3019876543", "maria@gmail.com");
+    Cliente c3 = new Cliente(3, "Carlos Ruiz", "1112223334", "CC", "Inactivo", "3021112233", "carlos@gmail.com");
+
+    datos.listaClientes.add(c1);
+    datos.listaClientes.add(c2);
+    datos.listaClientes.add(c3);
+    
+       Reserva r1 = new Reserva(1, c1, h1,
+            LocalDate.of(2026, 5, 20),
+            LocalDate.of(2026, 5, 23),
+            "Inactiva");
+
+    Reserva r2 = new Reserva(2, c2, h2,
+            LocalDate.of(2026, 5, 18),
+            LocalDate.of(2026, 5, 22),
+            "Activa");
+
+    Reserva r3 = new Reserva(3, c3, h3,
+            LocalDate.of(2026, 5, 10),
+            LocalDate.of(2026, 5, 12),
+            "Finalizada");
+
+    datos.listaReservas.add(r1);
+    datos.listaReservas.add(r2);
+    datos.listaReservas.add(r3);
+    
+     Consumo con1 = new Consumo(1, r2, 2, "Coca-Cola", 5000, 10000, LocalDate.now());
+    Consumo con2 = new Consumo(2, r2, 1, "Hamburguesa", 15000, 15000, LocalDate.now());
+    Consumo con3 = new Consumo(3, r3, 3, "Agua", 3000, 9000, LocalDate.now());
+
+    datos.listaConsumos.add(con1);
+    datos.listaConsumos.add(con2);
+    datos.listaConsumos.add(con3);
+  }
 }

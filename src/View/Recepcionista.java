@@ -29,6 +29,7 @@ import javax.swing.table.JTableHeader;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import javax.swing.ComboBoxModel;
 
 /**
@@ -42,12 +43,14 @@ public class Recepcionista extends javax.swing.JFrame {
       DefaultTableModel modeloHabitacion = new DefaultTableModel();
       DefaultTableModel modeloConsumo = new DefaultTableModel();
       DefaultTableModel modeloReserva = new DefaultTableModel();
+      DefaultTableModel modeloCheckOut = new DefaultTableModel();
       private DatosRecepcionista datos = new DatosRecepcionista();
       private RecepcionistaC controlador = new RecepcionistaC(datos);
       private Habitacion habitacionSeleccionada = null;
       private Cliente clienteSeleccionado = null;
       private Consumo consumoSeleccionado = null;
       private Reserva reservaSeleccionada = null;
+      private Reserva reservaActual = null;
     /**
      * Creates new form Recepcionista
      */
@@ -55,7 +58,7 @@ public class Recepcionista extends javax.swing.JFrame {
         initComponents();
      
       cargarTiposHabitacion();
-        
+      
          
          cargarTiposHabitacion();
         estilizarTabla(jtable_habitac);
@@ -109,6 +112,17 @@ public class Recepcionista extends javax.swing.JFrame {
         modeloReserva.addColumn("Estado");
         
         refrescarTablaReserva();
+        
+        //check ouy
+        
+        modeloCheckOut.addColumn("Producto/Servicio");
+        modeloCheckOut.addColumn("Cantidad");
+        modeloCheckOut.addColumn("Precio");
+        modeloCheckOut.addColumn("Total");
+        
+        refrescarTablaCheckOut(reservaSeleccionada);
+        
+        iniciar();
     }
     
     //////////////// refrescar tablaaasasasas
@@ -163,7 +177,7 @@ public class Recepcionista extends javax.swing.JFrame {
         
         for (Consumo c : DatosRecepcionista.listaConsumos) {
             Object[] fila = new Object[6];
-            fila[0] = c.getCliente().getNombre();
+            fila[0] = c.getReserva().getId()+" - "+c.getReserva().getCliente().getNombre();
             fila[1] = c.getProducto();
             fila[2] = c.getCantidad();
             fila[3] = c.getPrecio();
@@ -250,9 +264,18 @@ public class Recepcionista extends javax.swing.JFrame {
     txt.setBorder(
         javax.swing.BorderFactory.createLineBorder(new Color(90, 0, 20), 2)
     );
-
+  
    
 }
+   
+   public void iniciar (){
+       controlador.datosPre();
+       refrescarTablaCientes();
+       refrescarTablaConsumo();
+       refrescarTablaHabitacion();
+       refrescarTablaReserva();
+       cargarHabitacionesEnCombo();
+   }
    private void cargarTiposHabitacion() {
     combo_habi.removeAllItems();
     combo_habi.addItem("Seleccione...");
@@ -267,19 +290,12 @@ public class Recepcionista extends javax.swing.JFrame {
         case "Doble": return new TipoHabitacion("Doble", 120000);
         case "Sencilla": return new TipoHabitacion("Sencilla", 80000);
         default: return null;
+      
     }
 }
    
-public void cargarClientesEnCombo() {
-    DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
 
-    for (Cliente c : DatosRecepcionista.listaClientes) {
-        
-        modelo.addElement(c.getId() + " - " + c.getNombre());
-    }
 
-    combo_cliente.setModel(modelo);
-}
 
 
    public void cargarHabitacionesEnCombo() {
@@ -314,28 +330,7 @@ public Habitacion obtenerHabitacionSeleccionada() {
 
 
 
-public Cliente obtenerClienteSeleccionado() {
 
-    if (combo_cliente.getSelectedItem() == null) {
-        return null;
-    }
-
-    // combo
-    String seleccionado = combo_cliente.getSelectedItem().toString();
-
-    // id
-    String[] partes = seleccionado.split(" - ");
-    int id = Integer.parseInt(partes[0].trim());
-
-   //busca el objeto ese
-    for (Cliente c : DatosRecepcionista.listaClientes) {
-        if (c.getId() == id) {
-            return c;
-        }
-    }
-
-    return null;
-}
 
 public double obtenerPrecioProducto(String producto) {
 
@@ -348,9 +343,63 @@ public double obtenerPrecioProducto(String producto) {
             return 15000;
         case "Hamburguesa":
             return 12000;
+        case "Dulces":
+            return 600;
+        case "Desayuno-Panqueques": 
+              return 12000;
+        case "Almuerzo-Mote de queso":
+            return 12000;
+        case "Cena-Chuleta con papas":
+            return 20000;
+        case "Picada":
+            return 20000;
+        case "Servicio Buseo":    
+            return 50000;
+        case "Recorrido Turistico":
+            return 50000;
+        case "Servicio Lancha":
+            return 100000;
         default:
             return 0;
     }
+}
+
+public void refrescarTablaCheckOut(Reserva reserva){
+   
+modeloCheckOut.setRowCount(0);
+
+for (Consumo c : datos.listaConsumos) {
+    if (c.getReserva().getId() == reserva.getId()) {
+       Object[] fila = new Object[4];
+       fila[0] = c.getProducto();
+       fila[1] = c.getCantidad();
+       fila[2] = c.getPrecio();
+       fila[3] = c.getTotal();
+       
+       modeloCheckOut.addRow(fila);
+    }
+}
+    tabla_checkout.setModel(modeloCheckOut);
+}
+private Reserva obtenerReservaPorId() {
+    String texto = reserva_con.getText().trim();
+
+    if (texto.isEmpty()) return null;
+
+    try {
+        int id = Integer.parseInt(texto);
+
+        for (Reserva r : DatosRecepcionista.listaReservas) {
+            if (r.getId() == id) {
+                return r;
+            }
+        }
+
+    } catch (Exception e) {
+        return null;
+    }
+
+    return null;
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -460,9 +509,9 @@ public double obtenerPrecioProducto(String producto) {
         bt_buscar_con = new javax.swing.JButton();
         bt_modificar_con = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
-        combo_cliente = new javax.swing.JComboBox<>();
         jLabel36 = new javax.swing.JLabel();
         precio_con = new javax.swing.JTextField();
+        reserva_con = new javax.swing.JTextField();
         jPanel13 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
@@ -478,8 +527,25 @@ public double obtenerPrecioProducto(String producto) {
         jLabel41 = new javax.swing.JLabel();
         id_res_chek = new javax.swing.JTextField();
         habitacioncheckout = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        check_in = new javax.swing.JButton();
         jPanel14 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jLabel42 = new javax.swing.JLabel();
+        cliendecheckout = new javax.swing.JTextField();
+        jLabel43 = new javax.swing.JLabel();
+        documentoCheckou = new javax.swing.JTextField();
+        jLabel44 = new javax.swing.JLabel();
+        habitacion_checkout = new javax.swing.JTextField();
+        jLabel45 = new javax.swing.JLabel();
+        fengtrada_checkout = new javax.swing.JTextField();
+        jLabel46 = new javax.swing.JLabel();
+        fsalidacheckout = new javax.swing.JTextField();
+        scrool = new javax.swing.JScrollPane();
+        tabla_checkout = new javax.swing.JTable();
+        bt_calcular_checkout = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        calcular_checkout = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -516,6 +582,11 @@ public double obtenerPrecioProducto(String producto) {
 
         jPanel4.setBackground(new java.awt.Color(153, 0, 0));
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel4MouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
@@ -540,6 +611,11 @@ public double obtenerPrecioProducto(String producto) {
 
         jPanel5.setBackground(new java.awt.Color(153, 0, 0));
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel5MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -564,6 +640,11 @@ public double obtenerPrecioProducto(String producto) {
 
         jPanel6.setBackground(new java.awt.Color(153, 0, 0));
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel6MouseClicked(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
@@ -574,9 +655,9 @@ public double obtenerPrecioProducto(String producto) {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addGap(31, 31, 31))
+                .addGap(35, 35, 35))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -589,6 +670,11 @@ public double obtenerPrecioProducto(String producto) {
         jPanel10.setBackground(new java.awt.Color(153, 0, 0));
         jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel10.setPreferredSize(new java.awt.Dimension(180, 59));
+        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -618,6 +704,11 @@ public double obtenerPrecioProducto(String producto) {
         jPanel11.setBackground(new java.awt.Color(153, 0, 0));
         jPanel11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel11.setPreferredSize(new java.awt.Dimension(198, 59));
+        jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel11MouseClicked(evt);
+            }
+        });
 
         jLabel33.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
         jLabel33.setForeground(new java.awt.Color(0, 0, 0));
@@ -643,6 +734,11 @@ public double obtenerPrecioProducto(String producto) {
         jPanel12.setBackground(new java.awt.Color(153, 0, 0));
         jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel12.setPreferredSize(new java.awt.Dimension(198, 59));
+        jPanel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel12MouseClicked(evt);
+            }
+        });
 
         jLabel35.setFont(new java.awt.Font("Segoe Print", 0, 24)); // NOI18N
         jLabel35.setForeground(new java.awt.Color(0, 0, 0));
@@ -677,15 +773,13 @@ public double obtenerPrecioProducto(String producto) {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -703,9 +797,9 @@ public double obtenerPrecioProducto(String producto) {
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
                 .addComponent(jLabel6)
-                .addContainerGap())
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         jTabbedPane8.setBackground(new java.awt.Color(102, 0, 0));
@@ -762,7 +856,7 @@ public double obtenerPrecioProducto(String producto) {
 
         estado_reserva.setBackground(new java.awt.Color(51, 0, 0));
         estado_reserva.setForeground(new java.awt.Color(255, 255, 255));
-        estado_reserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Activa", "Inactiva" }));
+        estado_reserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Activa", "Inactiva", "Finalizado" }));
         estado_reserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 estado_reservaActionPerformed(evt);
@@ -994,7 +1088,7 @@ public double obtenerPrecioProducto(String producto) {
 
         estado_c.setBackground(new java.awt.Color(51, 0, 0));
         estado_c.setForeground(new java.awt.Color(255, 255, 255));
-        estado_c.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Activo", "Inactivo", "Mantenimiento", " " }));
+        estado_c.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Activo", "Inactivo", " " }));
         estado_c.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 estado_cActionPerformed(evt);
@@ -1195,7 +1289,7 @@ public double obtenerPrecioProducto(String producto) {
         jLabel17.setText("Estado");
 
         combo_estado_h.setBackground(new java.awt.Color(51, 0, 0));
-        combo_estado_h.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Activo", "Inactivo", "Ocupada", "Mantenimiento" }));
+        combo_estado_h.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Libre", "Inactivo", "Ocupada" }));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(0, 0, 0));
@@ -1364,7 +1458,7 @@ public double obtenerPrecioProducto(String producto) {
 
         combo_producto_con.setBackground(new java.awt.Color(51, 0, 0));
         combo_producto_con.setForeground(new java.awt.Color(255, 255, 255));
-        combo_producto_con.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Coca-Cola", "Agua", "Pizza", "Hamburguesa" }));
+        combo_producto_con.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Coca-Cola", "Agua", "Pizza", "Hamburguesa", "Dulces", "Desayuno-Panqueques", "Almuerzo-Mote de queso", "Cena-Chuleta con papas", "Picada", "Servicio Buseo    ", "Recorrido Turistico", "Servicio Lancha" }));
         combo_producto_con.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 combo_producto_conActionPerformed(evt);
@@ -1441,11 +1535,7 @@ public double obtenerPrecioProducto(String producto) {
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel19.setText("Cliente");
-
-        combo_cliente.setBackground(new java.awt.Color(51, 0, 0));
-        combo_cliente.setForeground(new java.awt.Color(255, 255, 255));
-        combo_cliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        jLabel19.setText("Reserva");
 
         jLabel36.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel36.setForeground(new java.awt.Color(0, 0, 0));
@@ -1474,8 +1564,6 @@ public double obtenerPrecioProducto(String producto) {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(combo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(11, 11, 11)
@@ -1483,15 +1571,20 @@ public double obtenerPrecioProducto(String producto) {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel9Layout.createSequentialGroup()
                                 .addGap(35, 35, 35)
                                 .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cantidad_con, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel9Layout.createSequentialGroup()
+                                        .addComponent(cantidad_con, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                                        .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel9Layout.createSequentialGroup()
+                                        .addComponent(reserva_con, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addGap(48, 48, 48)
@@ -1509,7 +1602,7 @@ public double obtenerPrecioProducto(String producto) {
                     .addComponent(jLabel19)
                     .addComponent(jLabel22)
                     .addComponent(combo_producto_con, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(combo_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(reserva_con, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1559,6 +1652,11 @@ public double obtenerPrecioProducto(String producto) {
         jLabel37.setText("Fecha entrada");
 
         fecha_entrada_resChek.setEditable(false);
+        fecha_entrada_resChek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fecha_entrada_resChekActionPerformed(evt);
+            }
+        });
 
         jLabel38.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel38.setForeground(new java.awt.Color(0, 0, 0));
@@ -1657,13 +1755,13 @@ public double obtenerPrecioProducto(String producto) {
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
-        jButton1.setBackground(new java.awt.Color(204, 0, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("CHECK-IN");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        check_in.setBackground(new java.awt.Color(204, 0, 0));
+        check_in.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        check_in.setForeground(new java.awt.Color(255, 255, 255));
+        check_in.setText("CHECK-IN");
+        check_in.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                check_inActionPerformed(evt);
             }
         });
 
@@ -1678,32 +1776,200 @@ public double obtenerPrecioProducto(String producto) {
                         .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGap(270, 270, 270)
-                        .addComponent(jButton1)))
+                        .addComponent(check_in)))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
+                .addContainerGap()
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addComponent(jButton1)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addComponent(check_in)
+                .addContainerGap(167, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("checkin", jPanel13);
 
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
 
+        jPanel16.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jButton3.setBackground(new java.awt.Color(255, 0, 0));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Buscar Reserva ");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel42.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel42.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel42.setText("Cliente: ");
+
+        cliendecheckout.setEditable(false);
+
+        jLabel43.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel43.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel43.setText("Documento:");
+
+        documentoCheckou.setEditable(false);
+
+        jLabel44.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel44.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel44.setText("Habitacion:");
+
+        habitacion_checkout.setEditable(false);
+
+        jLabel45.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel45.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel45.setText("Fecha entrada: ");
+
+        fengtrada_checkout.setEditable(false);
+
+        jLabel46.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel46.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel46.setText("Fecha Salida:");
+
+        fsalidacheckout.setEditable(false);
+        fsalidacheckout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fsalidacheckoutActionPerformed(evt);
+            }
+        });
+
+        tabla_checkout.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scrool.setViewportView(tabla_checkout);
+
+        bt_calcular_checkout.setBackground(new java.awt.Color(255, 0, 0));
+        bt_calcular_checkout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        bt_calcular_checkout.setForeground(new java.awt.Color(255, 255, 255));
+        bt_calcular_checkout.setText("Calcular Total");
+        bt_calcular_checkout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_calcular_checkoutActionPerformed(evt);
+            }
+        });
+
+        jButton5.setBackground(new java.awt.Color(255, 0, 0));
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton5.setText("Check out");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(scrool))
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel16Layout.createSequentialGroup()
+                                .addGap(221, 221, 221)
+                                .addComponent(jButton3))
+                            .addGroup(jPanel16Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel16Layout.createSequentialGroup()
+                                        .addComponent(jLabel43)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(documentoCheckou))
+                                    .addGroup(jPanel16Layout.createSequentialGroup()
+                                        .addComponent(jLabel42)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cliendecheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel16Layout.createSequentialGroup()
+                                        .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(habitacion_checkout))
+                                    .addGroup(jPanel16Layout.createSequentialGroup()
+                                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel45)
+                                            .addComponent(jLabel46))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(fengtrada_checkout)
+                                            .addComponent(fsalidacheckout)))))
+                            .addGroup(jPanel16Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(bt_calcular_checkout)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(calcular_checkout, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(49, 49, 49)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 66, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jButton3)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel42)
+                    .addComponent(cliendecheckout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel43)
+                    .addComponent(documentoCheckou, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel44)
+                    .addComponent(habitacion_checkout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel45)
+                    .addComponent(fengtrada_checkout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel46)
+                    .addComponent(fsalidacheckout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrool, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_calcular_checkout)
+                    .addComponent(calcular_checkout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addContainerGap(71, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 690, Short.MAX_VALUE)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 634, Short.MAX_VALUE)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("checkout", jPanel14);
@@ -1808,48 +2074,52 @@ public double obtenerPrecioProducto(String producto) {
     }//GEN-LAST:event_combo_producto_conActionPerformed
 
     private void bt_modificar_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_modificar_conActionPerformed
-          if (consumoSeleccionado == null) {
-        JOptionPane.showMessageDialog(this, "Primero busque un consumo");
+      if (consumoSeleccionado == null) {
+    JOptionPane.showMessageDialog(this, "Primero busque un consumo");
+    return;
+}
+
+try {
+    int cantidad = Integer.parseInt(cantidad_con.getText());
+    double precio = Double.parseDouble(precio_con.getText());
+
+    if (cantidad <= 0 || precio <= 0) {
+        JOptionPane.showMessageDialog(this, "Cantidad y precio deben ser mayores a 0");
         return;
     }
 
-    try {
-        int cantidad = Integer.parseInt(cantidad_con.getText());
-        double precio = Double.parseDouble(precio_con.getText());
+    String producto = combo_producto_con.getSelectedItem().toString();
 
-        if (cantidad <= 0 || precio <= 0) {
-            JOptionPane.showMessageDialog(this, "Cantidad y precio deben ser mayores a 0");
-            return;
-        }
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    LocalDate fecha = LocalDate.parse(fecha_con.getText(), formato);
 
-        String producto = combo_producto_con.getSelectedItem().toString();
+    // 🔥 NUEVO: obtener reserva
+    Reserva reserva = obtenerReservaPorId();
 
-        // 🔥 FECHA
-       DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        LocalDate fecha = LocalDate.parse(fecha_con.getText(), formato);
-
-        consumoSeleccionado.setFecha(fecha);
-        // 🔥 CLIENTE (del combo)
-        Cliente cliente = obtenerClienteSeleccionado();
-
-        // 💥 MODIFICAR OBJETO
-        consumoSeleccionado.setCantidad(cantidad);
-        consumoSeleccionado.setPrecio(precio);
-        consumoSeleccionado.setProducto(producto);
-        consumoSeleccionado.setFecha(fecha);
-        consumoSeleccionado.setCliente(cliente);
-
-        // 🔥 recalcular total
-        consumoSeleccionado.setTotal(precio * cantidad);
-
-        JOptionPane.showMessageDialog(this, "Consumo modificado 😎");
-
-        refrescarTablaConsumo();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al modificar");
+    if (reserva == null) {
+        JOptionPane.showMessageDialog(this, "Reserva no válida");
+        return;
     }
+
+    // 💥 MODIFICAR
+    consumoSeleccionado.setCantidad(cantidad);
+    consumoSeleccionado.setPrecio(precio);
+    consumoSeleccionado.setProducto(producto);
+    consumoSeleccionado.setFecha(fecha);
+
+    // 🔥 CAMBIO CLAVE
+    consumoSeleccionado.setReserva(reserva);
+
+    // 🔥 total
+    consumoSeleccionado.setTotal(precio * cantidad);
+
+    JOptionPane.showMessageDialog(this, "Consumo modificado 😎");
+
+    refrescarTablaConsumo();
+
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error al modificar");
+}
     }//GEN-LAST:event_bt_modificar_conActionPerformed
 
     private void fecha_salida2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fecha_salida2ActionPerformed
@@ -1984,7 +2254,7 @@ public double obtenerPrecioProducto(String producto) {
             return;
         }
         if (!controlador.validarCorreo(correoc)) {
-            JOptionPane.showMessageDialog(null, "El correo debe de contener @");
+            JOptionPane.showMessageDialog(null, "El correo debe de contener @gamil.com");
             return;
         }
         
@@ -1997,7 +2267,7 @@ public double obtenerPrecioProducto(String producto) {
             JOptionPane.showMessageDialog(null, "Seleccione un estado para el Cliente");
             return;
         }
-        
+      
         int id;
         try {
             id = Integer.parseInt(idc);
@@ -2005,10 +2275,13 @@ public double obtenerPrecioProducto(String producto) {
             JOptionPane.showMessageDialog(null, "ID debe de ser numerico");
             return;
         }
+        
+        if (!controlador.validarDatos(documentoc, numero)) {
+    return; // 
+}
         controlador.agregarCliente(id, nombrec, documentoc, tipoDoc, estadoc, numero, correoc);
         refrescarTablaCientes();
-         cargarClientesEnCombo();
-        obtenerClienteSeleccionado();
+         
     }//GEN-LAST:event_boton_agreegar_cliActionPerformed
 
     private void Eliminar_clieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Eliminar_clieActionPerformed
@@ -2087,7 +2360,7 @@ refrescarTablaCientes();
     }//GEN-LAST:event_limpiar_hActionPerformed
 
     private void bt_agregar_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_agregar_conActionPerformed
-        Cliente cliente = obtenerClienteSeleccionado();
+       Reserva reserva = obtenerReservaPorId();
         String cantidadTxt = cantidad_con.getText();
         String precioTx = precio_con.getText();
         String producto = combo_producto_con.getSelectedItem().toString();
@@ -2097,18 +2370,20 @@ refrescarTablaCientes();
     JOptionPane.showMessageDialog(this, "Complete todos los campos");
     return;
 }
-    if (cliente == null) {
-        JOptionPane.showMessageDialog(this, "Seleccione un cliente válido");
-        return;
-    }
-    int cantidad;
+  
+  if (reserva == null) {
+    JOptionPane.showMessageDialog(this, "Reserva no existe");
+    return;
+}
+    int cantidad, id;
     double precio;
     LocalDate fecha;
     try {
+       
         cantidad = Integer.parseInt(cantidadTxt);
         precio = Double.parseDouble(precioTx);
         if (cantidad <= 0 || precio<=0) {
-            JOptionPane.showMessageDialog(this, "Cantidad y precio debe ser mayor a 0");
+            JOptionPane.showMessageDialog(this, "Cantidad y precio deben ser mayor a 0");
             return;
         }
          DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -2119,7 +2394,7 @@ refrescarTablaCientes();
         return;
     }
     
-    controlador.agregarConsumo( cliente, cantidad, producto, precio, fecha);
+    controlador.agregarConsumo( reserva, cantidad, producto, precio, fecha);
     refrescarTablaConsumo();
     }//GEN-LAST:event_bt_agregar_conActionPerformed
 
@@ -2129,7 +2404,7 @@ refrescarTablaCientes();
     }//GEN-LAST:event_bt_eliminar_conActionPerformed
 
     private void bt_buscar_conActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_conActionPerformed
-  String input = JOptionPane.showInputDialog(this, "Ingrese el ID del Cliente:");
+ String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la Reserva:");
 
 if (input == null || input.trim().isEmpty()) {
     return;
@@ -2139,35 +2414,37 @@ try {
     int idBuscado = Integer.parseInt(input.trim());
     boolean encontrado = false;
 
-   DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-for (Consumo con : datos.listaConsumos) {
+    for (Consumo con : datos.listaConsumos) {
 
-    if (con.getCliente().getId() == idBuscado) {
+      
+        if (con.getReserva().getId() == idBuscado) {
 
-        consumoSeleccionado = con;
+            consumoSeleccionado = con;
 
-        cantidad_con.setText(String.valueOf(con.getCantidad()));
-        precio_con.setText(String.valueOf(con.getPrecio()));
+            cantidad_con.setText(String.valueOf(con.getCantidad()));
+            precio_con.setText(String.valueOf(con.getPrecio()));
+            fecha_con.setText(con.getFecha().format(formato));
 
-        // 🔥 ahora directo (sin conversiones raras)
-        fecha_con.setText(con.getFecha().format(formato));
+            combo_producto_con.setSelectedItem(con.getProducto());
 
-        combo_producto_con.setSelectedItem(con.getProducto());
-        combo_cliente.setSelectedItem(con.getCliente());
+         
+            reserva_con.setText(String.valueOf(con.getReserva().getId()));
 
-        encontrado = true;
-        break;
+            encontrado = true;
+            break;
+        }
     }
-}
 
     if (!encontrado) {
-        JOptionPane.showMessageDialog(this, "No hay consumos para este cliente");
+        JOptionPane.showMessageDialog(this, "No hay consumos para esta reserva");
     }
 
 } catch (NumberFormatException e) {
     JOptionPane.showMessageDialog(this, "Ingrese un ID válido");
 }
+   
 
     }//GEN-LAST:event_bt_buscar_conActionPerformed
 
@@ -2215,15 +2492,24 @@ try {
     }
     
      // 🔥 OBTENER HABITACIÓN DESDE EL COMBO
-    Habitacion habitacionSeleccionada = obtenerHabitacionSeleccionada();
+  Habitacion habitacionSeleccionada = obtenerHabitacionSeleccionada();
 
-    if (habitacionSeleccionada == null) {
-        JOptionPane.showMessageDialog(this, "Seleccione una habitación válida");
-        return;
-    }
-    
-    if (habitacionOcupada(habitacionSeleccionada)) {
-    JOptionPane.showMessageDialog(this, "La habitación ya está ocupada ❌");
+if (habitacionSeleccionada == null) {
+    JOptionPane.showMessageDialog(this, "Seleccione una habitación");
+    return;
+}
+
+// 🔥 ESTADO REAL DE LA HABITACIÓN
+String estadoHabitacion = habitacionSeleccionada.getEstado();
+
+// 🔴 VALIDACIONES CORRECTAS
+if (estadoHabitacion.equalsIgnoreCase("Ocupada")) {
+    JOptionPane.showMessageDialog(this, "La habitación está ocupada ❌");
+    return;
+}
+
+if (estadoHabitacion.equalsIgnoreCase("Inactivo")) {
+    JOptionPane.showMessageDialog(this, "La habitación está inactiva ❌");
     return;
 }
 
@@ -2372,12 +2658,20 @@ try {
 }
     }//GEN-LAST:event_bt_buscar_rActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void check_inActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_inActionPerformed
    if (reservaSeleccionada == null) {
     JOptionPane.showMessageDialog(this, "Primero busque una reserva");
     return;
 }
+if (reservaSeleccionada.getEstado().equalsIgnoreCase("Finalizada")) {
+    JOptionPane.showMessageDialog(this, "No se puede hacer check-in. La reserva ya está finalizada.");
+    return;
+}
 
+if (reservaSeleccionada.getEstado().equalsIgnoreCase("Check-in")) {
+    JOptionPane.showMessageDialog(this, "Esta reserva ya tiene check-in realizado.");
+    return;
+}
 Habitacion h = reservaSeleccionada.getHabitacion();
 
 // Mostrar
@@ -2392,7 +2686,14 @@ refrescarTablaHabitacion();
 refrescarTablaReserva();
 
 JOptionPane.showMessageDialog(this, "Check-in realizado 😎");
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+id_res_chek.setText("");
+nombre_reserva_chekin.setText("");
+fecha_entrada_resChek.setText("");
+fecha_salidaCheevk.setText("");
+dni_checkin.setText("");
+habitacioncheckout.setText("");
+    }//GEN-LAST:event_check_inActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
           String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la reserva:");
@@ -2446,6 +2747,194 @@ JOptionPane.showMessageDialog(this, "Check-in realizado 😎");
     refrescarTablaReserva();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void fsalidacheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fsalidacheckoutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fsalidacheckoutActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la reserva:");
+
+    if (input == null || input.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Debe ingresar un ID");
+        return;
+    }
+
+    try {
+        int id = Integer.parseInt(input);
+
+        Reserva reservaEncontrada = null;
+
+        for (Reserva r : DatosRecepcionista.listaReservas) {
+            if (r.getId() == id) {
+                reservaEncontrada = r;
+                break;
+            }
+        }
+
+        if (reservaEncontrada == null) {
+            JOptionPane.showMessageDialog(this, "Reserva no encontrada");
+            return;
+        }
+
+        
+        cliendecheckout.setText(reservaEncontrada.getCliente().getNombre());
+        documentoCheckou.setText(reservaEncontrada.getCliente().getDocumento());
+        habitacion_checkout.setText(String.valueOf(reservaEncontrada.getHabitacion().getNumero()));
+        fengtrada_checkout.setText(reservaEncontrada.getFechaEntrada().toString());
+        fsalidacheckout.setText(reservaEncontrada.getFechaSalida().toString());
+
+        
+         //referencia
+        this.reservaActual = reservaEncontrada;
+       
+        refrescarTablaCheckOut(reservaEncontrada);
+
+        JOptionPane.showMessageDialog(this, "Reserva cargada 😎");
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "ID inválido");
+    }        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void bt_calcular_checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_calcular_checkoutActionPerformed
+      if (reservaActual == null) {
+        JOptionPane.showMessageDialog(this, "Primero cargue una reserva");
+        return;
+    }
+
+    double totalConsumos = 0;
+
+   
+    for (Consumo c : datos.listaConsumos) {
+        if (c.getReserva().getId() == reservaActual.getId()) {
+            totalConsumos += c.getTotal();
+        }
+    }
+
+   
+    long noches = ChronoUnit.DAYS.between(
+        reservaActual.getFechaEntrada(),
+        reservaActual.getFechaSalida()
+    );
+
+    
+    double precioNoche = reservaActual.getHabitacion().getTipo().getPrecioPorNoche();
+
+    double totalHabitacion = noches * precioNoche;
+
+    
+    double totalFinal = totalConsumos + totalHabitacion;
+
+   
+    calcular_checkout.setText("Total: $" + totalFinal);       
+    }//GEN-LAST:event_bt_calcular_checkoutActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+                                             
+
+    if (reservaActual == null) {
+        JOptionPane.showMessageDialog(this, "Primero cargue una reserva");
+        return;
+    }
+    if (reservaActual.getEstado().equalsIgnoreCase("Finalizada")) {
+    JOptionPane.showMessageDialog(this, "Esta reserva ya está finalizada. No se puede hacer check-out otra vez.");
+    return;
+}
+
+if (!reservaActual.getEstado().equalsIgnoreCase("Check-in")) {
+    JOptionPane.showMessageDialog(this, "No se puede hacer check-out sin haber hecho check-in.");
+    return;
+}
+
+    long noches = ChronoUnit.DAYS.between(
+    reservaActual.getFechaEntrada(),
+    reservaActual.getFechaSalida()
+);
+  noches = Math.max(noches, 1);
+  
+    double totalConsumos = 0;
+    String ticket = "";
+
+    ticket += "====== FACTURA ======\n";
+    ticket += "Cliente: " + reservaActual.getCliente().getNombre() + "\n";
+    ticket += "Documento: " + reservaActual.getCliente().getDocumento() + "\n";
+    ticket += "Correo: " + reservaActual.getCliente().getCorreo() + "Numero: "+ reservaActual.getCliente().getNumero() + " \n";
+    ticket += "Habitación: " + reservaActual.getHabitacion().getNumero()+" - "+reservaActual.getHabitacion().getTipo().getNombre()+" $: "+reservaActual.getHabitacion().getTipo().getPrecioPorNoche() + "\n";
+    ticket += "Dias: "+ noches+"\n\n";
+    ticket += "Consumos:\n";
+
+    // 🔥 RECORRER TODOS LOS CONSUMOS
+    for (Consumo c : datos.listaConsumos) {
+        if (c.getReserva().getId() == reservaActual.getId()) {
+
+            ticket += "- " + c.getProducto()
+                    + " | Cant: " + c.getCantidad()
+                    + " | $" + c.getTotal() + "\n";
+
+            totalConsumos += c.getTotal();
+        }
+    }
+
+    
+   
+double precioNoche = reservaActual.getHabitacion().getTipo().getPrecioPorNoche();
+double totalHabitacion = noches * precioNoche;
+
+double totalFinal = totalConsumos + totalHabitacion;
+
+    ticket += "\nHabitación: $" + totalHabitacion;
+    ticket += "\nTOTAL: $" + totalFinal;
+
+    // 🔥 MOSTRAR TICKET
+    JOptionPane.showMessageDialog(this, ticket);
+
+    // 🔥 CAMBIAR ESTADOS
+    reservaActual.setEstado("Finalizada");
+    reservaActual.getHabitacion().setEstado("Libre");
+
+    // 🔥 LIMPIAR
+    reservaActual = null;
+ 
+    refrescarTablaHabitacion();
+    refrescarTablaReserva();
+    
+    cliendecheckout.setText("");
+    documentoCheckou.setText("");
+    habitacion_checkout.setText("");
+    fengtrada_checkout.setText("");
+    fsalidacheckout.setText("");
+    refrescarTablaCheckOut(reservaActual);
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void fecha_entrada_resChekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fecha_entrada_resChekActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fecha_entrada_resChekActionPerformed
+
+    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+        jTabbedPane8.setSelectedIndex(1);
+    }//GEN-LAST:event_jPanel4MouseClicked
+
+    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
+          jTabbedPane8.setSelectedIndex(2);
+    }//GEN-LAST:event_jPanel5MouseClicked
+
+    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
+          jTabbedPane8.setSelectedIndex(4);
+    }//GEN-LAST:event_jPanel6MouseClicked
+
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+          jTabbedPane8.setSelectedIndex(3);
+    }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
+         jTabbedPane8.setSelectedIndex(5);
+    }//GEN-LAST:event_jPanel11MouseClicked
+
+    private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
+          jTabbedPane8.setSelectedIndex(6);
+    }//GEN-LAST:event_jPanel12MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -2483,6 +2972,7 @@ JOptionPane.showMessageDialog(this, "Check-in realizado 😎");
     private javax.swing.JButton bt_buscar_con;
     private javax.swing.JButton bt_buscar_h;
     private javax.swing.JToggleButton bt_buscar_r;
+    private javax.swing.JButton bt_calcular_checkout;
     private javax.swing.JButton bt_eliminar_con;
     private javax.swing.JButton bt_eliminar_h;
     private javax.swing.JToggleButton bt_eliminar_r;
@@ -2490,15 +2980,18 @@ JOptionPane.showMessageDialog(this, "Check-in realizado 😎");
     private javax.swing.JButton bt_modificar_con;
     private javax.swing.JButton bt_modificar_h;
     private javax.swing.JToggleButton bt_modificar_r;
+    private javax.swing.JTextField calcular_checkout;
     private javax.swing.JTextField cantidad_con;
     private javax.swing.JTextField capaci_h;
-    private javax.swing.JComboBox<String> combo_cliente;
+    private javax.swing.JButton check_in;
+    private javax.swing.JTextField cliendecheckout;
     private javax.swing.JComboBox<String> combo_estado_h;
     private javax.swing.JComboBox<String> combo_habi;
     private javax.swing.JComboBox<String> combo_producto_con;
     private javax.swing.JComboBox<String> combo_reserva;
     private javax.swing.JTextField correo_cli;
     private javax.swing.JTextField dni_checkin;
+    private javax.swing.JTextField documentoCheckou;
     private javax.swing.JTextField documento_cli;
     private javax.swing.JComboBox<String> estado_c;
     private javax.swing.JComboBox<String> estado_reserva;
@@ -2507,14 +3000,18 @@ JOptionPane.showMessageDialog(this, "Check-in realizado 😎");
     private javax.swing.JTextField fecha_entrada_resChek;
     private javax.swing.JTextField fecha_salida2;
     private javax.swing.JTextField fecha_salidaCheevk;
+    private javax.swing.JTextField fengtrada_checkout;
+    private javax.swing.JTextField fsalidacheckout;
+    private javax.swing.JTextField habitacion_checkout;
     private javax.swing.JTextField habitacioncheckout;
     private javax.swing.JTextField id_cliente_cli;
     private javax.swing.JTextField id_cliente_re;
     private javax.swing.JTextField id_habitacion_h;
     private javax.swing.JTextField id_res_chek;
     private javax.swing.JTextField id_reserva;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2551,6 +3048,11 @@ JOptionPane.showMessageDialog(this, "Check-in realizado 😎");
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2563,6 +3065,7 @@ JOptionPane.showMessageDialog(this, "Check-in realizado 😎");
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
@@ -2591,6 +3094,9 @@ JOptionPane.showMessageDialog(this, "Check-in realizado 😎");
     private javax.swing.JTextField piso_h;
     private javax.swing.JTextField precio_con;
     private javax.swing.JTextField precio_h;
+    private javax.swing.JTextField reserva_con;
+    private javax.swing.JScrollPane scrool;
+    private javax.swing.JTable tabla_checkout;
     private javax.swing.JComboBox<String> tipo_doc_cli;
     // End of variables declaration//GEN-END:variables
 }
