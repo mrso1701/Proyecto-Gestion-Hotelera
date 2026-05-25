@@ -213,13 +213,13 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void Bt_RegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Bt_RegistroActionPerformed
-        String nombre = Txt_Nombrereg.getText().trim();
+    String nombre = Txt_Nombrereg.getText().trim();
     String correo = Txt_Correoreg.getText().trim();
     String usuario = Txt_Usuarioreg.getText().trim();
-    // Convertimos el password de JPasswordField de forma segura
     String contrasena = new String(Txt_Contraseñareg.getPassword());
+    String nombreArchivo = "usuarios_registrados.txt";
 
-    // 2. Validamos que el usuario no deje campos vacíos
+    // Validamos que el usuario no deje campos vacíos
     if (nombre.isEmpty() || correo.isEmpty() || usuario.isEmpty() || contrasena.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this, 
                 "Todos los campos son obligatorios para crear la cuenta.", 
@@ -227,32 +227,73 @@ public class Registro extends javax.swing.JFrame {
                 javax.swing.JOptionPane.WARNING_MESSAGE);
         return; // Detiene la ejecución aquí si falta rellenar algo
     }
+    if (!correo.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Por favor, ingrese un correo electrónico válido.", 
+                "Correo Inválido", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+        Txt_Correoreg.requestFocus();
+        return;
+    }
 
-    // 3. Nombre del archivo TXT que actuará como base de datos
-    String nombreArchivo = "usuarios_registrados.txt";
-
-    // 4. Intentamos abrir y escribir en el archivo (.txt)
+    // Longitud mínima de contraseña
+    if (contrasena.length() < 6) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "La contraseña debe tener al menos 6 caracteres por seguridad.", 
+                "Contraseña Insegura", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+        Txt_Contraseñareg.requestFocus();
+        return;
+    }
+    try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(nombreArchivo))) {
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split("\\|");
+            
+            // Verificamos que la línea tenga el formato correcto antes de leer
+            if (datos.length >= 3) {
+                String correoGuardado = datos[1];
+                String usuarioGuardado = datos[2];
+                
+                if (correo.equalsIgnoreCase(correoGuardado)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, 
+                            "Este correo electrónico ya está registrado.", 
+                            "Registro Duplicado", 
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                if (usuario.equalsIgnoreCase(usuarioGuardado)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, 
+                            "El nombre de usuario ya existe. Elija otro.", 
+                            "Usuario No Disponible", 
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+        }
+    } catch (java.io.FileNotFoundException e) {
+        // Si el archivo no existe, significa que es el primer registro. 
+        // Esta excepción se ignora silenciosamente para continuar.
+    } catch (java.io.IOException e) {
+        System.out.println("Aviso: No se pudo verificar duplicados. " + e.getMessage());
+    }
+    
     try (java.io.FileWriter fw = new java.io.FileWriter(nombreArchivo, true);
          java.io.PrintWriter pw = new java.io.PrintWriter(fw)) {
         
-        // Escribimos los datos en una nueva línea separados por "|"
         pw.println(nombre + "|" + correo + "|" + usuario + "|" + contrasena);
         
-        // Mensaje de confirmación al usuario
         javax.swing.JOptionPane.showMessageDialog(this, 
                 "¡Cuenta registrada exitosamente en el sistema!", 
                 "Registro Completado", 
                 javax.swing.JOptionPane.INFORMATION_MESSAGE);
         
-        // 5. Limpiamos los cuadros de texto para que quede listo para otro registro
-        Txt_Nombrereg.setText("");
-        Txt_Correoreg.setText("");
-        Txt_Usuarioreg.setText("");
-        Txt_Contraseñareg.setText("");
-        Txt_Nombrereg.requestFocus(); // Coloca el cursor de nuevo en el primer campo
+        // Cierra la ventana de registro y abre la de Inicio/Login
+        new Inicio().setVisible(true);
+        this.dispose();
 
     } catch (java.io.IOException e) {
-        // Por si ocurre algún problema con los permisos del archivo
         javax.swing.JOptionPane.showMessageDialog(this, 
                 "Error al guardar los datos en el archivo: " + e.getMessage(), 
                 "Error de Archivo", 
