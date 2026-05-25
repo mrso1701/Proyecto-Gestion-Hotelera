@@ -201,6 +201,7 @@ public class Login extends javax.swing.JFrame {
 
     private void Bt_LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bt_LoginMouseClicked
         new Inicio().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_Bt_LoginMouseClicked
 
     private void Bt_LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Bt_LoginActionPerformed

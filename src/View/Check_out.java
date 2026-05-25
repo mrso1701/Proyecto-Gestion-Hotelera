@@ -119,6 +119,7 @@ private void configurarComboBoxPagos() {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        Jb_Volver = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         Txt_CodigoH = new javax.swing.JTextField();
@@ -174,6 +175,20 @@ private void configurarComboBoxPagos() {
         jLabel1.setForeground(new java.awt.Color(102, 0, 0));
         jLabel1.setText("CHECK-OUT");
 
+        Jb_Volver.setFont(new java.awt.Font("Segoe Script", 3, 14)); // NOI18N
+        Jb_Volver.setText("VOLVER");
+        Jb_Volver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Jb_Volver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Jb_VolverMouseClicked(evt);
+            }
+        });
+        Jb_Volver.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                Jb_VolverKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -181,7 +196,9 @@ private void configurarComboBoxPagos() {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(418, 418, 418)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(544, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
+                .addComponent(Jb_Volver)
+                .addGap(152, 152, 152))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,6 +206,9 @@ private void configurarComboBoxPagos() {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(Jb_Volver))
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1230, 60));
@@ -758,6 +778,16 @@ private void configurarComboBoxPagos() {
     }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void Jb_VolverKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Jb_VolverKeyPressed
+        new Inicio().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_Jb_VolverKeyPressed
+
+    private void Jb_VolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jb_VolverMouseClicked
+         new Inicio().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_Jb_VolverMouseClicked
+
     
     /**
      * @param args the command line arguments
@@ -808,6 +838,7 @@ private void configurarComboBoxPagos() {
     private javax.swing.JLabel Jb_PrecioEstancia;
     private javax.swing.JLabel Jb_SubtotalEstancia;
     private javax.swing.JLabel Jb_TotalCargos;
+    private javax.swing.JLabel Jb_Volver;
     private javax.swing.JPanel Jpanel_Cancelar;
     private javax.swing.JPanel Jpanel_ProcesarCheckout;
     private javax.swing.JTextField Txt_CodigoH;

@@ -48,6 +48,7 @@ public class Check_In extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        Jb_Volver = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         Txt_CodigoReserva = new javax.swing.JTextField();
@@ -92,6 +93,20 @@ public class Check_In extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("CHECK-IN");
 
+        Jb_Volver.setFont(new java.awt.Font("Segoe Script", 3, 14)); // NOI18N
+        Jb_Volver.setForeground(new java.awt.Color(255, 255, 255));
+        Jb_Volver.setText("VOLVER");
+        Jb_Volver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Jb_VolverMouseClicked(evt);
+            }
+        });
+        Jb_Volver.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                Jb_VolverKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -99,7 +114,9 @@ public class Check_In extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(365, 365, 365)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(436, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
+                .addComponent(Jb_Volver)
+                .addGap(14, 14, 14))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,6 +124,9 @@ public class Check_In extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(Jb_Volver))
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 70));
@@ -634,6 +654,16 @@ public class Check_In extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_Txt_DniPasKeyTyped
 
+    private void Jb_VolverKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Jb_VolverKeyPressed
+        new Inicio().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_Jb_VolverKeyPressed
+
+    private void Jb_VolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jb_VolverMouseClicked
+         new Inicio().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_Jb_VolverMouseClicked
+
     private void cargarHabitacionesDisponibles(String tipoHabitacion, String habitacionSugerida) {
     // Limpiamos los elementos previos que tenga el ComboBox
     Cb_AsigHab.removeAllItems();
@@ -723,6 +753,7 @@ public class Check_In extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Bt_Buscar;
     private javax.swing.JComboBox<String> Cb_AsigHab;
+    private javax.swing.JLabel Jb_Volver;
     private javax.swing.JLabel Jbl_Adulto;
     private javax.swing.JLabel Jbl_Fentrada;
     private javax.swing.JLabel Jbl_Fsalida;
