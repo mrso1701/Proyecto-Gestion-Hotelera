@@ -15,8 +15,97 @@ public class Check_out extends javax.swing.JFrame {
      */
     public Check_out() {
         initComponents();
+        cargarTablaCheckOut(); 
+        configurarComboBoxPagos();
     }
+    
+    private String[][] reservasActivas = {
+    {"R123", "Juan Pérez", "15/05/2026", "20/05/2026", "305", "Checked-In", "150.00", "45.00"},
+    {"R124", "Carlos Ruiz", "18/05/2026", "23/05/2026", "306", "Checked-In", "200.00", "120.00"},
+    {"R125", "Ana Gómez", "19/05/2026", "21/05/2026", "401", "Checked-In", "180.00", "0.00"}
+};
 
+private void cargarTablaCheckOut() {
+    String[] columnas = {"ID Reserva", "Huésped Principal", "N° Hab", "Estado"};
+    javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel(null, columnas) {
+        @Override
+        public boolean isCellEditable(int row, int column) { return false; }
+    };
+
+    for (String[] fila : reservasActivas) {
+        // Solo cargamos a la tabla los que ya hicieron Check-in
+        if (fila[5].equals("Checked-In")) {
+            modelo.addRow(new Object[]{fila[0], fila[1], fila[4], fila[5]});
+        }
+    }
+    jTable1.setModel(modelo);
+}
+
+private void limpiarFormulario() {
+    Txt_CodigoH.setText("");
+    Jb_Huesped.setText("\"\"");
+    Jb_NumNoche.setText("\"\"");
+    Jb_PrecioEstancia.setText("$\"\"");
+    Jb_SubtotalEstancia.setText("$\"\"");
+    Jb_Consumos.setText("$\"\"");
+    Jb_Impuestos.setText("$\"\"");
+    Jb_TotalCargos.setText("$\"\"");
+    
+    Jb_NochesResumen.setText("\"\"");
+    Jb_CargosResumen.setText("$\"\"");
+    Jb_EstadoCuenta.setText("[\"\"]");
+    Jb_EstadoCuenta.setForeground(new java.awt.Color(0, 0, 0)); // Color neutro
+    
+    Cb_MetodoP.setSelectedIndex(0);
+    Cb_NumCuotas.setSelectedIndex(0);
+    Txt_CodigoH.requestFocus();
+}
+
+private void configurarComboBoxPagos() {
+   
+    Cb_MetodoP.removeAllItems();
+    Cb_NumCuotas.removeAllItems();
+
+    //Agregamos las opciones principales de pago
+    Cb_MetodoP.addItem("Seleccione...");
+    Cb_MetodoP.addItem("De contado");
+    Cb_MetodoP.addItem("A crédito");
+
+    // Estado inicial del combo de cuotas (deshabilitado por seguridad)
+    Cb_NumCuotas.addItem("-");
+    Cb_NumCuotas.setEnabled(false);
+
+    
+    Cb_MetodoP.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            String metodoSeleccionado = (String) Cb_MetodoP.getSelectedItem();
+            
+            // limpiamos las cuotas al cambiar de método
+            Cb_NumCuotas.removeAllItems(); 
+
+            if (metodoSeleccionado != null) {
+                if (metodoSeleccionado.equals("De contado")) {
+                    // Configuración para pago de contado
+                    Cb_NumCuotas.addItem("1");
+                    Cb_NumCuotas.setSelectedIndex(0);
+                    Cb_NumCuotas.setEnabled(false); // Bloqueamos para que no puedan cambiarlo
+                    
+                } else if (metodoSeleccionado.equals("A crédito")) {
+                    // Configuración para pago a crédito (Bucle del 1 al 16)
+                    for (int i = 1; i <= 16; i++) {
+                        Cb_NumCuotas.addItem(String.valueOf(i));
+                    }
+                    Cb_NumCuotas.setEnabled(true); // Desbloqueamos para que elijan
+                    
+                } else {
+                    // Estado por defecto ("Seleccione...")
+                    Cb_NumCuotas.addItem("-");
+                    Cb_NumCuotas.setEnabled(false);
+                }
+            }
+        }
+    });
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,7 +154,7 @@ public class Check_out extends javax.swing.JFrame {
         Jb_CargosResumen = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
         jLabel23 = new javax.swing.JLabel();
         Jpanel_Cancelar = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
@@ -129,6 +218,11 @@ public class Check_out extends javax.swing.JFrame {
         Bt_BuscarH.setForeground(new java.awt.Color(255, 255, 255));
         Bt_BuscarH.setText("BUSCAR");
         Bt_BuscarH.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 0, 0), 1, true));
+        Bt_BuscarH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Bt_BuscarHActionPerformed(evt);
+            }
+        });
         jPanel1.add(Bt_BuscarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(334, 123, 90, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
@@ -355,7 +449,7 @@ public class Check_out extends javax.swing.JFrame {
 
         jPanel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -366,7 +460,12 @@ public class Check_out extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -393,6 +492,12 @@ public class Check_out extends javax.swing.JFrame {
         jPanel1.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, 240, 40));
 
         Jpanel_Cancelar.setBackground(new java.awt.Color(153, 0, 0));
+        Jpanel_Cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Jpanel_Cancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Jpanel_CancelarMouseClicked(evt);
+            }
+        });
 
         jLabel28.setFont(new java.awt.Font("Segoe UI Black", 3, 24)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(255, 255, 255));
@@ -428,6 +533,12 @@ public class Check_out extends javax.swing.JFrame {
         jPanel1.add(Jpanel_Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 600, 190, 80));
 
         Jpanel_ProcesarCheckout.setBackground(new java.awt.Color(153, 0, 0));
+        Jpanel_ProcesarCheckout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Jpanel_ProcesarCheckout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Jpanel_ProcesarCheckoutMouseClicked(evt);
+            }
+        });
 
         jLabel30.setFont(new java.awt.Font("Segoe UI Black", 3, 24)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(255, 255, 255));
@@ -478,6 +589,176 @@ public class Check_out extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void Bt_BuscarHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Bt_BuscarHActionPerformed
+        String codigoBuscar = Txt_CodigoH.getText().trim();
+    
+    if (codigoBuscar.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Ingrese un código de huésped.", "Advertencia", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    boolean encontrado = false;
+
+    for (String[] fila : reservasActivas) {
+        if (fila[0].equalsIgnoreCase(codigoBuscar) && fila[5].equals("Checked-In")) {
+            
+            long noches = 1; // Valor por defecto
+            try {
+                // Cálculo de días entre Fecha de Entrada y Salida
+                java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                java.time.LocalDate entrada = java.time.LocalDate.parse(fila[2], fmt);
+                java.time.LocalDate salida = java.time.LocalDate.parse(fila[3], fmt);
+                noches = java.time.temporal.ChronoUnit.DAYS.between(entrada, salida);
+                if (noches <= 0) noches = 1; 
+            } catch (Exception e) {
+                System.out.println("Error calculando fechas. Se asume 1 noche.");
+            }
+
+            // Operaciones Matemáticas Financieras
+            double tarifa = Double.parseDouble(fila[6]);
+            double consumos = Double.parseDouble(fila[7]);
+            double subtotal = noches * tarifa;
+            double impuestos = (subtotal + consumos) * 0.19; // Ejemplo: 19% IVA
+            double total = subtotal + consumos + impuestos;
+
+            
+            Jb_Huesped.setText(fila[1]);
+            Jb_NumNoche.setText(noches + " Noche(s)");
+            Jb_PrecioEstancia.setText(String.format("$%.2f", tarifa));
+            Jb_SubtotalEstancia.setText(String.format("$%.2f", subtotal));
+            Jb_Consumos.setText(String.format("$%.2f", consumos));
+            Jb_Impuestos.setText(String.format("$%.2f", impuestos));
+            Jb_TotalCargos.setText(String.format("$%.2f", total));
+
+            // Rellenar Interfaz Gráfica (Sección Resumen de Factura)
+            Jb_NochesResumen.setText(String.valueOf(noches));
+            Jb_CargosResumen.setText(String.format("$%.2f", total));
+            Jb_EstadoCuenta.setText("[PENDIENTE DE PAGO]");
+            Jb_EstadoCuenta.setForeground(new java.awt.Color(204, 0, 0)); // Texto en Rojo
+
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Huésped no encontrado o ya realizó Check-Out.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        limpiarFormulario();
+       }
+    }//GEN-LAST:event_Bt_BuscarHActionPerformed
+
+    private void Jpanel_CancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jpanel_CancelarMouseClicked
+       limpiarFormulario();
+    }//GEN-LAST:event_Jpanel_CancelarMouseClicked
+
+    private void Jpanel_ProcesarCheckoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jpanel_ProcesarCheckoutMouseClicked
+        String codigoActual = Txt_CodigoH.getText().trim();
+        String metodoPago = Cb_MetodoP.getSelectedItem().toString();
+        String cuotas = Cb_NumCuotas.getSelectedItem().toString();
+
+    //Asegurar que hay factura cargada
+    if (codigoActual.isEmpty() || Jb_Huesped.getText().equals("\"\"")) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Busque un huésped para procesar la facturación.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // Método de pago seleccionado (Asumiendo que el índice 0 es "Seleccione...")
+    if (Cb_MetodoP.getSelectedIndex() == 0) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un método de pago válido.", "Validación", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+   
+    javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+    boolean procesado = false;
+
+    for (int i = 0; i < modelo.getRowCount(); i++) {
+        if (modelo.getValueAt(i, 0).toString().equalsIgnoreCase(codigoActual)) {
+            // Remueve la fila de la tabla de huéspedes activos
+            modelo.removeRow(i); 
+            procesado = true;
+            break;
+        }
+    }
+
+    
+    if (procesado) {
+        // Simulador de impresión de factura
+        Jb_EstadoCuenta.setText("[FACTURA PAGADA]");
+        Jb_EstadoCuenta.setForeground(new java.awt.Color(0, 153, 51)); // Verde
+        
+        javax.swing.JOptionPane.showMessageDialog(this, 
+        "¡Check-Out procesado exitosamente!\n\n" +
+        "Huésped: " + Jb_Huesped.getText() + "\n" +
+        "Total Cobrado: " + Jb_TotalCargos.getText() + "\n" +
+        "Método: " + metodoPago + " (" + cuotas + " cuota/s)\n\n" +
+        "Generando comprobante...", 
+        "Check-Out Completado", 
+        javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                
+        limpiarFormulario();
+    }
+    }//GEN-LAST:event_Jpanel_ProcesarCheckoutMouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        String codigoBuscar = Txt_CodigoH.getText().trim();
+    
+    if (codigoBuscar.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Ingrese un código de huésped.", "Advertencia", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    boolean encontrado = false;
+
+    for (String[] fila : reservasActivas) {
+        if (fila[0].equalsIgnoreCase(codigoBuscar) && fila[5].equals("Checked-In")) {
+            
+            long noches = 1; // Valor por defecto
+            try {
+                // Cálculo de días entre Fecha de Entrada y Salida
+                java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                java.time.LocalDate entrada = java.time.LocalDate.parse(fila[2], fmt);
+                java.time.LocalDate salida = java.time.LocalDate.parse(fila[3], fmt);
+                noches = java.time.temporal.ChronoUnit.DAYS.between(entrada, salida);
+                if (noches <= 0) noches = 1; 
+            } catch (Exception e) {
+                System.out.println("Error calculando fechas. Se asume 1 noche.");
+            }
+
+            // Operaciones Matemáticas Financieras
+            double tarifa = Double.parseDouble(fila[6]);
+            double consumos = Double.parseDouble(fila[7]);
+            double subtotal = noches * tarifa;
+            double impuestos = (subtotal + consumos) * 0.19; // Ejemplo: 19% IVA
+            double total = subtotal + consumos + impuestos;
+
+            // Rellenar Interfaz Gráfica (Sección Detalles de Facturación)
+            Jb_Huesped.setText(fila[1]);
+            Jb_NumNoche.setText(noches + " Noche(s)");
+            Jb_PrecioEstancia.setText(String.format("$%.2f", tarifa));
+            Jb_SubtotalEstancia.setText(String.format("$%.2f", subtotal));
+            Jb_Consumos.setText(String.format("$%.2f", consumos));
+            Jb_Impuestos.setText(String.format("$%.2f", impuestos));
+            Jb_TotalCargos.setText(String.format("$%.2f", total));
+
+            // Rellenar Interfaz Gráfica (Sección Resumen de Factura)
+            Jb_NochesResumen.setText(String.valueOf(noches));
+            Jb_CargosResumen.setText(String.format("$%.2f", total));
+            Jb_EstadoCuenta.setText("[PENDIENTE DE PAGO]");
+            Jb_EstadoCuenta.setForeground(new java.awt.Color(204, 0, 0)); // Texto en Rojo
+
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Huésped no encontrado o ya realizó Check-Out.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        limpiarFormulario();
+    }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    
     /**
      * @param args the command line arguments
      */
@@ -560,6 +841,6 @@ public class Check_out extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
