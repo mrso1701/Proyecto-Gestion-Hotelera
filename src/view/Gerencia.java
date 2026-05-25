@@ -670,32 +670,28 @@ public class Gerencia extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(121, 121, 121)
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(49, 49, 49)
-                                .addComponent(correo, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(43, 43, 43)
-                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(checkin, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel16)))
-                                .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(133, 133, 133)
-                                    .addComponent(jLabel13))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                    .addComponent(cedula, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(43, 43, 43)
-                                    .addComponent(checkout))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(correo, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(43, 43, 43)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(checkin, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel16)))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(133, 133, 133)
+                            .addComponent(jLabel13))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                            .addComponent(cedula, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(43, 43, 43)
+                            .addComponent(checkout))))
                 .addGap(101, 101, 101)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -756,7 +752,7 @@ public class Gerencia extends javax.swing.JFrame {
                                     .addComponent(mod)
                                     .addComponent(add))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(search)
                                     .addComponent(delete))))
                         .addGap(182, 182, 182)))
@@ -918,6 +914,7 @@ public class Gerencia extends javax.swing.JFrame {
         listaClientes.add(nuevo);
         actualizarTabla();
         limpiarCampos();
+        javax.swing.JOptionPane.showMessageDialog(this, "Cliente añadido con éxito.");
         cedula.setText("");
         nombre.setText("");
         telefono.setText("");
@@ -1086,6 +1083,7 @@ public class Gerencia extends javax.swing.JFrame {
         listaEmpleados.add(nuevo);
         actualizarTablaEmp();
         limpiarCamposEmp();
+        javax.swing.JOptionPane.showMessageDialog(this, "Empleado añadido con éxito.");
     }//GEN-LAST:event_addempActionPerformed
 
     private void buscarempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarempActionPerformed
@@ -1227,30 +1225,43 @@ public class Gerencia extends javax.swing.JFrame {
         String numero = numhab.getText().trim();
         String tipo = tipoHab.getSelectedItem().toString();
         String precio = preciohab.getText().trim();
-        String estado = estadohab.getSelectedItem().toString(); // <-- NUEVO
-        
+        String estado = estadohab.getSelectedItem().toString(); 
+
+        // === NUEVA VALIDACIÓN PARA LOS COMBOBOX ===
+        // Validacion para que elija una opcion ya sea sencilla, double o suite
+        if (tipoHab.getSelectedIndex() == 0 || estadohab.getSelectedIndex() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Por favor, seleccione un tipo o un estado de habitación válidos.", 
+                "Campos Incompletos", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return; //Para que continue el registro
+        }
+
+        //Validaciones de campos vacios
         if (numero.isEmpty() || precio.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
             return;
         }
-        
+
+        //Validacion de solo formatos numericos
         if (!numero.matches("\\d+")) {
             javax.swing.JOptionPane.showMessageDialog(this, "El número de habitación debe contener solo números.");
             return;
         }
-        
         if (!precio.matches("\\d+(\\.\\d+)?")) {
             javax.swing.JOptionPane.showMessageDialog(this, "El precio debe ser un número válido.");
             return;
         }
-        
+
+        //La construccion y guardado del objeto
         double precioDecimal = Double.parseDouble(precio);
-        
-        // Se pasa el estado al crear el objeto
         model.habitacionlog nueva = new model.habitacionlog(numero, tipo, precioDecimal, estado);
         listaHabitaciones.add(nueva);
+
+        //Actualizacion de interfaz
         actualizarTablaHab();
         limpiarCamposHab();
+        javax.swing.JOptionPane.showMessageDialog(this, "Habitación añadida con éxito.");
     }//GEN-LAST:event_addhabActionPerformed
 
     private void bushabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bushabActionPerformed

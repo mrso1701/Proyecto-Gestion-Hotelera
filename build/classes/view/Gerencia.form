@@ -736,40 +736,34 @@
                                   <Component id="jLabel12" min="-2" pref="76" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
                                   <Component id="jLabel17" min="-2" pref="64" max="-2" attributes="0"/>
-                                  <EmptySpace min="31" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="nombre" min="-2" pref="148" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                                          <Component id="correo" min="-2" pref="136" max="-2" attributes="0"/>
+                                  <Component id="nombre" min="-2" pref="148" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                                  <Component id="correo" min="-2" pref="136" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel14" min="-2" pref="64" max="-2" attributes="0"/>
+                                          <Component id="telefono" min="-2" pref="154" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jLabel14" min="-2" pref="64" max="-2" attributes="0"/>
-                                                  <Component id="telefono" min="-2" pref="154" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="43" pref="43" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="checkin" min="-2" pref="136" max="-2" attributes="0"/>
-                                                  <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jLabel15" min="-2" pref="64" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
-                                              <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="cedula" min="-2" pref="154" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                                              <Component id="checkout" max="32767" attributes="0"/>
-                                          </Group>
+                                      <EmptySpace min="43" pref="43" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="checkin" min="-2" pref="136" max="-2" attributes="0"/>
+                                          <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel15" min="-2" pref="64" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
+                                      <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="cedula" min="-2" pref="154" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                                      <Component id="checkout" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
@@ -849,9 +843,9 @@
                                               <Component id="add" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="search" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="delete" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="delete" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
